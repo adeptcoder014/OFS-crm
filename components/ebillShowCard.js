@@ -142,7 +142,7 @@ import {
                       onChange={patchForm.handleChange}
                     >
                       {months.map((x) => (
-                        <MenuItem value={x}>{x}</MenuItem>
+                        <MenuItem key={x} value={x}>{x}</MenuItem>
                       ))}
                     </Select>
                   </FormControl>{" "}
@@ -157,7 +157,7 @@ import {
                       onChange={patchForm.handleChange}
                     >
                       {years.map((x) => (
-                        <MenuItem value={x}>{x}</MenuItem>
+                        <MenuItem   key={x} value={x}>{x}</MenuItem>
                       ))}
                     </Select>
                   </FormControl>{" "}

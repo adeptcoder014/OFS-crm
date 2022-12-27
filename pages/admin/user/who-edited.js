@@ -38,8 +38,8 @@ export default function WhoEdited() {
   const [editedRents, setEditedRents] = useState([]);
   useEffect(() => {
     if (typeof tokenQuery?.data?._id !== "undefined") {
-    getAdminById(tokenQuery?.data?._id).then((res) => {
-       return setEditedRents(res?.data?.data?.editedRents);
+      getAdminById(tokenQuery?.data?._id).then((res) => {
+        return setEditedRents(res?.data?.data?.editedRents);
       });
     }
   }, []);
@@ -63,6 +63,7 @@ export default function WhoEdited() {
       >
         {editedRents?.map((x) => (
           <WhoEditedCard
+            key={x.rentId}
             mode={x.mode}
             rentId={x.rentId}
             ebillDue={x.ebillDue}

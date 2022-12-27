@@ -97,6 +97,7 @@ export default function UserRentalDetails() {
         >
           {query?.data?.data?.dues?.rents?.map((x) => (
             <RentShow
+              key={x._id}
               month={x.month}
               rentCycle={x.rentCycle}
               year={x.year}
