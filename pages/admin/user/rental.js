@@ -6,8 +6,6 @@ import { useRouter } from "next/router";
 import Loading from "../../../components/loading";
 import Table from "../../../components/table";
 import { useController } from "../../../controller/user";
-import ReactSearchBox from "react-search-box";
-import SearchInput, { createFilter } from "react-search-input";
 
 //========================================
 export default function UserRent() {
