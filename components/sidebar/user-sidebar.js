@@ -27,7 +27,7 @@ import MailIcon from "@mui/icons-material/Mail";
 import LightModeIcon from "@mui/icons-material/LightMode";
 import DarkModeIcon from "@mui/icons-material/DarkMode";
 import { useDarkMode } from "../../context/darkMode";
-import { useTheme } from "@mui/styles";
+import { useTheme } from "@mui/system";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import Drawer from "@mui/material/Drawer";

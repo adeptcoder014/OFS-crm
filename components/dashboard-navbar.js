@@ -17,7 +17,7 @@ import NotificationsIcon from "@mui/icons-material/Notifications";
 import MoreIcon from "@mui/icons-material/MoreVert";
 import { useRouter } from "next/router";
 import { useDarkMode } from "../context/darkMode";
-import { useTheme } from "@mui/styles";
+import { useTheme } from "@mui/system";
 import jwt_decode from "jwt-decode";
 import { getAdminById } from "../api/admin";
 
