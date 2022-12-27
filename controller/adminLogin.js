@@ -34,8 +34,8 @@ export const useController = () => {
       ).then(() => router.push("/admin/home"));
     },
     onError: (err) =>
-      // console.log("ERROr ---",err)
-      Swal.fire("Error !", err.message, "error"),
+      // console.log("ERROr ---",err),
+      Swal.fire("Error !", err.response.data, "error"),
   });
 
   return { add, addForm };
