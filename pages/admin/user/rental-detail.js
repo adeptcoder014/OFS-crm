@@ -41,16 +41,16 @@ export default function UserRentalDetails() {
     enabled: !!router.query.id,
   });
 
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      const token = localStorage.getItem("Token");
-      if (!token) {
-        router.push("/admin/login");
-      }else{
-        router.push("/admin/home")
-      }
-    }
-  }, [  ]);
+  // useEffect(() => {
+  //   if (typeof window !== "undefined") {
+  //     const token = localStorage.getItem("Token");
+  //     if (!token) {
+  //       router.push("/admin/login");
+  //     }else{
+  //       router.push("/admin/home")
+  //     }
+  //   }
+  // }, [  ]);
 
   const { tokenQuery } = useTokenQuery();
   // useEffect(() => {
