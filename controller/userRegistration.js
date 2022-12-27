@@ -4,12 +4,10 @@ import { getUsers } from "../api/user";
 import { registrationValidation } from "../validation/userRegistration";
 import { useFormik } from "formik";
 import Swal from "sweetalert2";
-import withReactContent from "sweetalert2-react-content";
 import { Alert, AlertTitle, Stack } from "@mui/material";
 import { useRouter } from "next/router";
 //=========================================
 export const useController = () => {
-  const MySwal = withReactContent(Swal);
 
   const router = useRouter();
 
