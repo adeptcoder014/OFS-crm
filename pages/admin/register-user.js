@@ -33,6 +33,7 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { useRentController } from "../../controller/rental";
 import { useState } from "react";
 import { ADMIN_URL } from "../../constants/url";
+import MailIcon from "@mui/icons-material/Mail";
 //============================================================================
 export default function RegisterUser() {
   //============ RENTAL_STRUCTURE ================================
@@ -107,7 +108,7 @@ export default function RegisterUser() {
   return (
     <>
       <Container
-        maxWidth="md"
+        maxWidth="lg"
         sx={{
           mt: 5,
           backgroundColor: "#f5f5f5",
@@ -116,67 +117,89 @@ export default function RegisterUser() {
           p: 5,
         }}
       >
-        <Box container sx={{ display: "flex", flexWrap: "wrap", width: "80%" }}>
-          <Box
-            item
-            xl={1}
-            lg={1}
-            md={4}
-            xs={12}
-            sx={{ mr: 0, flexBasis: "150px" }}
-          >
-            <img
-              // src={`data:image/jpeg;base64,${base64String}`}
-              // alt="helloWorld"
-              // src={`http://localhost:5000/${query?.data?.data?.photo}`}
-              src={`${ADMIN_URL}/${query?.data?.data?.photo}`}
-              style={{ border: "1px dashed gray" }}
-            />{" "}
-          </Box>
-          <Box item xl={6} lg={6} md={4} xs={12} sx={{ flexBasis: "350px" }}>
-            <Typography
-              sx={{
-                color: "gray",
-                fontWeight: 600,
-                fontFamily: "poppins",
-                ml: 1,
-              }}
-            >
-              {query?.data?.data?.name}
-            </Typography>
-            <Typography
-              sx={{
-                color: "gray",
-                fontWeight: "bolder",
-                fontFamily: "poppins",
-                ml: 1,
-              }}
-            >
-              {query?.data?.data?.email}
-            </Typography>
-            <Typography
-              sx={{
-                color: "gray",
-                fontWeight: "bolder",
-                fontFamily: "poppins",
-                ml: 1,
-              }}
-            >
-              {query?.data?.data?.phone}
-            </Typography>
-          </Box>
-          <Box item xl={5} lg={5} md={4} xs={12} sx={{ flexBasis: "150px" }}>
-            {/* ========  Conditional Rendering ========================= */}
+        {/* //]============================= */}
+        <Grid container>
+          {/* //------------------------- */}
 
-            {query?.data?.data?.roomPreference === "double" ? (
-              <BedroomParentIcon
-                sx={{
-                  backgroundColor: "gray",
-                  color: "white",
-                  borderRadius: "3px",
-                  fontSize: 45,
+          <Grid  item xl={4} lg={4} md={4} sm={12} xs={12}>
+            <Box item xl={1} lg={1} md={4} xs={12}>
+              <img
+                src={`${ADMIN_URL}/${query?.data?.data?.photo}`}
+                style={{
+                  border: "1px dashed gray",
+                  maxWidth: "-webkit-fill-available",
                 }}
-              />
+              />{" "}
+            </Box>
+          </Grid>
+          {/* //------------------------- */}
+          <Grid item xl={4} lg={4} md={4} sm={12} xs={12}>
+            <Box item xl={6} lg={6} md={4} xs={12} sx={{ flexBasis: "350px" }}>
+              <Typography
+                sx={{
+                  color: "gray",
+                  fontWeight: "bold",
+                  fontFamily: "poppins",
+                  // ml: 1,
+                }}
+              >
+                <span style={{ color: "black" }}>Name</span> :{" "}
+                {query?.data?.data?.name} {query?.data?.data?.zodiac?.symbol}
+              </Typography>
+              <Box
+                sx={{
+                  display: "flex",
+                }}
+              >
+                <Typography
+                  sx={{
+                    color: "gray",
+                    fontWeight: "bolder",
+                    fontFamily: "poppins",
+                    mt:2
+                  }}
+                >
+                  {/* <MailIcon sx={{}} /> */}
+                  <span style={{ color: "black" }}>Email</span> :{" "}
+                  {query?.data?.data?.email}
+                </Typography>
+              </Box>
+              <Box
+                sx={{
+                  display: "flex",
+                }}
+              >
+                <Typography
+                  sx={{
+                    color: "gray",
+                    fontWeight: "bolder",
+                    fontFamily: "poppins",
+                    mt:2
+                    // ml: 1,
+                  }}
+                >
+                  <span style={{ color: "black" }}>Phone</span> :{" "}
+                  {query?.data?.data?.phone}
+                </Typography>
+              </Box>
+            </Box>
+          
+          </Grid>
+          {/* //------------------------- */}
+          <Grid item xl={4} lg={4} md={4} sm={12} xs={12}>
+            {query?.data?.data?.roomPreference === "double" ? (
+              <>
+                <BedroomParentIcon
+                  sx={{
+                    backgroundColor: "gray",
+                    color: "white",
+                    borderRadius: "3px",
+                    fontSize: 45,
+                    mt:2
+                  }}
+                />
+                <Typography variant="caption" sx={{ml:1}}>*room preference</Typography>
+              </>
             ) : (
               <>
                 <BedroomParentIcon
@@ -185,6 +208,8 @@ export default function RegisterUser() {
                     color: "white",
                     borderRadius: "3px",
                     fontSize: 45,
+                    mt:2
+
                   }}
                 />
                 <BedroomChildIcon
@@ -197,19 +222,8 @@ export default function RegisterUser() {
                 />
               </>
             )}
-
-            <Typography
-              sx={{
-                color: "gray",
-                fontWeight: "bolder",
-                fontFamily: "poppins",
-              }}
-            >
-              {query?.data?.data?.zodiac?.symbol}{" "}
-              {query?.data?.data?.zodiac?.name}
-            </Typography>
-          </Box>
-        </Box>
+          </Grid>
+        </Grid>
       </Container>
 
       {/* ===================== FORM ================================== */}

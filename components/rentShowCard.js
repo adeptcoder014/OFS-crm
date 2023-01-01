@@ -35,6 +35,7 @@ import Swal from "sweetalert2";
 import { useToken } from "../context/localStorageToken";
 import { getAdminById } from "../api/admin";
 import jwt_decode from "jwt-decode";
+import RentCard from "./RentCard";
 //=====================================
 const style = {
   position: "absolute",
@@ -291,7 +292,7 @@ export default function RentShow(props) {
                       variant="standard"
                       defaultValue={admin.name}
                       onChange={patchForm.handleChange}
-                      />
+                    />
                   </Box>
                 )}
 
@@ -347,200 +348,26 @@ export default function RentShow(props) {
           </Box>
         </Fade>
       </Modal>
-      {/* ============== EDITED_BY =====================================  */}
-      {/* <Modal
-        open={openEditedBy}
-        onClose={() => setOpenEditedBy(false)}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
-        <Box sx={style}>
-          <Typography variant="h6" sx={{ fontWeight: "bold" }}>
-            Who edited & when
-          </Typography>
-          {editedRents?.map((x) => (
-            <Box
-              sx={{
-                boxShadow: "inset 0px -2px 6px 0px grey",
-                background: "linear-gradient(252deg, #e1e1e1, #ffffff)",
-                borderRadius: "8px",
-                p: 1,
-                mb: 1,
-              }}
-            >
-              <Typography
-                id="modal-modal-description"
-                sx={{ mt: 2, fontWeight: "bold", color: "gray" }}
-              >
-                Who : <span>{x.who}</span>
-              </Typography>
-              <Typography
-                id="modal-modal-description"
-                sx={{ mt: 2, fontWeight: "bold", color: "gray" }}
-              >
-                When :{" "}
-                <span>
-                  @
-                  {
-                    dayjs(x.when)
-                      .format("YYYY-MM-DDTHH:mm:ssZ[Z]")
-                      .split("T")[1]
-                      .split("+")[0]
-                      .split(":")[0]
-                  }
-                  {":"}
-                  <span>
-                    {
-                      dayjs(x.when)
-                        .format("YYYY-MM-DDTHH:mm:ssZ[Z]")
-                        .split("T")[1]
-                        .split("+")[0]
-                        .split(":")[1]
-                    }
-                  </span>
-                </span>
-                <span> on {dayjs(x.when).format("DD-MM-YYYY")}</span>
-              </Typography>
-            </Box>
-          ))}
-        </Box>
-      </Modal> */}
-      {/* ============================================= */}
+
       <Grid
-        container
-        sx={{
-          boxShadow: "0px 2px 3px 0px grey",
-          background: "linear-gradient(252deg, #e1e1e1, #ffffff)",
-          borderRadius: "8px",
-          p: 2,
-          mb: 2,
-        }}
+        sx={{ mb: 2, display: "flex", p: 1 }}
+        item
+        xl={4}
+        lg={4}
+        md={4}
+        sm={12}
+        xs={12}
       >
-        {/* ====================== MONTH ============================ */}
-
-        <Grid item xs={12} sm={2} md={2} lg={2} xl={2} sx={{}}>
-          <Box sx={{ display: "flex" }}>
-            <Tooltip title={props.rentCycle}>
-              <PedalBikeIcon sx={{ color: "gray", fontSize: "18px", mr: 1 }} />
-            </Tooltip>
-            <Typography>Month</Typography>
-          </Box>
-          <Tooltip title={props.year}>
-            <Typography
-              sx={{
-                color: "white",
-                backgroundColor: "#4682B4",
-                borderRadius: 1,
-                width: "fit-content",
-                p: "2px 51px",
-              }}
-            >
-              {props.month ? props.month : "month"}
-            </Typography>
-          </Tooltip>
-        </Grid>
-
-        {/* ====================== RENT ============================ */}
-
-        <Grid item xs={12} sm={2} md={2} lg={2} xl={2} sx={{}}>
-          <Typography>Rent</Typography>
-          <Typography> {props.rent ? props.rent : "₹ x,xxx"}</Typography>
-        </Grid>
-
-        {/* ====================== DUE_RENT ============================ */}
-
-        <Grid item xs={12} sm={2} md={2} lg={2} xl={2} sx={{}}>
-          <Typography>To be receive</Typography>
-          <Typography> {props.rentDue}</Typography>
-        </Grid>
-
-        {/* ====================== DUE_eBILL ============================ */}
-
-        <Grid item xs={12} sm={2} md={2} lg={2} xl={2} sx={{}}>
-          <Typography>Ebill</Typography>
-          <Typography> {props.ebillDue}</Typography>
-        </Grid>
-        {/* ====================== STATUS ============================ */}
-
-        <Grid item xs={12} sm={2} md={2} lg={2} xl={2} sx={{}}>
-          <Typography>Status</Typography>
-          {props.status === "DUE" ? (
-            <Typography
-              sx={{
-                color: "white",
-                background: " linear-gradient(70deg, red, orangeRed) ",
-                borderRadius: 1,
-                width: "fit-content",
-                fontWeight: "bolder",
-                fontSize: 14,
-                // border: "2px solid red",
-                p: "2px 40px",
-              }}
-            >
-              {"- "}
-              {props?.total}
-            </Typography>
-          ) : (
-            <Typography
-              sx={{
-                color: "white",
-                background: " linear-gradient(70deg, #7fff00, #3d7405) ",
-                fontWeight: "bolder",
-
-                borderRadius: 1,
-                width: "fit-content",
-                p: "2px 51px",
-              }}
-            >
-              {props.status}
-            </Typography>
-          )}
-        </Grid>
-
-        {/* ====================== UPDATE ============================ */}
-
-        <Grid item xs={12} sm={2} md={2} lg={2} xl={2} sx={{}}>
-          <Typography>Update Rent</Typography>
-          <Button
-            // onClick={handleOpen}
-            onClick={() => {
-              setOpen(true);
-              // console.log('--->',props.rentId)
-
-              axios
-                .post(`${ADMIN_URL}/user/get-rent/${props.rentId}`, {
-                  userId: props.userId,
-                })
-                .then((res) => {
-                  // console.log("<<---", res.data.rent),
-                  patchForm.setValues(res.data.rent);
-                  setRentDue(res.data.rent.due.rentDue);
-                  setEbillDue(res.data.rent.due.ebillDue);
-                });
-            }}
-            sx={{
-              backgroundColor: "white",
-              color: "gray",
-              fontWeight: "bold",
-              border: "2px solid gray",
-            }}
-          >
-            Update
-          </Button>
-          <span>
-            <MoreVertIcon
-              onClick={() => {
-                router.push(`/admin/user/who-edited/?id=${props.rentId}`);
-                // setOpenEditedBy(true);
-                // axiosInstance
-                //   .get(`/user/edited-by/${props.rentId}`)
-                //   .then((res) => setEditedRents(res.data));
-              }}
-              sx={{ color: "gray", ml: 11, cursor: "pointer" }}
-            />
-          </span>
-        </Grid>
+        <RentCard
+          month={props.month}
+          rent={props.rent}
+          rentDue={props.rentDue}
+          ebillDue={props.ebillDue}
+          status={props.status}
+        />
       </Grid>
+
+      {/* ============================================= */}
     </>
   );
 }

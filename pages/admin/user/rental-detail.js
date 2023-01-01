@@ -66,6 +66,16 @@ export default function UserRentalDetails() {
   if (!query.isLoading)
     return (
       <>
+        <Typography
+          sx={{
+            color: "gray",
+            mt: 5,
+            mb: 2,
+          }}
+          variant="h5"
+        >
+          Enter rentals details:{" "}
+        </Typography>
         <Box
           sx={{
             backgroundColor: "#eef2db",
@@ -92,6 +102,17 @@ export default function UserRentalDetails() {
             <RentEntry user={query?.data?.data} />
           </Grid>
         </Box>
+        <Typography
+          sx={{
+            color: "gray",
+            mt: 5,
+            mb: -2,
+          }}
+          variant="h5"
+        >
+          Rentals details:{" "}
+        </Typography>
+
         <Grid
           container
           sx={{
@@ -102,7 +123,6 @@ export default function UserRentalDetails() {
 
             borderRadius: 1,
             display: "flex",
-            flexDirection: "columns",
             // justifyContent: "space-around",
           }}
         >
