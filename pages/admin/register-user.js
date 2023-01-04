@@ -13,6 +13,9 @@ import {
   Accordion,
   AccordionSummary,
   AccordionDetails,
+  Modal,
+  Tooltip,
+  Dialog,
 } from "@mui/material";
 import LoadingButton from "@mui/lab/LoadingButton";
 import Loading from "../../components/loading";
@@ -36,6 +39,7 @@ import { ADMIN_URL } from "../../constants/url";
 import MailIcon from "@mui/icons-material/Mail";
 //============================================================================
 export default function RegisterUser() {
+  const [open, setOpen] = useState(false);
   //============ RENTAL_STRUCTURE ================================
   const giveRemainingRent = (days) => {
     const remainingDays = 30 - days;
@@ -104,13 +108,35 @@ export default function RegisterUser() {
     return <Loading />;
   }
 
+  const handleClose = () => {
+    setOpen(false);
+  };
   //=====================================================
   return (
     <>
+      <Dialog
+        scroll="paper"
+        open={open}
+        closeAfterTransition
+        onClose={handleClose}
+      >
+        <Box>
+          <img
+            src={`${ADMIN_URL}/${query?.data?.data?.photo}`}
+            style={{
+              border: "1px dashed gray",
+              // maxWidth: "-webkit-fill-available",
+            }}
+          />{" "}
+        </Box>
+      </Dialog>
+      <Typography variant="h4" sx={{ fontFamily: "poppins", m:3 }}>
+        User details
+      </Typography>
       <Container
         maxWidth="lg"
         sx={{
-          mt: 5,
+          mt: 1,
           backgroundColor: "#f5f5f5",
           boxShadow: "0px 3px 3px 0px #b1cdb1",
           borderRadius: "6px",
@@ -121,13 +147,24 @@ export default function RegisterUser() {
         <Grid container>
           {/* //------------------------- */}
 
-          <Grid  item xl={4} lg={4} md={4} sm={12} xs={12}>
-            <Box item xl={1} lg={1} md={4} xs={12}>
+          <Grid item xl={4} lg={4} md={4} sm={12} xs={12}>
+            <Box
+              sx={{ mb: 2 }}
+              item
+              xl={1}
+              lg={1}
+              md={4}
+              xs={12}
+              onClick={() => setOpen(true)}
+            >
               <img
                 src={`${ADMIN_URL}/${query?.data?.data?.photo}`}
                 style={{
                   border: "1px dashed gray",
-                  maxWidth: "-webkit-fill-available",
+                  width: 280,
+                  height: 150,
+
+                  // maxWidth: "-webkit-fill-available",
                 }}
               />{" "}
             </Box>
@@ -156,7 +193,7 @@ export default function RegisterUser() {
                     color: "gray",
                     fontWeight: "bolder",
                     fontFamily: "poppins",
-                    mt:2
+                    mt: 2,
                   }}
                 >
                   {/* <MailIcon sx={{}} /> */}
@@ -174,7 +211,7 @@ export default function RegisterUser() {
                     color: "gray",
                     fontWeight: "bolder",
                     fontFamily: "poppins",
-                    mt:2
+                    mt: 2,
                     // ml: 1,
                   }}
                 >
@@ -183,22 +220,22 @@ export default function RegisterUser() {
                 </Typography>
               </Box>
             </Box>
-          
           </Grid>
           {/* //------------------------- */}
           <Grid item xl={4} lg={4} md={4} sm={12} xs={12}>
             {query?.data?.data?.roomPreference === "double" ? (
               <>
-                <BedroomParentIcon
-                  sx={{
-                    backgroundColor: "gray",
-                    color: "white",
-                    borderRadius: "3px",
-                    fontSize: 45,
-                    mt:2
-                  }}
-                />
-                <Typography variant="caption" sx={{ml:1}}>*room preference</Typography>
+                <Tooltip title="*room preference">
+                  <BedroomParentIcon
+                    sx={{
+                      backgroundColor: "gray",
+                      color: "white",
+                      borderRadius: "3px",
+                      fontSize: 45,
+                      mt: 2,
+                    }}
+                  />
+                </Tooltip>
               </>
             ) : (
               <>
@@ -208,8 +245,7 @@ export default function RegisterUser() {
                     color: "white",
                     borderRadius: "3px",
                     fontSize: 45,
-                    mt:2
-
+                    mt: 2,
                   }}
                 />
                 <BedroomChildIcon
@@ -240,127 +276,110 @@ export default function RegisterUser() {
       >
         <form onSubmit={patchForm.handleSubmit}>
           {" "}
-          <Box
-            sx={{
-              backgroundColor: "white",
-              boxShadow: "0px -4px 4px 0px #b1a1a1",
-              display: "flex",
-              p: 5,
-              flexDirection: "column",
-            }}
-          >
-            {" "}
-            <Typography variant="h4" sx={{ fontFamily: "poppins", mb: 5 }}>
-              Assign User Information
-            </Typography>
+          <Typography variant="h4" sx={{ fontFamily: "poppins", mb: 5 }}>
+            Assign User Information
+          </Typography>
+          <Grid container sx={{ width: "100%", mt: 5, display: "flex", p: 0 }}>
             <Grid
-              container
-              sx={{ width: "100%", mt: 5, display: "flex", p: 0 }}
+              className="responsive"
+              item
+              md={6}
+              xs={12}
+              sx={{ display: "flex", flexDirection: "column", mb: 5 }}
             >
-              <Grid
-                className="responsive"
-                item
-                md={6}
-                xs={12}
-                sx={{ display: "flex", flexDirection: "column", mb: 5 }}
-              >
-                <FormLabel sx={{ mb: 2 }}>Room Number</FormLabel>
-                <TextField
-                  error={
-                    patchForm.touched.room && Boolean(patchForm.errors.room)
-                  }
-                  helperText={patchForm.touched.room && patchForm.errors.room}
-                  id="room"
-                  type="number"
-                  name="room"
-                  value={patchForm?.values?.room}
-                  onChange={patchForm.handleChange}
-                  sx={{
-                    width: "90%",
-                    "& label.Mui-focused": {
-                      color: "red",
-                    },
-                  }}
-                  size="small"
-                  variant="standard"
-                  InputProps={{
-                    startAdornment: (
-                      <InputAdornment position="start">
-                        <LuggageIcon />
-                      </InputAdornment>
-                    ),
-                  }}
-                />
-              </Grid>
-              <Grid
-                className="responsive"
-                item
-                md={6}
-                xs={12}
-                sx={{ display: "flex", flexDirection: "column" }}
-              >
-                <FormLabel sx={{ mb: 2 }}>Electricity Meter Reading </FormLabel>
-                <TextField
-                  error={
-                    patchForm.touched.meterReading &&
-                    Boolean(patchForm.errors.meterReading)
-                  }
-                  helperText={
-                    patchForm.touched.meterReading &&
-                    patchForm.errors.meterReading
-                  }
-                  id="meterReading"
-                  name="meterReading"
-                  type="number"
-                  value={patchForm?.values?.meterReading}
-                  onChange={patchForm.handleChange}
-                  sx={{ width: "90%" }}
-                  size="small"
-                  variant="standard"
-                  InputProps={{
-                    startAdornment: (
-                      <InputAdornment position="start">
-                        <ElectricMeterIcon />
-                      </InputAdornment>
-                    ),
-                  }}
-                />
-              </Grid>
+              <FormLabel sx={{ mb: 2 }}>Room Number</FormLabel>
+              <TextField
+                error={patchForm.touched.room && Boolean(patchForm.errors.room)}
+                helperText={patchForm.touched.room && patchForm.errors.room}
+                id="room"
+                type="number"
+                name="room"
+                value={patchForm?.values?.room}
+                onChange={patchForm.handleChange}
+                sx={{
+                  width: "90%",
+                  "& label.Mui-focused": {
+                    color: "red",
+                  },
+                }}
+                size="small"
+                variant="standard"
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <LuggageIcon />
+                    </InputAdornment>
+                  ),
+                }}
+              />
+            </Grid>
+            <Grid
+              className="responsive"
+              item
+              md={6}
+              xs={12}
+              sx={{ display: "flex", flexDirection: "column" }}
+            >
+              <FormLabel sx={{ mb: 2 }}>Electricity Meter Reading </FormLabel>
+              <TextField
+                error={
+                  patchForm.touched.meterReading &&
+                  Boolean(patchForm.errors.meterReading)
+                }
+                helperText={
+                  patchForm.touched.meterReading &&
+                  patchForm.errors.meterReading
+                }
+                id="meterReading"
+                name="meterReading"
+                type="number"
+                value={patchForm?.values?.meterReading}
+                onChange={patchForm.handleChange}
+                sx={{ width: "90%" }}
+                size="small"
+                variant="standard"
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <ElectricMeterIcon />
+                    </InputAdornment>
+                  ),
+                }}
+              />
+            </Grid>
 
-              <Grid
-                className="responsive"
-                item
-                md={6}
-                xs={12}
-                sx={{ display: "flex", flexDirection: "column", mt: 5 }}
-              >
-                <FormLabel sx={{ mb: 2 }}>Joining Date </FormLabel>
+            <Grid
+              item
+              md={6}
+              xs={12}
+              sx={{ display: "flex", flexDirection: "column", mt: 5 }}
+            >
+              <FormLabel sx={{ mb: 2 }}>Joining Date </FormLabel>
 
-                <TextField
-                  error={
-                    patchForm.touched.joiningDate &&
-                    Boolean(patchForm.errors.joiningDate)
-                  }
-                  helperText={
-                    patchForm.touched.joiningDate &&
-                    patchForm.errors.joiningDate
-                  }
-                  id="joiningDate"
-                  type="date"
-                  name="joiningDate"
-                  value={patchForm?.values?.joiningDate.split("T")[0]}
-                  onChange={patchForm.handleChange}
-                  sx={{
-                    width: "90%",
-                    "& label.Mui-focused": {
-                      color: "red",
-                    },
-                  }}
-                  size="small"
-                  variant="standard"
-                />
-              </Grid>
-              <Grid
+              <TextField
+                error={
+                  patchForm.touched.joiningDate &&
+                  Boolean(patchForm.errors.joiningDate)
+                }
+                helperText={
+                  patchForm.touched.joiningDate && patchForm.errors.joiningDate
+                }
+                id="joiningDate"
+                type="date"
+                name="joiningDate"
+                value={patchForm?.values?.joiningDate.split("T")[0]}
+                onChange={patchForm.handleChange}
+                sx={{
+                  width: "90%",
+                  "& label.Mui-focused": {
+                    color: "red",
+                  },
+                }}
+                size="small"
+                variant="standard"
+              />
+            </Grid>
+            {/* <Grid
                 className="responsive"
                 item
                 md={6}
@@ -397,67 +416,113 @@ export default function RegisterUser() {
                     ),
                   }}
                 />
-              </Grid>
-              <Grid
-                className="responsive"
-                item
-                md={6}
-                xs={12}
-                sx={{ display: "flex", flexDirection: "column", mt: 6 }}
-              >
-                <FormLabel sx={{ mb: 2 }}>Remark</FormLabel>
-
-                <TextField
-                  multiline
-                  error={
-                    patchForm.touched.remark && Boolean(patchForm.errors.remark)
-                  }
-                  helperText={
-                    patchForm.touched.remark && patchForm.errors.remark
-                  }
-                  id="remark"
-                  name="remark"
-                  value={patchForm?.values?.remark}
-                  onChange={patchForm.handleChange}
-                  sx={{ width: "90%" }}
-                  size="small"
-                  variant="standard"
-                  InputProps={{
-                    startAdornment: (
-                      <InputAdornment position="start">
-                        <CommentIcon />
-                      </InputAdornment>
-                    ),
-                  }}
-                />
-              </Grid>
-            </Grid>
-            <LoadingButton
-              fullWidth
-              // onClick={() => console.log("xxx----->", router.query.id)}
-              disabled={patch.isLoading}
-              loading={patch.isLoading}
-              type="submit"
-              sx={{
-                backgroundColor: "#ff855f",
-                color: "white",
-                // width: "50%",
-                fontSize: 16,
-                m: "auto",
-                mt: 5,
-                borderRadius: "100px",
-                p: 2,
-                "&:hover": {
-                  color: "#ff855f",
-                  fontWeight: "bolder",
-                  border: "2px solid #ff855f",
-                  backgroundColor: "white",
-                },
-              }}
+              </Grid> */}
+            <Grid
+              className="responsive"
+              item
+              md={6}
+              xs={12}
+              sx={{ display: "flex", flexDirection: "column", mt: 6 }}
             >
-              Register a user
-            </LoadingButton>
-          </Box>
+              <FormLabel sx={{ mb: 2 }}>Remark</FormLabel>
+
+              <TextField
+                multiline
+                error={
+                  patchForm.touched.remark && Boolean(patchForm.errors.remark)
+                }
+                helperText={patchForm.touched.remark && patchForm.errors.remark}
+                id="remark"
+                name="remark"
+                value={patchForm?.values?.remark}
+                onChange={patchForm.handleChange}
+                sx={{ width: "90%" }}
+                size="small"
+                variant="standard"
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <CommentIcon />
+                    </InputAdornment>
+                  ),
+                }}
+              />
+            </Grid>
+            <Grid
+              sx={{ display: "flex" }}
+              item
+              xl={6}
+              lg={6}
+              md={6}
+              xs={12}
+              sm={12}
+            >
+              <LoadingButton
+                // onClick={() => console.log("xxx----->", router.query.id)}
+                disabled={patch.isLoading}
+                loading={patch.isLoading}
+                type="submit"
+                sx={{
+                  backgroundColor: "#ff855f",
+                  color: "white",
+                  width: "50%",
+                  fontSize: 16,
+                  m: "auto",
+                  mt: 1,
+                  borderRadius: "100px",
+                  p: 2,
+                  fontWeight: "bolder",
+
+                  "&:hover": {
+                    color: "#ff855f",
+                    fontWeight: "bolder",
+                    border: "2px solid #ff855f",
+                    backgroundColor: "white",
+                  },
+                }}
+              >
+                Approve
+              </LoadingButton>{" "}
+            </Grid>
+            <Grid
+              sx={{ display: "flex" }}
+              item
+              xl={6}
+              lg={6}
+              md={6}
+              xs={12}
+              sm={12}
+            >
+              <LoadingButton
+                fullWidth
+                // onClick={() => console.log("xxx----->", router.query.id)}
+                disabled={patch.isLoading}
+                loading={patch.isLoading}
+                type="submit"
+                sx={{
+                  // backgroundColor: "#ff855f",
+                  color: "#ff855f",
+                  width: "50%",
+                  fontSize: 16,
+                  m: "auto",
+                  mt: 1,
+                  borderRadius: "100px",
+                  p: 2,
+                  border: "2px solid #ff855f",
+                  fontWeight: "bolder",
+
+                  "&:hover": {
+                    color: "white",
+                    fontWeight: "bolder",
+                    border: "2px solid #ff855f",
+                    backgroundColor: "#ff855f",
+                  },
+                }}
+              >
+                Disapprove
+              </LoadingButton>{" "}
+            </Grid>
+          </Grid>
         </form>
       </Container>
     </>
