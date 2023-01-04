@@ -186,9 +186,11 @@ export default function RentEntry(props) {
         </Fade>
       </Modal>
       {/* ==================== RENT_CYCLE ==================================== */}
-      <Grid item xs={12} sm={2} md={2} lg={2} xl={2} sx={{}}>
+      <Grid item xs={12} sm={12} md={6} lg={6} xl={6} sx={{}}>
         <Typography sx={{ mb: 2 }}>Rent Cycle</Typography>
         <TextField
+          
+         
           size="small"
           // variant="standard"
           type="number"
@@ -198,9 +200,10 @@ export default function RentEntry(props) {
       </Grid>
       {/* ==================== RENT ==================================== */}
 
-      <Grid item xs={12} sm={2} md={2} lg={2} xl={2} sx={{}}>
+      <Grid item xs={12} sm={12} md={6} lg={6} xl={6} sx={{}}>
         <Typography sx={{ mb: 2 }}>Rent</Typography>
         <TextField
+        
           size="small"
           // variant="standard"
           type="number"
@@ -209,9 +212,10 @@ export default function RentEntry(props) {
       </Grid>
       {/* ==================== METER_READING ==================================== */}
 
-      <Grid item xs={12} sm={2} md={2} lg={2} xl={2} sx={{}}>
+      <Grid item xs={12} sm={12} md={6} lg={6} xl={6} sx={{ mt: 2 }}>
         <Typography sx={{ mb: 2, fontWeight: "bold" }}>Ebill</Typography>
         <TextField
+         
           size="small"
           // variant="standard"
           type="number"
@@ -220,15 +224,18 @@ export default function RentEntry(props) {
       </Grid>
       {/* ==================== DURATION ==================================== */}
 
-      <Grid item xs={12} sm={2} md={2} lg={2} xl={2} sx={{}}>
-        <Typography sx={{ mb: 2 }}>Duration</Typography>
+      <Grid item xs={12} sm={12} md={6} lg={6} xl={6} sx={{}}>
+        <Typography sx={{ mb: 2, fontWeight: "bold", mt: 2 }}>
+          Duration
+        </Typography>
         <input
           type="month"
           onChange={(e) => {
             setDuration(e.target.value);
           }}
           style={{
-            border: 0,
+            // border: 0,
+            border: "1px solid gray",
             padding: 12,
             borderRadius: 8,
             backgroundColor: "transparent",
@@ -237,7 +244,7 @@ export default function RentEntry(props) {
       </Grid>
       {/* ==================== MODE ==================================== */}
 
-      <Grid item xs={12} sm={2} md={2} lg={2} xl={2} sx={{}}>
+      {/* <Grid item xs={12} sm={12} md={6} lg={6} xl={6} sx={{}}>
         <Typography sx={{ mb: 2 }}>Mode</Typography>
         <Typography
           sx={{ mb: 2, cursor: "pointer" }}
@@ -245,11 +252,10 @@ export default function RentEntry(props) {
         >
           Mode
         </Typography>
-      </Grid>
+      </Grid> */}
       {/* ==================== UPDATE ==================================== */}
 
-      <Grid item xs={12} sm={2} md={2} lg={2} xl={2} sx={{}}>
-        <Typography sx={{ textAlign: "center", mb: 1 }}>UpdateRent</Typography>
+      <Grid item xs={12} sm={12} md={12} lg={12} xl={6} sx={{}}>
         <Button
           onClick={() => {
             axios
@@ -276,6 +282,8 @@ export default function RentEntry(props) {
             color: "gray",
             fontWeight: "bold",
             border: "2px solid gray ",
+            mt: 5,
+            width: "50%",
           }}
         >
           Update

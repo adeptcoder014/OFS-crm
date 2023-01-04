@@ -57,6 +57,7 @@ export default function NewRegisteredUsers() {
         sx={{
           overflow: "auto",
           borderRadius: 1,
+          height:"250px"
         }}
       >
         {query?.data?.data?.user.map(x=>(

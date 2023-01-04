@@ -12,7 +12,7 @@ import {
   Select,
   MenuItem,
 } from "@mui/material";
-import bg from "../public/bg.png";
+import bg from "../public/Hostel.png";
 import EmailIcon from "@mui/icons-material/Email";
 import PersonIcon from "@mui/icons-material/Person";
 import LocalPhoneIcon from "@mui/icons-material/LocalPhone";
@@ -56,14 +56,33 @@ export default function Registration() {
           backgroundPosition: "bottom",
           backgroundRepeat: "no-repeat",
           backgroundSize: "cover",
-          p: "20%",
+          // p: "20%",
           display: "flex",
           flexDirection: "column",
+          justifyContent: "space-between",
+          alignItems: "space-between",
+
           // opacity: 0.5,
           minWidth: "100%",
+          minHeight: "80%",
         }}
       >
-        <Box></Box>
+        <Box />
+        <Box>
+          <Typography
+            variant="h2"
+            sx={{
+              // zIndex:-888,
+              color: "white",
+              fontFamily: "poppins",
+              p:5,
+              mt:5  ,
+              width:"50%"
+            }}
+          >
+            Welcome To One Fine Stay Hostel
+          </Typography>
+        </Box>
       </Box>
       {/* ============== FORM ======================== */}
       <form onSubmit={addForm.handleSubmit}>
@@ -179,9 +198,8 @@ export default function Registration() {
               {image ? (
                 <img
                   src={image}
-                  width={350}
-                  height={180}
-                  style={{ border: "1px dashed gray" }}
+                 
+                  style={{ maxWidth:"100%"}}
                 />
               ) : null}
             </Grid>

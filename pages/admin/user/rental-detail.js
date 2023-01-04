@@ -41,23 +41,10 @@ export default function UserRentalDetails() {
     enabled: !!router.query.id,
   });
 
-  // useEffect(() => {
-  //   if (typeof window !== "undefined") {
-  //     const token = localStorage.getItem("Token");
-  //     if (!token) {
-  //       router.push("/admin/login");
-  //     }else{
-  //       router.push("/admin/home")
-  //     }
-  //   }
-  // }, [  ]);
+
 
   const { tokenQuery } = useTokenQuery();
-  // useEffect(() => {
-  //   if (!tokenQuery.isLoading) (
-  //     setToken(tokenQuery)
-  // )
-  // }, []);
+
 
   console.log("TOKEN ------>", tokenQuery?.data?._id);
 
@@ -69,6 +56,7 @@ export default function UserRentalDetails() {
         <Typography
           sx={{
             color: "gray",
+            fontWeight:"bolder",
             mt: 5,
             mb: 2,
           }}
@@ -104,6 +92,8 @@ export default function UserRentalDetails() {
         </Box>
         <Typography
           sx={{
+            fontWeight:"bolder",
+
             color: "gray",
             mt: 5,
             mb: -2,
@@ -123,7 +113,7 @@ export default function UserRentalDetails() {
 
             borderRadius: 1,
             display: "flex",
-            // justifyContent: "space-around",
+         
           }}
         >
           {query?.data?.data?.dues?.rents?.map((x) => (

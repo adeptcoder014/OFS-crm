@@ -98,7 +98,7 @@ export default function RentCard(props) {
                 boxShadow: "inset 0px 0px 8px 0px #3f51b5",
                 position: "relative",
                 bottom: "70px",
-                left: "15px",
+                left: "2px",
               }}
             >
               <Typography
@@ -117,38 +117,107 @@ export default function RentCard(props) {
         }
       })}
       {/* --------------------------- */}
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "space-between",
+          mb:2,
+          mt:-8
+        }}
+      >
+        <Box />
+        <AppRegistrationIcon sx={{ ml: 6,color:"gray" }} />
+      </Box>
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "space-between",
+          mb: 1,
+        }}
+      >
+        <Typography
+          sx={{
+            fontFamily: "poppins",
+            fontWeight: "bolder",
+            color: "gray",
+          }}
+        >
+          Rent :
+        </Typography>
+        <Typography
+          style={{
+            color: "black",
+            backgroundColor: "white",
+            borderRadius: 10,
+            padding: "5px",
+            fontWeight: "bolder",
+          }}
+        >
+          ₹ {props.rent.toLocaleString("en-IN")}{" "}
+        </Typography>
+      </Box>
 
-      <Typography
+      <Box
         sx={{
-          mt: -5,
-          fontFamily: "poppins",
-          fontWeight: "bolder",
-          color: "gray",
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "space-between",
+          mb: 1,
         }}
       >
-        Rent : ₹ {props.rent.toLocaleString("en-IN")}{" "}
-        <AppRegistrationIcon sx={{ ml: 6 }} />
-      </Typography>
-      <Typography
+        <Typography
+          sx={{
+            mt: 1,
+            fontFamily: "poppins",
+            fontWeight: "bolder",
+            color: "gray",
+          }}
+        >
+          TBR :
+        </Typography>
+        <Typography
+          style={{
+            color: "black",
+            backgroundColor: "white",
+            borderRadius: 10,
+            padding: 1,
+            fontWeight: "bolder",
+          }}
+        >
+          ₹ {props.rentDue.toLocaleString("en-IN")}
+        </Typography>
+      </Box>
+      <Box
         sx={{
-          mt: 1,
-          fontFamily: "poppins",
-          fontWeight: "bolder",
-          color: "gray",
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "space-between",
         }}
       >
-        To be received : ₹ {props.rentDue.toLocaleString("en-IN")}
-      </Typography>
-      <Typography
-        sx={{
-          mt: 1,
-          fontFamily: "poppins",
-          fontWeight: "bolder",
-          color: "gray",
-        }}
-      >
-        E-Bill: ₹ {props.ebillDue.toLocaleString("en-IN")}
-      </Typography>
+        <Typography
+          sx={{
+            mt: 1,
+            fontFamily: "poppins",
+            fontWeight: "bolder",
+            color: "gray",
+          }}
+        >
+          E-Bill:
+        </Typography>
+        <span
+          style={{
+            color: "black",
+            backgroundColor: "white",
+            borderRadius: 10,
+            padding: "5px",
+            fontWeight: "bolder",
+          }}
+        >
+          ₹ {props.ebillDue.toLocaleString("en-IN")}
+        </span>
+      </Box>
     </Box>
   );
 }

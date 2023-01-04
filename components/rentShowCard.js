@@ -132,7 +132,7 @@ export default function RentShow(props) {
                 variant="h6"
                 component="h2"
               >
-                Edit Rent
+                Edit Rent 
               </Typography>
               <Typography sx={{ mb: 3 }}>
                 Dated:{" "}
