@@ -256,18 +256,20 @@ export default function Login() {
                     width: "100%",
                     fontSize: 16,
                     m: "auto",
+                    fontWeight:"bolder",
 
                     mt: 5,
                     borderRadius: "100px",
                     p: 2,
                     "&:hover": {
                       color: "red",
-                      border: "1px solid #ff7f56",
+                      border: "2px solid #ff7f56",
                       backgroundColor: "white",
+
                     },
                   }}
                 >
-                  Register a user
+                  Login
                 </LoadingButton>
                 
               </Box>

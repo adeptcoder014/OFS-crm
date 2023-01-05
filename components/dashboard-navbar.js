@@ -180,7 +180,7 @@ export default function DashboardNavbar(props) {
         }
       }
       getAdminById(jwt_decode(token)._id).then((res) =>
-      setAdmin( res.data.data)
+        setAdmin(res.data.data)
       );
     }
   }, []);
@@ -222,14 +222,7 @@ export default function DashboardNavbar(props) {
           >
             Admin Center
           </Typography>
-          <Typography
-            sx={{
-              fontWeight: "bolder",
-              ml: 2,
-            }}
-          >
-            Hii {admin.name} 👋
-          </Typography>
+       
           <Search>
             <SearchIconWrapper>
               <SearchIcon />

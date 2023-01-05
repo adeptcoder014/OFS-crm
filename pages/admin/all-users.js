@@ -5,6 +5,8 @@ import { useController } from "../../controller/user";
 import Table from "../../components/table";
 import Loading from "../../components/loading";
 import { useRouter } from "next/router";
+import NewRegisteredUsers from "../../components/NewRegisteredUsers";
+import Users from "../../components/allUsers";
 //==========================================
 export default function AllUsers() {
   const theme = useTheme();
@@ -14,62 +16,12 @@ export default function AllUsers() {
   if (queryAll.isLoading) {
     return <Loading />;
   }
-  const columns = [
-    {
-      field: "name",
-      headerName: "Name",
-      minWidth: 200,
-      renderCell: (params) => (
-        <p style={{ color: "black", fontWeight: 600, fontFamily: "poppins" }}>
-          {params.value}
-        </p>
-      ),
-    },
-    {
-      field: "email",
-      headerName: "Email",
-      minWidth: 300,
-      renderCell: (params) => (
-        <p style={{ color: "black", fontWeight: 500, fontFamily: "poppins" }}>
-          {params.value}
-        </p>
-      ),
-    },
-    {
-      field: "phone",
-      headerName: "Mobile",
-      minWidth: 150,
-      renderCell: (params) => (
-        <p style={{ color: "black", fontFamily: "poppins" }}>{params.value}</p>
-      ),
-    },
-    {
-      field: "Details",
-      headerName: "More details",
-      minWidth: 150,
-      editable: true,
-      renderCell: (params) => (
-        <Button
-          sx={{
-            backgroundColor: "white",
-            border: "1px solid #ff855f",
-            color: "#ff855f",
-          }}
-          variant="outlined"
-          onClick={() => {
-            // console.log("------>",params.id)
-            router.push(`/admin/user/details/?id=${params.id}`);
-          }}
-        >
-          Details
-        </Button>
-      ),
-      flex: 1,
-    },
-   
-  ];
 
-  //===============================
+  // console.log("users -->", queryAll.data.data.user)
+
+
+  
+  //================================
   return (
     <>
       <Typography
@@ -78,10 +30,11 @@ export default function AllUsers() {
       >
         All Users are :
       </Typography>
+      <Users user={queryAll.data.data.user}/>
       <Container>
-        <Box sx={{ height: 400, minWidth: "100%" }}>
+        {/* <Box sx={{ height: 400, minWidth: "100%" }}>
           <Table rows={queryAll?.data?.data?.user} columns={columns} />
-        </Box>
+        </Box> */}
       </Container>
     </>
   );

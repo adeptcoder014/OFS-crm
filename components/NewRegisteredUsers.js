@@ -1,10 +1,12 @@
-import { Avatar, Button, Grid, TextField, Typography } from "@mui/material";
+import { Avatar, Button, Grid, TextField, Typography ,InputAdornment} from "@mui/material";
 import { Box } from "@mui/system";
 import AppRegistrationIcon from "@mui/icons-material/AppRegistration";
 import { useController } from "../controller/user";
 import { useState } from "react";
 import dayjs from "dayjs";
 import { useRouter } from "next/router";
+import SearchIcon from "@mui/icons-material/Search";
+
 //================================================
 export default function NewRegisteredUsers() {
   //================================================
@@ -13,7 +15,6 @@ export default function NewRegisteredUsers() {
   const [user, setUser] = useState("");
   //================================================
 
-  console.log("------->", user);
   return (
     <Box
       sx={{
@@ -59,6 +60,13 @@ export default function NewRegisteredUsers() {
           Search
         </Typography>
         <TextField
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <SearchIcon />
+                </InputAdornment>
+              ),
+            }}
           size="small"
           variant="outlined"
           onChange={(e) => setUser(e.target.value)}
@@ -69,11 +77,10 @@ export default function NewRegisteredUsers() {
         sx={{
           overflow: "auto",
           borderRadius: 1,
-          height: "250px",
+          height: "180px",
         }}
       >
         {query?.data?.data?.user.map((x) => {
-          console.log("---->",x)
           if (x.name.toLowerCase().startsWith(user)) {
             return (
               <Box
