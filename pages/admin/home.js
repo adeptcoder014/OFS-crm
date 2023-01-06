@@ -42,7 +42,7 @@ export default function Home(props) {
 
   const token = localStorage.getItem("Token");
     getAdminById(jwt_decode(token)._id).then((res) => setAdmin(res.data.data));
-  console.log(admin);
+  console.log(admin );
   // React.useEffect(() => {
   // }, [token]);
 

@@ -34,6 +34,7 @@ import { useDarkMode } from "../../context/darkMode";
 import { useTheme } from "@mui/system";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import RequestQuoteIcon from "@mui/icons-material/RequestQuote";
+import BroadcastOnHomeIcon from '@mui/icons-material/BroadcastOnHome';
 //===================================================================
 const drawerWidth = 250;
 
@@ -242,6 +243,11 @@ export default function DashboardSidebar(props) {
                 href: "/admin/user/rental",
                 title: "Rental",
                 icon: <RequestQuoteIcon />,
+              },
+              {
+                href: "/admin/notice",
+                title: "Notice",
+                icon: <BroadcastOnHomeIcon />,
               },
             ].map((text, index) => (
               <ListItem
