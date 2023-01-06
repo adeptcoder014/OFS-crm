@@ -22,6 +22,8 @@ import AddIcon from "@mui/icons-material/Add";
 import axiosInstance from "../../api/axios";
 import ReportProblemIcon from "@mui/icons-material/ReportProblem";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
+import ShowNotice from "../../components/notice";
+import Dialogue from "../../components/Dialog";
 //====================================
 function getWindowDimensions() {
   if (typeof window !== "undefined") {
@@ -58,7 +60,7 @@ export default function Notice() {
   const [notice, setNotice] = useState("");
   const [open, setOpen] = useState(false);
   const [error, setError] = useState(false);
-
+  const [ressponse, setRessponse] = useState("");
   //==========================
   const theme = useTheme();
 
@@ -141,8 +143,13 @@ export default function Notice() {
               mb: 3,
             }}
           />
-          <Typography sx={{ fontWeight: "bolder" }}>
-            Please enter all the required feilds !
+          <Typography
+            sx={{
+              fontWeight: "bolder",
+            }}
+          >
+            {ressponse}
+            {/* Please enter all the required feilds ! */}
           </Typography>
         </Box>
       </Dialog>
@@ -167,25 +174,25 @@ export default function Notice() {
         }}
       >
         <Typography sx={{ fontWeight: "bolder" }}>Choose Label </Typography>
-          <FormControl
-          id='type'
-            size="small"
-            sx={{
-                //  width: "30%" ,
-              width: windowDimensions?.width < 550 ? "100%" : "30%",
-              mt: windowDimensions?.width < 550 ? 5 : 0,
-            }}
+        <FormControl
+          size="small"
+          sx={{
+            //  width: "30%" ,
+            width: windowDimensions?.width < 550 ? "100%" : "30%",
+            mt: windowDimensions?.width < 550 ? 5 : 0,
+          }}
+        >
+          <InputLabel id="demo-simple-select-label">Notice Type</InputLabel>
+          <Select
+            id="type"
+            onChange={(e) => setType(e.target.value)}
+            label="Notice Type"
           >
-            <InputLabel id="demo-simple-select-label">Notice Type</InputLabel>
-            <Select
-              onChange={(e) => setType(e.target.value)}
-              label="Notice Type"
-            >
-              {noticeTypes.map((x) => (
-                <MenuItem value={x.value}>{x.type}</MenuItem>
-              ))}
-            </Select>
-          </FormControl>
+            {noticeTypes.map((x) => (
+              <MenuItem value={x.value}>{x.type}</MenuItem>
+            ))}
+          </Select>
+        </FormControl>
       </Box>
       {/* ====================================== */}
 
@@ -209,10 +216,10 @@ export default function Notice() {
           />
           <Button
             onClick={() => {
-              if (type === "" || notice === "") {
-                setError(true);
-                return;
-              }
+              //   if (type === "" || notice === "") {       /// CLIENT_SIDE-VALIDATION
+              //     setError(true);
+              //     return;
+              //   }
               axiosInstance
                 .post(`${ADMIN_URL}/notice`, {
                   type,
@@ -220,8 +227,11 @@ export default function Notice() {
                 })
                 .then((res) => {
                   setOpen(true);
-                  document.getElementById("notice").reset();
-                  document.getElementById("type").value ="";
+                  <ShowNotice yes={true} />;
+                })
+                .catch((e) => {
+                  setError(true);
+                  setRessponse(e.response.data.message);
                 });
             }}
             sx={{
@@ -248,6 +258,13 @@ export default function Notice() {
           </Button>
         </form>
       </Box>
+      <Typography
+        variant="h5"
+        sx={[theme.custom.typography.h1, { mb: 5, mt: 5 }]}
+      >
+        Notices :
+      </Typography>
+      <ShowNotice />
       {/* ====================================== */}
     </>
   );
