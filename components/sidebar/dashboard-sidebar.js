@@ -35,6 +35,7 @@ import { useTheme } from "@mui/system";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import RequestQuoteIcon from "@mui/icons-material/RequestQuote";
 import BroadcastOnHomeIcon from '@mui/icons-material/BroadcastOnHome';
+import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
 //===================================================================
 const drawerWidth = 250;
 
@@ -248,6 +249,11 @@ export default function DashboardSidebar(props) {
                 href: "/admin/notice",
                 title: "Notice",
                 icon: <BroadcastOnHomeIcon />,
+              },
+              {
+                href: "/admin/accounts",
+                title: "Accounts",
+                icon: <AccountBalanceIcon />,
               },
             ].map((text, index) => (
               <ListItem

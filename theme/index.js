@@ -466,22 +466,22 @@ export const theme = createTheme({
   custom: {
     primary: {
       main: "#ff9e80",
-      light: "#c1c54e",
-      dark: "#8fa329",
+      light: "#a7a5cb",
+      dark: "#1b1a32",
       contrastText: "#FFFFFF",
     },
     secondary: {
       main: "#ff9e80",
-      light: "#828DF8",
-      dark: "#3832A0",
+      light: "#a7a5cb",
+      dark: "#1b1a32",
       contrastText: "#FFFFFF",
     },
     navbar: {
       light: {
-        backgroundColor: "#c1c54e",
+        backgroundColor: "#a7a5cb",
       },
       dark: {
-        backgroundColor: "#1a3f13",
+        backgroundColor: "#1b1a32",
       },
     },
     typography:{

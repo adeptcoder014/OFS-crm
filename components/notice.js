@@ -1,8 +1,11 @@
 import { Grid, Box, Button } from "@mui/material";
 import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
 import { useEffect, useState } from "react";
 import axiosInstance from "../api/axios";
 import Table from "./table";
+import Swal from "sweetalert2";
+import Loading from "./loading";
 //==============================================
 export default function ShowNotice() {
   //=============================
@@ -10,19 +13,12 @@ export default function ShowNotice() {
   const query = useQuery({
     queryKey: ["getNotices"],
     queryFn: () => axiosInstance.get("/notice"),
-    onSuccess: (res) => {
-      query.refetch();
-    },
   });
 
-  //=============================
-  const [notice, setNotice] = useState([]);
-  //==================================
-  useEffect(() => {
-    axiosInstance.get("/notice").then((res) => setNotice(res.data));
-  }, []);
+  if (query.isLoading) {
+    return <Loading />;
+  }
 
-  console.log(notice);
   //=====================================
   const columns = [
     {
@@ -67,7 +63,7 @@ export default function ShowNotice() {
     {
       field: "delete",
       headerName: "Delete",
-      //   minWidth: 150,
+      minWidth: 150,
       renderCell: (params) => (
         <Button
           sx={{
@@ -78,14 +74,12 @@ export default function ShowNotice() {
           variant="outlined"
           onClick={() => {
             console.log(params.id);
-            deleteUser(params.id).then(() => {
+            axiosInstance.delete(`/notice/${params.id}`).then((res) => {
               return Swal.fire(
-                "User deleted ",
-                "User has been un-registered",
+                "Notice deleted ",
+                "Notice has been deleted",
                 "success"
-              ).then(() => {
-                query.refetch(), router.push("/admin/home");
-              });
+              );
             });
           }}
         >
@@ -140,7 +134,7 @@ export default function ShowNotice() {
     //   </Grid>
     // </Grid>
     <Box sx={{ minWidth: "100%" }}>
-      <Table rows={notice} columns={columns} />
+      <Table rows={query?.data?.data} columns={columns} />
     </Box>
   );
 }

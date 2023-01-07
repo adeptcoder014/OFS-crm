@@ -4,7 +4,8 @@ import {
   Box,
   Container,
   Avatar,
-  Divider,
+  TextField,
+  InputAdornment,
 } from "@mui/material";
 import DashboardLayout from "../../components/layout/user-layout";
 import BedIcon from "@mui/icons-material/Bed";
@@ -15,6 +16,9 @@ import { getUserById } from "../../api/user";
 import Loading from "../../components/loading";
 import OutletIcon from "@mui/icons-material/Outlet";
 import dayjs from "dayjs";
+import axiosInstance from "../../api/axios";
+import SearchIcon from "@mui/icons-material/Search";
+
 //===========================================================
 function getWindowDimensions() {
   if (typeof window !== "undefined") {
@@ -27,6 +31,9 @@ function getWindowDimensions() {
 }
 //--------------------------------------------------------
 export default function Home() {
+  //=====================================
+  const [type, setType] = useState("");
+  //==============================
   const [windowDimensions, setWindowDimensions] = useState(
     getWindowDimensions()
   );
@@ -49,23 +56,27 @@ export default function Home() {
     enabled: !!router.query.id,
   });
 
+  const noticeQuery = useQuery({
+    queryKey: ["noticeQuery"],
+    queryFn: () => axiosInstance.get("/notice"),
+
+    enabled: !!router.query.id,
+  });
+
   if (query.isLoading) {
     return <Loading />;
   }
-  console.log("--->", query.data.data);
+  // console.log("noticeQuery--->", );
   const user = query.data.data;
   //================================================
   return (
     <Container
       maxWidth="md"
-      sx={{ background: "linear-gradient(#dce29f, #c1c54e)"}}
-    > 
+      sx={{ background: "linear-gradient(#dce29f, #c1c54e)" }}
+    >
       {/* ------------------- GENERAL_INFORMATION ------------------------------- */}
 
-      <Typography
-        variant="h5"
-        sx={{ fontWeight: 600, color: "gray", mb: 1 }}
-      >
+      <Typography variant="h5" sx={{ fontWeight: 600, color: "gray", mb: 1 }}>
         General Information
       </Typography>
 
@@ -163,7 +174,7 @@ export default function Home() {
         container
         sx={{
           // width:"150%",
-      
+
           // mt: 5,
           display: "flex",
           // justifyContent: "space-around",
@@ -245,7 +256,6 @@ export default function Home() {
         maxWidth="sm"
         container
         sx={{
-          
           display: "flex",
           boxShadow: "0px 2px 3px 0px grey",
           background: "linear-gradient(252deg, #e1e1e1, #ffffff)",
@@ -267,7 +277,7 @@ export default function Home() {
             p: 1,
           }}
         >
-          <Typography sx={{ fontWeight: 600, color: "gray"}}>
+          <Typography sx={{ fontWeight: 600, color: "gray" }}>
             Rent :
           </Typography>
         </Grid>
@@ -322,9 +332,7 @@ export default function Home() {
             p: 1,
           }}
         >
-          <Typography
-            sx={{ fontWeight: 600, color: "#28282B",  }}
-          >
+          <Typography sx={{ fontWeight: 600, color: "#28282B" }}>
             {/* ₹ {user.eBills} */}
           </Typography>
         </Grid>
@@ -343,7 +351,7 @@ export default function Home() {
             p: 1,
           }}
         >
-          <Typography sx={{ fontWeight: 600, color: "gray"}}>
+          <Typography sx={{ fontWeight: 600, color: "gray" }}>
             Miscellaneous:
           </Typography>
         </Grid>
@@ -370,57 +378,122 @@ export default function Home() {
       </Grid>
 
       {/* ------------ GENERAL_NOTICE ------------------------------ */}
-
-      <Typography
-        variant="h5"
-        sx={{ fontWeight: 600, color: "gray", mb: 1, mt: 5 }}
-      >
-        General Notice
-      </Typography>
       <Box
-        maxWidth="md"
-        container
         sx={{
-          
-          mb: 5,
-
-          // display: "flex",
           boxShadow: "0px 2px 3px 0px grey",
           background: "linear-gradient(252deg, #e1e1e1, #ffffff)",
           p: 1,
           borderRadius: "8px",
+          mt: 2,
         }}
       >
+        <Typography
+          variant="h5"
+          sx={{ fontWeight: 600, color: "gray", mb: 1, mt: 5 }}
+        >
+          General Notice
+        </Typography>
+        {/* ===================== */}
         <Box
           sx={{
-            backgroundColor: "white",
-            border: "2px dashed blue",
-
-            color: "blue",
-            textAlign: "center",
-            fontWeight: "bolder",
-            // mb: 2,
-            p: 1,
-            borderRadius: "8px",
-            display: "inline-block",
+            display: "flex",
+            // justifyContent: "space-around",
+            // alignItems: "center",
+            mb: 4,
+            ml: 1,
           }}
         >
-          Laundary Tag
+          <TextField
+            placeholder="Search by tag ..."
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <SearchIcon />
+                </InputAdornment>
+              ),
+            }}
+            size="small"
+            variant="outlined"
+            onChange={(e) => setType(e.target.value)}
+          />
         </Box>
-        <Typography
-          variant="h4"
-          sx={{ fontWeight: 600, color: "#28282B", mb: 1, mt: 2 }}
-        >
-          Notice Title Here
-        </Typography>
-        <Box sx={{ width: "99%", p: 2 }}>
-          <Typography sx={{ fontWeight: 600, color: "gray" }}>
-            On Today onwards laundary waala will take the cloths in the separate
-            bag, which is provided to every student, On Today onwards laundary
-            waala will take the cloths in the separate bag, which is provided to
-            every student
-          </Typography>
-        </Box>
+        {/* ===================== */}
+        {noticeQuery.data.data.map((x) => {
+          if (x.type.toLowerCase().startsWith(type)) {
+            return (
+              <>
+                <Box
+                  maxWidth="md"
+                  container
+                  sx={{
+                    mb: 5,
+
+                    // display: "flex",
+                    boxShadow: "0px 2px 3px 0px grey",
+                    background: "linear-gradient(252deg, #e1e1e1, #ffffff)",
+                    p: 1,
+                    borderRadius: "8px",
+                  }}
+                >
+                  <Box
+                    sx={{
+                      backgroundColor:
+                        x.type === "FOOD"
+                          ? "#4caf50"
+                          : x.type === "LAUNDARY"
+                          ? "#0288d1"
+                          : x.type === "MISC"
+                          ? "#ff9800"
+                          : x.type === "RENTAL"
+                          ? "#d32f2f"
+                          : null,
+
+                      color: "blue",
+                      textAlign: "center",
+                      fontWeight: "bolder",
+                      // mb: 2,
+                      p: 1,
+                      borderRadius: "8px",
+                      display: "inline-block",
+                      color: "white",
+                    }}
+                  >
+                    {x.type}
+                  </Box>{" "}
+                  <span
+                    style={{
+                      fontWeight: "bold",
+                      color: "gray",
+                      fontSize: 12,
+                    }}
+                  >{dayjs(x.time).format("DD MMM")}{" "}
+                    @
+                    {
+                      dayjs(x.time)
+                        .format("YYYY-MM-DDTHH:mm:ssZ[Z]")
+                        .split("T")[1]
+                        .split("+")[0]
+                        .split(":")[0]
+                    }
+                    {":"}
+                    {
+                    dayjs(x.time)
+                      .format("YYYY-MM-DDTHH:mm:ssZ[Z]")
+                      .split("T")[1]
+                      .split("+")[0]
+                      .split(":")[1]
+                  }
+                  </span>
+                  <Box sx={{ width: "99%", p: 2 }}>
+                    <Typography sx={{ fontWeight: 600, color: "gray" }}>
+                      {x.notice}
+                    </Typography>
+                  </Box>
+                </Box>
+              </>
+            );
+          }
+        })}
       </Box>
     </Container>
   );

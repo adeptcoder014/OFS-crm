@@ -539,7 +539,7 @@ export default function UserDetails() {
               }}
               variant="outlined"
               size="small"
-              defaultValue={query?.data?.data?.dues?.rents.at(-1).rent}
+              defaultValue={query?.data?.data?.dues?.rents?.at(-1)?.rent}
             />{" "}
             <MoreVertIcon
               onClick={() => setOpen(true)}
@@ -596,7 +596,7 @@ export default function UserDetails() {
               }}
               variant="outlined"
               size="small"
-              defaultValue={query?.data?.data?.dues?.rents.at(-1).due.ebillDue}
+              defaultValue={query?.data?.data?.dues?.rents?.at(-1)?.due?.ebillDue}
             />{" "}
             <MoreVertIcon
               onClick={() => setOpenEbill(true)}
