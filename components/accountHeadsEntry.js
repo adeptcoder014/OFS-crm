@@ -8,7 +8,11 @@ import {
   MenuItem,
   TextField,
   Button,
+  Dialog,
 } from "@mui/material";
+import { useState } from "react";
+import axiosInstance  from "../api/axios";
+import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 //=================================
 const accountsHeads = [
   {
@@ -27,86 +31,153 @@ const accountsHeads = [
     name: "Grocceries",
   },
   {
-    name: "Staff salaries",
+    name: "Salaries",
   },
   {
     name: "Housekeeping",
   },
   {
-    name: "Water bills",
+    name: "Waterbills",
   },
   {
-    name: "Gas bills",
+    name: "Gasbills",
   },
 ];
 //=================================
 export default function AccountHeadsEntry() {
+  //=============================================
+  const [accountHead, setAccountHead] = useState("");
+  const [credit, setCredit] = useState();
+
+  const [debit, setDebit] = useState();
+  const [open, setOpen] = useState(false);
+
+  //========================================
   return (
-    <Grid
-      container
-      spacing={2}
-      sx={{
-        boxShadow: "0px 1px 2px 0px grey",
-        // backgroundColor:"wheat",
-        // width: "200%",
-        p: 2,
-        borderRadius: 1,
-      }}
-    >
-      <Grid item xl={3} lg={3} md={3} sm={12} xs={12}>
-        <Typography sx={{ fontWeight: "bolder", color: "gray" }}>
-          Accounts Heads
-        </Typography>
-        <FormControl size="small" fullWidth>
-          {/* <InputLabel id="demo-simple-select-label">Age</InputLabel> */}
-          <Select
-            labelId="demo-simple-select-label"
-            id="demo-simple-select"
-            label="Age"
-          >
-            <MenuItem>Choose accounts heads</MenuItem>
-
-            {accountsHeads.map((x) => (
-              <MenuItem value={x.name.toUpperCase()}>{x.name}</MenuItem>
-            ))}
-          </Select>
-        </FormControl>
-      </Grid>
-
-      <Grid item xl={3} lg={3} md={3} sm={12} xs={12}>
-        <Typography sx={{ fontWeight: "bolder", color: "gray" }}>
-          Credit
-        </Typography>
-        <TextField size="small" />
-      </Grid>
-
-      <Grid item xl={3} lg={3} md={3} sm={12} xs={12}>
-        <Typography sx={{ fontWeight: "bolder", color: "gray" }}>
-          Debit
-        </Typography>
-        <TextField size="small" />
-      </Grid>
-
-      <Grid item xl={3} lg={3} md={3} sm={12} xs={12}>
-        <Typography sx={{ fontWeight: "bolder", color: "gray" }}>Action</Typography>
-        <Button
+    <>
+      {/* ======= NOTICE_DIALOGUE =============== */}
+      <Dialog
+        scroll="body"
+        open={open}
+        closeAfterTransition
+        onClose={() => setOpen(false)}
+        sx={{
+          mt: 5,
+          // p:15,
+        }}
+      >
+        <Box
           sx={{
-            backgroundColor: "black",
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
+            p: 5,
+            backgroundColor: "#4caf50",
             color: "white",
-            p: "10px 45px",
-            borderRadius: 1,
-            fontWeight: "bolder",
-            alignSelf:"center",
-            "&:hover": {
-              color: "black",
-              border: "2px solid black",
-              backgroundColor: "white",
-            },
           }}
         >
-          Enter
-        </Button>
-      </Grid>
-    </Grid>
+          <CheckCircleOutlineIcon
+            sx={{
+              fontSize: 55,
+              mb: 3,
+            }}
+          />
+          <Typography sx={{ fontWeight: "bolder" }}>
+            New head has been created !
+          </Typography>
+        </Box>
+      </Dialog>
+      {/* ====================== */}
+      <form id="account">
+        <Grid
+          container
+          spacing={2}
+          sx={{
+            boxShadow: "0px 1px 2px 0px grey",
+            // backgroundColor:"wheat",
+            // width: "200%",
+            p: 2,
+            borderRadius: 1,
+          }}
+        >
+          <Grid item xl={3} lg={3} md={3} sm={12} xs={12}>
+            <Typography sx={{ fontWeight: "bolder", color: "gray" }}>
+              Accounts Heads
+            </Typography>
+            <FormControl size="small" fullWidth>
+              <Select
+                onChange={(e) => {
+                  setAccountHead(e.target.value);
+                }}
+              >
+                <MenuItem>Choose accounts heads</MenuItem>
+
+                {accountsHeads.map((x) => (
+                  <MenuItem value={x.name.toUpperCase()}>{x.name}</MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          </Grid>
+
+          <Grid item xl={3} lg={3} md={3} sm={12} xs={12}>
+            <Typography sx={{ fontWeight: "bolder", color: "gray" }}>
+              Credit
+            </Typography>
+            <TextField
+              type="number"
+              onChange={(e) => {
+                setCredit(e.target.value);
+              }}
+              size="small"
+            />
+          </Grid>
+
+          <Grid item xl={3} lg={3} md={3} sm={12} xs={12}>
+            <Typography sx={{ fontWeight: "bolder", color: "gray" }}>
+              Debit
+            </Typography>
+            <TextField
+              type="number"
+              onChange={(e) => {
+                setDebit(e.target.value);
+              }}
+              size="small"
+            />
+          </Grid>
+
+          <Grid item xl={3} lg={3} md={3} sm={12} xs={12}>
+            <Typography sx={{ fontWeight: "bolder", color: "gray" }}>
+              Action
+            </Typography>
+            <Button
+              sx={{
+                backgroundColor: "black",
+                color: "white",
+                p: "10px 45px",
+                borderRadius: 1,
+                fontWeight: "bolder",
+                alignSelf: "center",
+                "&:hover": {
+                  color: "black",
+                  border: "2px solid black",
+                  backgroundColor: "white",
+                },
+              }}
+              onClick={() => {
+                axiosInstance
+                  .post("/account", { accountHead, credit, debit })
+                  .then(() => setOpen(true))
+                  .finally(() => {
+                    document.getElementById("account").reset();
+                  });
+              }}
+            >
+              Enter
+            </Button>
+          </Grid>
+        </Grid>
+      </form>
+    </>
   );
 }
