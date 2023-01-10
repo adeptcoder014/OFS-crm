@@ -23,7 +23,6 @@ import axiosInstance from "../../api/axios";
 import ReportProblemIcon from "@mui/icons-material/ReportProblem";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import ShowNotice from "../../components/notice";
-import Dialogue from "../../components/Dialog";
 import GroupAddIcon from "@mui/icons-material/GroupAdd";
 import GroupRemoveIcon from "@mui/icons-material/GroupRemove";
 import AccountTab from "../../components/accountTab";
