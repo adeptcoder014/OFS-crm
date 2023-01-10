@@ -51,7 +51,7 @@ export default function Rooms() {
               {x.room}
             </Typography>
             {x?.name?.map((w) => (
-              <Typography>{w}</Typography>
+              <Typography key={x}> {w}</Typography>
             ))}
           </Box>
         </>

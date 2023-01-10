@@ -113,7 +113,7 @@ export default function        AccountHeadsEntry() {
                 <MenuItem>Choose accounts heads</MenuItem>
 
                 {accountsHeads.map((x) => (
-                  <MenuItem value={x.name.toUpperCase()}>{x.name}</MenuItem>
+                  <MenuItem key={x.name} value={x.name.toUpperCase()}>{x.name}</MenuItem>
                 ))}
               </Select>
             </FormControl>

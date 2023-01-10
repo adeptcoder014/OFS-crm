@@ -490,6 +490,7 @@ export default function RentShow(props) {
             if (x.month === props.month) {
               return (
                 <Box
+                  key={x}
                   sx={{
                     background: `linear-gradient(252deg,  ${x.color}, #ffecec)`,
                     p: 5,

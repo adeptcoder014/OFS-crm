@@ -67,6 +67,7 @@ export default function UserDetails() {
           if (x?.month?.startsWith(search)) {
             return (
               <Box
+              key={x}
                 sx={{
                   display: "flex",
                   justifyContent: "space-between",
@@ -139,6 +140,7 @@ export default function UserDetails() {
           if (x?.month?.startsWith(ebill)) {
             return (
               <Box
+              key={x}
                 sx={{
                   display: "flex",
                   justifyContent: "space-between",

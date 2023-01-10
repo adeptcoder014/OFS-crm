@@ -91,6 +91,7 @@ export default function NewRegisteredUsers() {
           if (x.name.toLowerCase().startsWith(user)) {
             return (
               <Box
+              key={x}
                 sx={{
                   p: 1,
                   boxShadow: "0px 1px 3px 0px grey",
