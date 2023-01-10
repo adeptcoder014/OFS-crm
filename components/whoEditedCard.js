@@ -74,29 +74,29 @@ export default function WhoEditedCard(props) {
           {/* ====================== RENT ============================ */}
 
           <Grid item xs={12} sm={2} md={2} lg={2} xl={2} sx={{}}>
-            <Typography>Rent</Typography>
-            <Typography> {props.rent ? props.rent : "₹ x,xxx"}</Typography>
+            <Typography sx={{fontWeight:"bolder"}}>Rent</Typography>
+            <Typography sx={{fontWeight:"bolder",color:"gray",mt:1}}> {props.rent ? props.rent : "₹ x,xxx"}</Typography>
           </Grid>
 
           {/* ====================== DUE_RENT ============================ */}
 
           <Grid item xs={12} sm={2} md={2} lg={2} xl={2} sx={{}}>
-            <Typography>To be receive</Typography>
-            <Typography> {props.rentDue}</Typography>
+            <Typography sx={{fontWeight:"bolder"}}>To be receive</Typography>
+            <Typography  sx={{fontWeight:"bolder",color:"gray",mt:1}}> {props.rentDue}</Typography>
           </Grid>
 
           {/* ====================== DUE_eBILL ============================ */}
 
           <Grid item xs={12} sm={2} md={2} lg={2} xl={2} sx={{}}>
-            <Typography>Ebill</Typography>
-            <Typography> {props.ebillDue}</Typography>
+            <Typography sx={{fontWeight:"bolder"}}>Ebill</Typography>
+            <Typography sx={{fontWeight:"bolder",color:"gray",mt:1}}> {props.ebillDue}</Typography>
           </Grid>
           {/* ====================== STATUS ============================ */}
 
           <Grid item xs={12} sm={2} md={2} lg={2} xl={2} sx={{}}>
-            <Typography>Total</Typography>
+            <Typography sx={{fontWeight:"bolder"}}>Total</Typography>
             {/* {props.status === "DUE" ? ( */}
-            <Typography>
+            <Typography sx={{fontWeight:"bolder",color:"gray",mt:1}}>
               {"- "}
               {Math.abs(props?.total)}
             </Typography>
@@ -113,8 +113,8 @@ export default function WhoEditedCard(props) {
             xl={2}
             sx={{ alignSelf: "center" }}
           >
-            <Typography>Mode</Typography>
-            <Typography>
+            <Typography sx={{fontWeight:"bolder"}}>Mode</Typography>
+            <Typography sx={{fontWeight:"bolder",color:"black",mt:1}}>
               By{" "}
               <span style={{ fontWeight: "bolder" }}>
                 {props?.mode?.collectedBy }{" "}

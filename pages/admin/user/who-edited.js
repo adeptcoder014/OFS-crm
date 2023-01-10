@@ -47,6 +47,17 @@ export default function WhoEdited() {
   //==============
   return (
     <>
+    <Typography
+          variant="h4"
+          sx={{
+            fontWeight: "bolder",
+            color: "gray",
+          
+            mt: 5,
+          }}
+        >
+          Who edited :
+        </Typography>
       <Grid
         container
         sx={{
@@ -61,6 +72,8 @@ export default function WhoEdited() {
           // justifyContent: "space-around",
         }}
       >
+        
+
         {editedRents?.map((x) => (
           <WhoEditedCard
             key={x.rentId}

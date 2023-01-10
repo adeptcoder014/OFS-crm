@@ -34,6 +34,7 @@ export default function UserRentalDetails() {
   const router = useRouter();
   const [user, setUser] = useState({});
   const [token, setToken] = useState("");
+  const [year, setYear] = useState(2023);
 
   const query = useQuery({
     queryKey: ["userById", router.query.id],
@@ -41,12 +42,9 @@ export default function UserRentalDetails() {
     enabled: !!router.query.id,
   });
 
-
-
   const { tokenQuery } = useTokenQuery();
-
-
-  console.log("TOKEN ------>", tokenQuery?.data?._id);
+// const today = new Date()
+  // console.log("TOKEN ------>", today.split(" ")[2]);
 
   //==============
 
@@ -56,7 +54,7 @@ export default function UserRentalDetails() {
         <Typography
           sx={{
             color: "gray",
-            fontWeight:"bolder",
+            fontWeight: "bolder",
             mt: 5,
             mb: 2,
           }}
@@ -92,16 +90,24 @@ export default function UserRentalDetails() {
         </Box>
         <Typography
           sx={{
-            fontWeight:"bolder",
+            fontWeight: "bolder",
 
             color: "gray",
             mt: 5,
-            mb: -2,
+            // mb: -2,
           }}
           variant="h5"
         >
           Rentals details:{" "}
         </Typography>
+        <TextField
+          placeholder="search year ..."
+          sx={{
+            width: "25%",
+          }}
+          size="small"
+          onChange={(e) => setYear(e.target.value)}
+        />
 
         <Grid
           container
@@ -113,24 +119,30 @@ export default function UserRentalDetails() {
 
             borderRadius: 1,
             display: "flex",
-         
+            // flexDirection:"column"
           }}
         >
-          {query?.data?.data?.dues?.rents?.map((x) => (
-            <RentShow
-              key={x._id}
-              month={x.month}
-              rentCycle={x.rentCycle}
-              year={x.year}
-              rent={x.rent}
-              status={x.status}
-              rentId={x._id}
-              userId={router.query.id}
-              rentDue={x.due.rentDue}
-              ebillDue={x.due.ebillDue}
-              total={x.due.total}
-            />
-          ))}
+          {query?.data?.data?.dues?.rents?.map((x) => {
+            if (x.year === Number(year)) {
+              return (
+                <>
+                  <RentShow
+                    key={x._id}
+                    month={x.month}
+                    rentCycle={x.rentCycle}
+                    year={x.year}
+                    rent={x.rent}
+                    status={x.status}
+                    rentId={x._id}
+                    userId={router.query.id}
+                    rentDue={x.due.rentDue}
+                    ebillDue={x.due.ebillDue}
+                    total={x.due.total}
+                  />
+                </>
+              );
+            }
+          })}
         </Grid>
       </>
     );

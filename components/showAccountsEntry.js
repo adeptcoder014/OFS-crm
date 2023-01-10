@@ -37,12 +37,12 @@ export default function ShowAccountsEntry() {
         // width: "200%",
         p: 2,
         borderRadius: 1,
-        mt: 2,
+        mt: 2
       }}
     >
       {query.data.data.map((x) => (
         <>
-          <Grid item xl={3} lg={3} md={3} sm={12} xs={12}>
+          <Grid item xl={6} lg={6} md={6} sm={12} xs={12}>
             <Typography sx={{ fontWeight: "bolder", color: "gray" }}>
               Heads
             </Typography>
@@ -60,33 +60,18 @@ export default function ShowAccountsEntry() {
             </Typography>{" "}
           </Grid>
 
-          <Grid
-            item
-            xl={3}
-            lg={3}
-            md={3}
-            sm={12}
-            xs={12}
-            // sx={{ display: "flex", flexDirection: "column", flexGrow: 1 }}
-          >
-            <Typography sx={{ fontWeight: "bolder", color: "gray" }}>
-              Credit
-            </Typography>
-            <Typography sx={{ fontWeight: "bolder", color: "black" }}>
-              ₹ {x.credit}
-            </Typography>{" "}
-          </Grid>
+     
 
-          <Grid item xl={3} lg={3} md={3} sm={12} xs={12}>
-            <Typography sx={{ fontWeight: "bolder", color: "gray" }}>
+          <Grid item xl={6} lg={6} md={6} sm={12} xs={12}>
+            <Typography sx={{ fontWeight: "bolder", color: "gray",textAlign:"end"  }}>
               Debit
             </Typography>
-            <Typography sx={{ fontWeight: "bolder", color: "black" }}>
+            <Typography sx={{ fontWeight: "bolder", color: "black",textAlign:"end" }}>
               ₹ {x.debit}
             </Typography>{" "}
           </Grid>
 
-          <Grid item xl={3} lg={3} md={3} sm={12} xs={12}>
+          {/* <Grid item xl={4} lg={4} md={4} sm={12} xs={12}>
             <Typography sx={{ fontWeight: "bolder", color: "gray" }}>
               Status
             </Typography>
@@ -103,7 +88,7 @@ export default function ShowAccountsEntry() {
               {" "}
               Cleared
             </Typography>{" "}
-          </Grid>
+          </Grid> */}
         </>
       ))}
     </Grid>

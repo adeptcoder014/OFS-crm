@@ -24,12 +24,23 @@ import BedIcon from "@mui/icons-material/Bed";
 import SingleBedIcon from "@mui/icons-material/SingleBed";
 import { getAdminById } from "../../api/admin";
 import jwt_decode from "jwt-decode";
+import axiosInstance from "../../api/axios";
+import { useQuery } from "@tanstack/react-query";
 
 //==========================================================
 export default function Home(props) {
+  React.useEffect(() => {
+    axiosInstance.get("/dashboard").then((res) => setDashboard(res.data));
+  }, []);
+
+  const token = localStorage.getItem("Token");
+  React.useEffect(() => {
+    getAdminById(jwt_decode(token)._id).then((res) => setAdmin(res.data.data));
+  }, []);
   //========================================================
   const [Token, setToken] = React.useState("");
   const [admin, setAdmin] = React.useState({});
+  const [dashboard, setDashboard] = React.useState({});
   //========================================================
   const router = useRouter();
   const { sidebarOpen, setSidebarOpen } = useSidebarOpen();
@@ -40,97 +51,15 @@ export default function Home(props) {
     return <Loading />;
   }
 
-  const token = localStorage.getItem("Token");
-    getAdminById(jwt_decode(token)._id).then((res) => setAdmin(res.data.data));
-  console.log(admin );
-  // React.useEffect(() => {
-  // }, [token]);
+  //===================
 
-  //===================================================
-  const columns = [
-    {
-      field: "name",
-      headerName: "Name",
-      minWidth: 200,
-      renderCell: (params) => (
-        <p style={{ color: "black", fontWeight: 600, fontFamily: "poppins" }}>
-          {params.value}
-        </p>
-      ),
-    },
-    {
-      field: "email",
-      headerName: "Email",
-      minWidth: 300,
-      renderCell: (params) => (
-        <p style={{ color: "black", fontWeight: 500, fontFamily: "poppins" }}>
-          {params.value}
-        </p>
-      ),
-    },
-    {
-      field: "phone",
-      headerName: "Mobile",
-      minWidth: 150,
-      renderCell: (params) => (
-        <p style={{ color: "black", fontFamily: "poppins" }}>{params.value}</p>
-      ),
-    },
-    {
-      field: "edit",
-      headerName: "Edit",
-      minWidth: 150,
-      editable: true,
-      renderCell: (params) => (
-        <Button
-          sx={{
-            backgroundColor: "white",
-            border: "1px solid #ff855f",
-            color: "#ff855f",
-          }}
-          variant="outlined"
-          onClick={() => {
-            // console.log("------>",params.id)
-            router.push(`/admin/register-user/?id=${params.id}`);
-          }}
-        >
-          Register
-        </Button>
-      ),
-      flex: 1,
-    },
-    {
-      field: "delete",
-      headerName: "Delete",
-      minWidth: 150,
-      editable: true,
-      renderCell: (params) => (
-        <Button
-          sx={{
-            backgroundColor: "red",
-            border: "1px solid #ff855f",
-            color: "white",
-          }}
-          variant="outlined"
-          onClick={() => {
-            console.log(params.id);
-            deleteUser(params.id).then(() => {
-              return Swal.fire(
-                "User deleted ",
-                "User has been un-registered",
-                "success"
-              ).then(() => {
-                query.refetch(), router.push("/admin/home");
-              });
-            });
-          }}
-        >
-          Delete
-        </Button>
-      ),
-      flex: 1,
-    },
-  ];
+  // const dashboardQuery = useQuery({
+  //   queryKey: ["dashboad"],
+  //   queryFn: () => {
+  //     axios.get("/dashboard");
+  //   },
+  //   onSuccess:(res)=> console.log("res -->",res)
+  // });
 
   //========================================================
 
@@ -162,7 +91,7 @@ export default function Home(props) {
             title="Total Hosteler"
             url="/admin/all-users"
             color="#205CBE"
-            total={15}
+            total={dashboard.total}
             icon={
               <svg
                 width="64"
@@ -182,7 +111,7 @@ export default function Home(props) {
             title="New Booking"
             url="/admin/rooms"
             color="#53A0E8"
-            total={5}
+            total={dashboard.new}
             icon={
               <svg
                 width="64"
@@ -202,13 +131,13 @@ export default function Home(props) {
             title="Double Bed"
             url="/admin/all-users"
             color="#6853E8"
-            total={4}
+            total={dashboard.double}
             icon={<BedIcon sx={{ fontSize: 76, ml: 4, color: "white" }} />}
           />
           <InfoCard
             title="Tripple bed"
             url="/admin/rooms"
-            total={5}
+            total={dashboard.tripple}
             color="#3BC98D"
             icon={<BedIcon sx={{ fontSize: 76, ml: 4, color: "white" }} />}
           />
@@ -222,19 +151,6 @@ export default function Home(props) {
           </Grid>
         </Grid>
         {/* ==========  Main_Content =========================== */}
-
-        {/* <Container>
-          <Typography
-            variant="h5"
-            sx={[theme.custom.typography.h1, { mb: 5, mt: 5 }]}
-          >
-            Newly registered Users :
-          </Typography>
-          <Card />
-          <Box sx={{ minWidth: "100%" }}>
-            <Table rows={query?.data?.data?.user} columns={columns} />
-          </Box>
-        </Container> */}
       </Box>
     </>
   );

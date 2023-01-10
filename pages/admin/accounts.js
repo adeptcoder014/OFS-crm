@@ -39,24 +39,6 @@ function getWindowDimensions() {
   }
 }
 
-const noticeTypes = [
-  {
-    type: "Laundary",
-    value: "LAUNDARY",
-  },
-  {
-    type: "Food",
-    value: "FOOD",
-  },
-  {
-    type: "Rental",
-    value: "RENTAL",
-  },
-  {
-    type: "Misc",
-    value: "MISC",
-  },
-];
 //==========================================
 export default function Accounts() {
   //==========================
@@ -64,7 +46,7 @@ export default function Accounts() {
   const [notice, setNotice] = useState("");
   const [open, setOpen] = useState(false);
   const [error, setError] = useState(false);
-  const [ressponse, setRessponse] = useState("");
+  const [accountTotal, setAccountTotal] = useState([]);
   //==========================
   const theme = useTheme();
 
@@ -80,9 +62,17 @@ export default function Accounts() {
       window.addEventListener("resize", handleResize);
       return () => window.removeEventListener("resize", handleResize);
     }
+    //-----------------------------
   }, []);
 
-  //   console.log(windowDimensions.width);
+  useEffect(() => {
+    axiosInstance
+      .get("/account/total")
+      .then((res) => setAccountTotal(res.data));
+
+    // console.log(accountTotal);
+  }, []);
+
   //===============================
   return (
     <>
@@ -119,44 +109,7 @@ export default function Accounts() {
           </Typography>
         </Box>
       </Dialog>
-      {/* ======= ERROR_DIALOGUE =============== */}
-      <Dialog
-        scroll="body"
-        open={error}
-        closeAfterTransition
-        onClose={() => setError(false)}
-        sx={{
-          mt: 5,
-          // p:15,
-        }}
-      >
-        <Box
-          sx={{
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "center",
-            alignItems: "center",
-            p: 5,
-            backgroundColor: "#ff9800",
-            color: "white",
-          }}
-        >
-          <ReportProblemIcon
-            sx={{
-              fontSize: 55,
-              mb: 3,
-            }}
-          />
-          <Typography
-            sx={{
-              fontWeight: "bolder",
-            }}
-          >
-            {ressponse}
-            {/* Please enter all the required feilds ! */}
-          </Typography>
-        </Box>
-      </Dialog>
+
       {/* =========================== */}
       <Typography
         variant="h5"
@@ -197,7 +150,7 @@ export default function Accounts() {
               variant="h4"
               sx={{ fontWeight: "bolder", alignSelf: "center" }}
             >
-              ₹ 5,000
+              ₹ {accountTotal?.totalRent?.toLocaleString("en-IN")}
             </Typography>
             <GroupRemoveIcon sx={{ fontSize: 55 }} />
           </Box>
@@ -226,12 +179,41 @@ export default function Accounts() {
               variant="h4"
               sx={{ fontWeight: "bolder", alignSelf: "center" }}
             >
-              ₹ 5,000
+              ₹ {accountTotal?.totalDebit?.toLocaleString("en-IN")}
             </Typography>
             <GroupAddIcon sx={{ fontSize: 55 }} />
           </Box>
 
           <Typography sx={{ fontWeight: "bolder", ml: 10 }}>Debit</Typography>
+        </Box>
+        <Box
+          sx={{
+            p: 2,
+            borderRadius: 1,
+            backgroundColor: "#42a5f5",
+            color: "white",
+            width: windowDimensions?.width < 550 ? "100%" : "20%",
+            mb: windowDimensions?.width < 550 ? 5 : 0,
+          }}
+        >
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <Typography variant="h4" sx={{ fontWeight: "bolder" }}>
+              ₹{" "}
+              {(
+                accountTotal?.totalRent - accountTotal?.totalDebit
+              ).toLocaleString("en-IN")}
+            </Typography>
+          </Box>
+
+          <Typography sx={{ fontWeight: "bolder", ml: 10, mt: 2 }}>
+            Revenue
+          </Typography>
         </Box>
       </Box>
       {/* ====================================== */}
@@ -242,12 +224,12 @@ export default function Accounts() {
           width: windowDimensions?.width < 550 ? "100%" : "100%",
           display: "flex",
           flexDirection: windowDimensions?.width < 550 ? "column" : "row",
-        //   justifyContent: "space-around",
+          //   justifyContent: "space-around",
           boxShadow: "0px 1px 2px 0px grey",
           p: 2,
           m: "auto",
           borderRadius: 1,
-          mt:4
+          mt: 4,
         }}
       >
         <AccountEntry />

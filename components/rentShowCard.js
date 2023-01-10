@@ -36,6 +36,8 @@ import { useToken } from "../context/localStorageToken";
 import { getAdminById } from "../api/admin";
 import jwt_decode from "jwt-decode";
 import RentCard from "./RentCard";
+import AppRegistrationIcon from "@mui/icons-material/AppRegistration";
+import CallMadeIcon from "@mui/icons-material/CallMade";
 //=====================================
 const style = {
   position: "absolute",
@@ -49,13 +51,74 @@ const style = {
   p: 4,
 };
 
-const months = ["December", "January", "Feburary", "March"];
-const years = [2021, 2022, 2023];
-
+const Checks = [
+  {
+    month: "01",
+    name: "Jan",
+    color: "#f29d38",
+  },
+  {
+    month: "02",
+    name: "Feb",
+    color: "#8d2095",
+  },
+  {
+    month: "03",
+    name: "Mar",
+    color: "#5d1793",
+  },
+  {
+    month: "04",
+    name: "Apr",
+    color: "#1452cf",
+  },
+  {
+    month: "05",
+    name: "May",
+    color: "#52b4c4",
+  },
+  {
+    month: "06",
+    name: "Jun",
+    color: "#409629",
+  },
+  {
+    month: "07",
+    name: "Jul",
+    color: "#7fc73d",
+  },
+  {
+    month: "08",
+    name: "Aug",
+    color: "#fffe54",
+  },
+  {
+    month: "09",
+    name: "Sep",
+    color: "#f9cd46",
+  },
+  {
+    month: "10",
+    name: "Oct",
+    color: "#f29d38",
+  },
+  {
+    month: "11",
+    name: "Nov",
+    color: "#ef6f2e  ",
+  },
+  {
+    month: "12",
+    name: "Dec",
+    color: "#ec3223",
+  },
+];
 //============================================
 export default function RentShow(props) {
   const router = useRouter();
   const token = useToken();
+
+  // console.log(router.query.id);
   //=============================
 
   const [rent, setRent] = useState(0);
@@ -107,6 +170,42 @@ export default function RentShow(props) {
     getAdminById(jwt_decode(token)._id).then((res) => setAdmin(res.data.data));
   }, []);
 
+  // const query = useQuery({
+  //   queryKey: ["getRensOfUsers"],
+  //   queryFn: () => {
+  //     axiosInstance.post(`/user/get-rent/${props.rentId}`,{userId:router.query.id});
+  //   },
+
+  // });
+
+  // if (query.isLoading) {
+  //   return <Loading />
+  // }
+  // console.log("<--",query);
+
+  useEffect(() => {
+    axiosInstance
+      .post(`/user/get-rent/${props.rentId}`, {
+        userId: router.query.id,
+      })
+      .then((res) => {
+        patchForm.setValues(res.data.rent);
+        setRent(res.data.rent);
+      });
+  }, []);
+
+  const getRentDetails = () => {
+    axiosInstance
+      .post(`/user/get-rent/${props.rentId}`, {
+        userId: router.query.id,
+      })
+      .then((res) => {
+        patchForm.setValues(res.data.rent);
+        // setRent(res.data.rent);
+      });
+  };
+
+  console.log("patchForm -->", patchForm.values);
   //========================================
 
   return (
@@ -132,12 +231,13 @@ export default function RentShow(props) {
                 variant="h6"
                 component="h2"
               >
-                Edit Rent 
+                Edit Rent
               </Typography>
               <Typography sx={{ mb: 3 }}>
                 Dated:{" "}
                 <span style={{ fontWeight: "bold", color: "gray" }}>
-                  {patchForm.values.month}/{patchForm.values.year}
+                  {/* {patchForm.values.month}/{patchForm.values.year} */}
+                  {rent.month}/{rent.year}
                 </span>
               </Typography>
               {/* ============= HAVE_GIVEN =========================== */}
@@ -153,7 +253,7 @@ export default function RentShow(props) {
                 }}
               >
                 <FormLabel>Have given</FormLabel>
-                {rentDue === 0 ? (
+                {rent?.due?.rentDue === 0 ? (
                   <Typography sx={{ mb: 2, mt: 2, fontWeight: "bolder" }}>
                     Fuck off
                   </Typography>
@@ -164,7 +264,8 @@ export default function RentShow(props) {
                     size="small"
                     type="number"
                     variant="standard"
-                    defaultValue={patchForm.values.due.rentDue}
+                    // defaultValue={patchForm?.values?.due?.rentDue}
+                    defaultValue={rent?.due?.rentDue}
                     onChange={patchForm.handleChange}
                   />
                 )}
@@ -186,7 +287,7 @@ export default function RentShow(props) {
                 <Tooltip title={patchForm.values.eBills.reading}>
                   <Typography sx={{ mb: 2 }}>E-Bill</Typography>
                 </Tooltip>
-                {ebillDue === 0 ? (
+                {rent?.due?.ebillDue === 0 ? (
                   <Typography sx={{ mb: 2, fontWeight: "bolder" }}>
                     Fuck off
                   </Typography>
@@ -197,7 +298,8 @@ export default function RentShow(props) {
                     size="small"
                     type="number"
                     variant="standard"
-                    defaultValue={patchForm.values.due.ebillDue}
+                    defaultValue={rent?.due?.ebillDue}
+                    // defaultValue={patchForm?.values?.due?.ebillDue}
                     onChange={patchForm.handleChange}
                   />
                 )}
@@ -348,6 +450,7 @@ export default function RentShow(props) {
           </Box>
         </Fade>
       </Modal>
+      {/* ======================== RENT SHOW ================================== */}
 
       <Grid
         sx={{ mb: 2, display: "flex", p: 1 }}
@@ -358,13 +461,181 @@ export default function RentShow(props) {
         sm={12}
         xs={12}
       >
-        <RentCard
+        {/* <RentCard
+          setOpen={setOpen}
           month={props.month}
           rent={props.rent}
           rentDue={props.rentDue}
           ebillDue={props.ebillDue}
           status={props.status}
-        />
+          total={props.total}
+        /> */}
+        <Box
+          sx={{
+            boxShadow:
+              props.status === "DUE"
+                ? "0px 0px 2px 6px #ff000036"
+                : "0px 0px 2px 6px #54ff5433",
+            background: "linear-gradient(252deg, #e1e1e1, #ffffff)",
+            borderRadius: "8px",
+            p: 2,
+            mb: 1,
+            mt: 5,
+            // border:"4px solid lightGreen"
+          }}
+        >
+          {/* --------------------------- */}
+
+          {Checks.map((x) => {
+            if (x.month === props.month) {
+              return (
+                <Box
+                  sx={{
+                    background: `linear-gradient(252deg,  ${x.color}, #ffecec)`,
+                    p: 5,
+                    height: "150px",
+                    width: "150px",
+                    borderRadius: "100%",
+                    boxShadow: "inset 0px 0px 8px 0px #3f51b5",
+                    position: "relative",
+                    bottom: "70px",
+                    left: "2px",
+                  }}
+                >
+                  <Typography
+                    variant="h4"
+                    sx={{
+                      fontWeight: "bolder",
+                      color: "white",
+                      textAlign: "center",
+                      mt: 1,
+                    }}
+                  >
+                    {x.name}
+                  </Typography>
+                </Box>
+              );
+            }
+          })}
+          {/* --------------------------- */}
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "space-between",
+              mb: 2,
+              mt: -8,
+            }}
+          >
+            <Box />
+            <CallMadeIcon
+              onClick={() => {
+                router.push(`/admin/user/who-edited/?id=${props.rentId}`);
+              }}
+              sx={{ color: "gray", cursor: "pointer" }}
+            />
+            <AppRegistrationIcon
+              onClick={() => {
+                setOpen(true);
+                getRentDetails();
+              }}
+              sx={{ ml: 6, color: "gray", cursor: "pointer" }}
+            />
+          </Box>
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "space-between",
+              mb: 1,
+            }}
+          >
+            <Typography
+              sx={{
+                fontFamily: "poppins",
+                fontWeight: "bolder",
+                color: "gray",
+              }}
+            >
+              Rent :
+            </Typography>
+            <Typography
+              style={{
+                color: "black",
+                backgroundColor: "white",
+                borderRadius: 10,
+                padding: "5px",
+                fontWeight: "bolder",
+              }}
+            >
+              ₹ {props.rent.toLocaleString("en-IN")}{" "}
+            </Typography>
+          </Box>
+
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "space-between",
+            }}
+          >
+            <Typography
+              sx={{
+                mt: 1,
+                fontFamily: "poppins",
+                fontWeight: "bolder",
+                color: "gray",
+              }}
+            >
+              E-Bill:
+            </Typography>
+            <span
+              style={{
+                color: "black",
+                backgroundColor: "white",
+                borderRadius: 10,
+                padding: "5px",
+                fontWeight: "bolder",
+              }}
+            >
+              ₹ {props.ebillDue.toLocaleString("en-IN")}
+            </span>
+          </Box>
+
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "space-between",
+              mb: 1,
+              mt: 1,
+            }}
+          >
+            <Tooltip title="To be received">
+              <Typography
+                sx={{
+                  mt: 1,
+                  fontFamily: "poppins",
+                  fontWeight: "bolder",
+                  color: "gray",
+                }}
+              >
+                TBR :
+              </Typography>
+            </Tooltip>
+            <Typography
+              style={{
+                color: "white",
+                backgroundColor: "gray",
+                borderRadius: 4,
+                padding: "3px 5px",
+                fontWeight: "bolder",
+              }}
+            >
+              ₹ {props.total}
+            </Typography>
+          </Box>
+        </Box>
       </Grid>
 
       {/* ============================================= */}

@@ -122,12 +122,15 @@ export default function RentCard(props) {
           display: "flex",
           justifyContent: "space-between",
           alignItems: "space-between",
-          mb:2,
-          mt:-8
+          mb: 2,
+          mt: -8,
         }}
       >
         <Box />
-        <AppRegistrationIcon sx={{ ml: 6,color:"gray" }} />
+        <AppRegistrationIcon
+          onClick={props.setOpen}
+          sx={{ ml: 6, color: "gray" }}
+        />
       </Box>
       <Box
         sx={{
@@ -164,36 +167,6 @@ export default function RentCard(props) {
           display: "flex",
           justifyContent: "space-between",
           alignItems: "space-between",
-          mb: 1,
-        }}
-      >
-        <Typography
-          sx={{
-            mt: 1,
-            fontFamily: "poppins",
-            fontWeight: "bolder",
-            color: "gray",
-          }}
-        >
-          TBR :
-        </Typography>
-        <Typography
-          style={{
-            color: "black",
-            backgroundColor: "white",
-            borderRadius: 10,
-            padding: 1,
-            fontWeight: "bolder",
-          }}
-        >
-          ₹ {props.rentDue.toLocaleString("en-IN")}
-        </Typography>
-      </Box>
-      <Box
-        sx={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "space-between",
         }}
       >
         <Typography
@@ -217,6 +190,38 @@ export default function RentCard(props) {
         >
           ₹ {props.ebillDue.toLocaleString("en-IN")}
         </span>
+      </Box>
+      
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "space-between",
+          mb: 1,
+          mt:1
+        }}
+      >
+        <Typography
+          sx={{
+            mt: 1,
+            fontFamily: "poppins",
+            fontWeight: "bolder",
+            color: "gray",
+          }}
+        >
+          TBR :
+        </Typography>
+        <Typography
+          style={{
+            color: "white",
+            backgroundColor: "gray",
+            borderRadius: 4,
+            padding: "3px 5px",
+            fontWeight: "bolder",
+          }}
+        >
+          ₹ {props.total}
+        </Typography>
       </Box>
     </Box>
   );

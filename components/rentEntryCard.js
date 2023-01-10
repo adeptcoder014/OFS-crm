@@ -276,7 +276,7 @@ export default function RentEntry(props) {
                 Swal.fire("Ooops !", e.response.data.message, "error")
               );
           }}
-          fullWidth
+          // fullWidth
           sx={{
             backgroundColor: "white",
             color: "gray",
@@ -284,6 +284,8 @@ export default function RentEntry(props) {
             border: "2px solid gray ",
             mt: 5,
             width: "50%",
+            ml:25
+            
           }}
         >
           Update

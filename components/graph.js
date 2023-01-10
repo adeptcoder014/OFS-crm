@@ -9,66 +9,43 @@ import {
 import { Box } from "@mui/system";
 import AppRegistrationIcon from "@mui/icons-material/AppRegistration";
 import { useController } from "../controller/user";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import dayjs from "dayjs";
 import { useRouter } from "next/router";
-import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  BarElement,
-  Title,
-  Tooltip,
-  Legend,
-} from "chart.js";
-import { Bar } from "react-chartjs-2";
+import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  BarElement,
-  Title,
-  Tooltip,
-  Legend
-);
+import { Bar, Pie } from "react-chartjs-2";
+import axiosInstance from "../api/axios";
+
+ChartJS.register(ArcElement, Tooltip, Legend);
+
 //================================================
 export default function Graph() {
   //================================================
   const { query } = useController({ filter: "NEW" });
   const router = useRouter();
-  const [user, setUser] = useState("");
+  const [account, setAccount] = useState({});
+
+  useEffect(() => {
+    axiosInstance.get("/account/total").then((res) => setAccount(res.data));
+  }, []);
+
+  console.log(account);
   //================================================
-  const labels = ["January", "February", "March", "April", "May", "June"];
+  const labels = ["credit", "debit"];
 
   const data = {
-    labels,
+    labels: labels,
     datasets: [
       {
-        label: "Dataset 1",
-        data: [1, 2, 4, 5, 78, 4],
-        backgroundColor: "rgba(255, 99, 132, 0.5)",
-      },
-      {
-        label: "Dataset 2",
-        data: [1, 2, 4, 5, 78, 4],
-        backgroundColor: "rgba(53, 162, 235, 0.5)",
+        label: "# of Votes",
+        data: [account.totalRent, account.totalDebit],
+        backgroundColor: ["#4caf50", "#ef5350"],
+        borderColor: ["#4caf50", "#ef5350"],
+        borderWidth: 1,
       },
     ],
   };
-
-  const options = {
-    responsive: true,
-    plugins: {
-      legend: {
-        position: "top"
-      },
-      title: {
-        display: true,
-        text: "Chart.js Bar Chart",
-      },
-    },
-  };
-
   //=================================
   return (
     <Box
@@ -98,10 +75,9 @@ export default function Graph() {
         sx={{
           overflow: "auto",
           borderRadius: 1,
-          height: "250px",
         }}
       >
-        <Bar options={options} data={data} />;
+        <Pie data={data} />
       </Box>
       {/* //======================================== */}
     </Box>

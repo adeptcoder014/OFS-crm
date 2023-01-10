@@ -44,10 +44,9 @@ const accountsHeads = [
   },
 ];
 //=================================
-export default function AccountHeadsEntry() {
+export default function        AccountHeadsEntry() {
   //=============================================
   const [accountHead, setAccountHead] = useState("");
-  const [credit, setCredit] = useState();
 
   const [debit, setDebit] = useState();
   const [open, setOpen] = useState(false);
@@ -101,7 +100,7 @@ export default function AccountHeadsEntry() {
             borderRadius: 1,
           }}
         >
-          <Grid item xl={3} lg={3} md={3} sm={12} xs={12}>
+          <Grid item xl={4} lg={4} md={4} sm={12} xs={12}>
             <Typography sx={{ fontWeight: "bolder", color: "gray" }}>
               Accounts Heads
             </Typography>
@@ -120,20 +119,8 @@ export default function AccountHeadsEntry() {
             </FormControl>
           </Grid>
 
-          <Grid item xl={3} lg={3} md={3} sm={12} xs={12}>
-            <Typography sx={{ fontWeight: "bolder", color: "gray" }}>
-              Credit
-            </Typography>
-            <TextField
-              type="number"
-              onChange={(e) => {
-                setCredit(e.target.value);
-              }}
-              size="small"
-            />
-          </Grid>
-
-          <Grid item xl={3} lg={3} md={3} sm={12} xs={12}>
+       
+          <Grid item xl={4} lg={4} md={4} sm={12} xs={12}>
             <Typography sx={{ fontWeight: "bolder", color: "gray" }}>
               Debit
             </Typography>
@@ -146,7 +133,7 @@ export default function AccountHeadsEntry() {
             />
           </Grid>
 
-          <Grid item xl={3} lg={3} md={3} sm={12} xs={12}>
+          <Grid item xl={4} lg={4} md={4} sm={12} xs={12}>
             <Typography sx={{ fontWeight: "bolder", color: "gray" }}>
               Action
             </Typography>
@@ -166,7 +153,7 @@ export default function AccountHeadsEntry() {
               }}
               onClick={() => {
                 axiosInstance
-                  .post("/account", { accountHead, credit, debit })
+                  .post("/account", { accountHead, debit })
                   .then(() => setOpen(true))
                   .finally(() => {
                     document.getElementById("account").reset();
