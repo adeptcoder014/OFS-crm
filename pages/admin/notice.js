@@ -189,7 +189,9 @@ export default function Notice() {
             label="Notice Type"
           >
             {noticeTypes.map((x) => (
-              <MenuItem value={x.value}>{x.type}</MenuItem>
+              <MenuItem key={x} value={x.value}>
+                {x.type}
+              </MenuItem>
             ))}
           </Select>
         </FormControl>
