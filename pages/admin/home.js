@@ -33,8 +33,8 @@ export default function Home(props) {
     axiosInstance.get("/dashboard").then((res) => setDashboard(res.data));
   }, []);
 
-  const token = localStorage.getItem("Token");
   React.useEffect(() => {
+    const token = localStorage.getItem("Token");
     getAdminById(jwt_decode(token)._id).then((res) => setAdmin(res.data.data));
   }, []);
   //========================================================
