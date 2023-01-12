@@ -30,7 +30,7 @@ export default function Graph() {
     axiosInstance.get("/account/total").then((res) => setAccount(res.data));
   }, []);
 
-  console.log(account);
+  // console.log(account);
   //================================================
   const labels = ["credit", "debit"];
 
