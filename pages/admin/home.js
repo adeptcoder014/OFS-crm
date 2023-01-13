@@ -27,6 +27,7 @@ import jwt_decode from "jwt-decode";
 import axiosInstance from "../../api/axios";
 import { useQuery } from "@tanstack/react-query";
 import { useDarkMode } from "../../context/darkMode";
+import Cube from "../../components/3dCube";
 //==========================================================
 export default function Home(props) {
   React.useEffect(() => {
@@ -66,13 +67,15 @@ export default function Home(props) {
 
   return (
     <>
+      <Cube />
+
       <Box
         sx={{
           // ...(sidebarOpen && {
           //   width: "calc(100% + 250px)",
           // }),
           // p: 5,
-       
+
           backgroundColor: darkMode ? "#23272a" : "#ffffff",
           [theme.breakpoints.down("sm")]: {
             ml: -3,
@@ -104,7 +107,8 @@ export default function Home(props) {
         >
           <InfoCard
             title="Total Hosteler"
-            url="/admin/all-users"
+            // url="/admin/all-users"
+            url="/cube"
             color="#205CBE"
             total={dashboard.total}
             icon={
@@ -165,7 +169,7 @@ export default function Home(props) {
             <Graph />
           </Grid>
         </Grid>
-        {/* ==========  Main_Content =========================== */}
+        {/* ==========  3D =========================== */}
       </Box>
     </>
   );
