@@ -74,7 +74,11 @@ export default function Home(props) {
           // p: 5,
           backgroundColor: darkMode ? "#23272a" : "",
           [theme.breakpoints.down("sm")]: {
-            ml: 5,
+            ml: -3,
+          },
+          [theme.breakpoints.up("sm")]: {
+            m: -1,
+            ml: -3,
           },
         }}
       >
@@ -91,7 +95,7 @@ export default function Home(props) {
             justifyContent: "space-around",
             // maxWidth:"80%",
             [theme.breakpoints.down("sm")]: {
-              maxWidth:"80%",
+              maxWidth: "80%",
             },
             ml: 5,
           }}
