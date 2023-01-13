@@ -72,7 +72,7 @@ export default function Home(props) {
             width: "calc(100% + 250px)",
           }),
           // p: 5,
-          backgroundColor: darkMode ? "#23272a" : "",
+          backgroundColor: darkMode ? "#23272a" : "#ffffff",
           [theme.breakpoints.down("sm")]: {
             ml: -3,
           },

@@ -48,6 +48,7 @@ export default function NewRegisteredUsers() {
                   mb: 2,
                   [theme.breakpoints.down("sm")]: {
                     fontSize: 15,
+                    ml:2
                   },
                   [theme.breakpoints.up("sm")]: {
                     ml:5
@@ -61,6 +62,7 @@ export default function NewRegisteredUsers() {
                   mb: 2,
                   [theme.breakpoints.down("sm")]: {
                     fontSize: 15,
+                    ml:2
                     
                   },
                   [theme.breakpoints.up("sm")]: {
