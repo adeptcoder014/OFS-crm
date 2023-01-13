@@ -93,7 +93,7 @@ export default function Login() {
                 Welcome back!
               </Typography>
               <Typography sx={[theme.darkText, { mt: 1, fontWeight: 600 }]}>
-                We &#39 re so excited to see you again!
+                We are so excited to see you again!
               </Typography>
             </Box>
             {/* ================================================== */}
