@@ -68,10 +68,11 @@ export default function Home(props) {
     <>
       <Box
         sx={{
-          ...(sidebarOpen && {
-            width: "calc(100% + 250px)",
-          }),
+          // ...(sidebarOpen && {
+          //   width: "calc(100% + 250px)",
+          // }),
           // p: 5,
+       
           backgroundColor: darkMode ? "#23272a" : "#ffffff",
           [theme.breakpoints.down("sm")]: {
             ml: -3,

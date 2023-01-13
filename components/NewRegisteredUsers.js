@@ -48,11 +48,10 @@ export default function NewRegisteredUsers() {
                   mb: 2,
                   [theme.breakpoints.down("sm")]: {
                     fontSize: 15,
-                    ml:2
+                    ml: 2,
                   },
                   [theme.breakpoints.up("sm")]: {
-                    ml:5
-                    
+                    ml: 5,
                   },
                 },
               ]
@@ -62,12 +61,10 @@ export default function NewRegisteredUsers() {
                   mb: 2,
                   [theme.breakpoints.down("sm")]: {
                     fontSize: 15,
-                    ml:2
-                    
+                    ml: 2,
                   },
                   [theme.breakpoints.up("sm")]: {
-                    ml:5
-                    
+                    ml: 5,
                   },
                 },
               ]
@@ -83,19 +80,31 @@ export default function NewRegisteredUsers() {
           alignItems: "center",
           mb: 4,
           [theme.breakpoints.down("sm")]: {
-            flexDirection: 'column',
+            flexDirection: "column",
           },
         }}
       >
-        <Typography sx={darkMode ? [theme.lightText,{
-           [theme.breakpoints.down("sm")]: {
-                    fontSize: 12,
+        <Typography
+          sx={
+            darkMode
+              ? [
+                  theme.lightText,
+                  {
+                    [theme.breakpoints.down("sm")]: {
+                      fontSize: 12,
+                    },
                   },
-        }] : [theme.darkText,{
-           [theme.breakpoints.down("sm")]: {
-                    fontSize: 12,
+                ]
+              : [
+                  theme.darkText,
+                  {
+                    [theme.breakpoints.down("sm")]: {
+                      fontSize: 12,
+                    },
                   },
-        }]}>
+                ]
+          }
+        >
           {" "}
           Search
         </Typography>
@@ -109,7 +118,10 @@ export default function NewRegisteredUsers() {
           }}
           size="small"
           variant="outlined"
-          onChange={(e) => setUser(e.target.value)}
+          onChange={(e) => console.log(e.target.value)
+            // setUser(e.target.value)
+          
+          }
           sx={{
             "& .MuiOutlinedInput-root": {
               "& fieldset": {
@@ -127,11 +139,11 @@ export default function NewRegisteredUsers() {
         sx={{
           overflow: "auto",
           borderRadius: 1,
-          height:250,
+          height: 250,
           p: 2,
         }}
       >
-        {query?.data?.data?.user.map((x) => {
+        {query?.data?.data?.user?.map((x) => {
           if (x.name.toLowerCase().startsWith(user)) {
             return (
               <Box
@@ -146,7 +158,6 @@ export default function NewRegisteredUsers() {
                   alignItems: "center",
                   mb: 1,
                   // width: "90%",
-                  
                 }}
               >
                 <Avatar />
