@@ -6,12 +6,12 @@ import { useRouter } from "next/router";
 import Loading from "../../../components/loading";
 import Table from "../../../components/table";
 import { useController } from "../../../controller/user";
-
+import { useDarkMode } from "../../../context/darkMode";
 //========================================
 export default function UserRent() {
   const router = useRouter();
   const theme = useTheme();
-
+  const { darkMode } = useDarkMode();
   const { query } = useController({ filter: "REGISTERED" });
 
   if (query.isLoading) {
@@ -24,7 +24,14 @@ export default function UserRent() {
       headerName: "Name",
       minWidth: 200,
       renderCell: (params) => (
-        <p style={{ color: "black", fontWeight: 600, fontFamily: "poppins" }}>
+        <p
+          style={{
+            color: "black",
+            fontWeight: 600,
+            fontFamily: "poppins",
+          
+          }}
+        >
           {params.value}
         </p>
       ),
@@ -70,27 +77,63 @@ export default function UserRent() {
       ),
       flex: 1,
     },
-
-  
   ];
-
-  
 
   // const filteredEmails = query?.data?.data?.user.filter(createFilter(this.state.searchTerm, KEYS_TO_FILTERS))
 
   //===================================================
 
   return (
-    <Container>
+    <Container
+      // maxWidth="lg"
+      sx={{
+        backgroundColor: darkMode ? "#2c2f33" : "#ffffff",
+        [theme.breakpoints.down("sm")]: {
+          ml:5,
+        },
+        [theme.breakpoints.up("sm")]: {
+          // ml:-5,
+          // width:"450vw"
+          p:5
+        },
+
+        // width: "150vw",
+      }}
+    >
       <Typography
-        variant="h5"
-        sx={[theme.custom.typography.h1, { mb: 5, mt: 5 }]}
+        variant="h4"
+        sx={
+          darkMode
+            ? [
+                theme.lightText,
+                {
+                  mb: 1,
+                  [theme.breakpoints.down("sm")]: {
+                    fontSize: 15,
+                  },
+                },
+              ]
+            : [
+                theme.darkText,
+                {
+                  mb: 1,
+                  [theme.breakpoints.down("sm")]: {
+                    fontSize: 15,
+                  },
+                },
+              ]
+        }
       >
         Newly registered Users :
       </Typography>
       {/* <SearchInput className="search-input"  /> */}
 
-      <Box sx={{ height: 400, minWidth: "100%" }}>
+      <Box
+        sx={{
+          backgroundColor: darkMode ? "#2c2f33" : "#ffffff",
+          minWidth: "100%",
+        }}
+      >
         <Table rows={query?.data?.data?.user} columns={columns} />
       </Box>
     </Container>

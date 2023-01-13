@@ -19,18 +19,18 @@ export default function InfoCard(props) {
         backgroundColor: props.color,
         boxShadow: "0px 2px 2px 0px #00000070",
         borderRadius: "15px",
-        p: 5,
+        p: 2,
         mt: 3,
         // mr: 12,
-  
       }}
     >
-      <Box>
+      <Box >
         <Box
           sx={{
             display: "flex",
-            justifyContent:"space-between",
-            alignItems:"space-between"
+            justifyContent: "space-between",
+            alignItems: "space-between",
+          
           }}
         >
           <Typography
@@ -43,24 +43,20 @@ export default function InfoCard(props) {
           >
             {props.total}
           </Typography>
-          <Box sx={{ml:2}}>
-
-          {props.icon}
-          </Box>
+          <Box sx={{ ml: 2 }}>{props.icon}</Box>
           {/* <PeopleIcon sx={{ fontSize: 56, ml: 4, color: "white" }} /> */}
         </Box>
-        <Box  sx={{mt:1}}>
-        <Typography
-          variant="overlay"
-          sx={{
-            color: "gray",
-            fontWeight: "bold",
-            color: "white",
-            
-          }}
-        >
-          {props.title}
-        </Typography>
+        <Box sx={{ mt: 1 }}>
+          <Typography
+            variant="overlay"
+            sx={{
+              color: "gray",
+              fontWeight: "bold",
+              color: "white",
+            }}
+          >
+            {props.title}
+          </Typography>
         </Box>
       </Box>
     </Grid>

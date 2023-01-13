@@ -26,7 +26,7 @@ import { getAdminById } from "../../api/admin";
 import jwt_decode from "jwt-decode";
 import axiosInstance from "../../api/axios";
 import { useQuery } from "@tanstack/react-query";
-
+import { useDarkMode } from "../../context/darkMode";
 //==========================================================
 export default function Home(props) {
   React.useEffect(() => {
@@ -46,6 +46,7 @@ export default function Home(props) {
   const { sidebarOpen, setSidebarOpen } = useSidebarOpen();
   const theme = useTheme();
   const { query } = useController({ filter: "NEW" });
+  const { darkMode, setDarkMode } = useDarkMode();
 
   if (query.isLoading) {
     return <Loading />;
@@ -70,7 +71,11 @@ export default function Home(props) {
           ...(sidebarOpen && {
             width: "calc(100% + 250px)",
           }),
-          mb: 10,
+          // p: 5,
+          backgroundColor: darkMode ? "#23272a" : "",
+          [theme.breakpoints.down("sm")]: {
+            ml: 5,
+          },
         }}
       >
         {/* ======= Banner =============== */}
@@ -84,6 +89,11 @@ export default function Home(props) {
             mb: 5,
             display: "flex",
             justifyContent: "space-around",
+            // maxWidth:"80%",
+            [theme.breakpoints.down("sm")]: {
+              maxWidth:"80%",
+            },
+            ml: 5,
           }}
           container
         >

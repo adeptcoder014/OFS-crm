@@ -76,13 +76,13 @@ export default function Table(props) {
             },
             "@media print": {
               ".MuiDataGrid-main": {
-                zoom: "45%",
+                // zoom: "45%",
                 // width:"fit-content"
               },
             },
             "&.MuiDataGrid-root": {},
             ".MuiDataGrid-columnSeparator": {
-              color: "#2d1c01",
+              color: "green",
             },
             "& .MuiDataGrid-gridCOloumns": {
               color: "red",
@@ -118,6 +118,7 @@ export default function Table(props) {
           getRowClassName={(params) =>
             params.indexRelativeToCurrentPage % 2 === 0 ? "even" : "odd"
           }
+ 
         />
       </Grid>
     </Grid>

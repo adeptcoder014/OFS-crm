@@ -19,11 +19,16 @@ import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import { useState } from "react";
 import { useRouter } from "next/router";
 import { SignpostOutlined } from "@mui/icons-material";
+import { useTheme } from "@mui/system";
+
 //============================================
 export default function Login() {
   const { add, addForm } = useController();
   const [showPassword, setShowPassword] = useState(false);
   const router = useRouter();
+
+  const theme = useTheme();
+  //-------------------------------------
   if (typeof window !== "undefined") {
     const token = localStorage.getItem("Token");
     if (token) {
@@ -36,8 +41,8 @@ export default function Login() {
       <Container
         maxWidth="xl"
         sx={{
-          backgroundColor: "#ffede1",
-          height: "500%",
+          backgroundColor: "#99aab5",
+          // height: "80vh",
           paddingBottom: 19,
           boxSizing: "content-box",
         }}
@@ -59,102 +64,39 @@ export default function Login() {
             md={6}
             sm={12}
             xs={12}
+            order={{ xs: 2, sm: 2, lg: 1 }}
+
             sx={{
               // minWidth: "50%",
-              boxShadow: "0px 6px 8px 0px #f3c7ab",
+              boxShadow: "0px 6px 8px 0px #2c2f33",
               backgroundColor: "white",
-              p: 5,
+              p: 2,
               display: "flex",
               flexDirection: "column",
               gap: 5,
               mt: 5,
+              borderRadius: 1,
             }}
           >
-            <Typography
-              variant="h5"
-              sx={{ color: "black", fontWeight: "bolder" }}
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
             >
-              OFS Admin Center
-            </Typography>
+              <Typography
+                variant="h4"
+                sx={[theme.darkText, { fontWeight: "bold" }]}
+              >
+                Welcome back!
+              </Typography>
+              <Typography sx={[theme.darkText, { mt: 1, fontWeight: 600 }]}>
+                We're so excited to see you again!
+              </Typography>
+            </Box>
             {/* ================================================== */}
-            {/* <form onSubmit={addForm.handleSubmit}> 
-              <FormLabel sx={{ mb:1 }}>Email</FormLabel>
-              <TextField
-                id="name"
-                name="name"
-                sx={{
-                  width: "90%",
-                  backgroundColor: "#f6f8fb",
-                  color: "white",
-                }}
-                size="small"
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <EmailIcon />
-                    </InputAdornment>
-                  ),
-                }}
-              />{" "}
-              <FormLabel sx={{ mb: -4 }}>Password</FormLabel>
-              <TextField
-                id="name"
-                name="name"
-                sx={{
-                  backgroundColor: "#f6f8fb",
-
-                  width: "90%",
-                  "& label.Mui-focused": {
-                    color: "red",
-                  },
-                }}
-                size="small"
-                InputProps={{
-                  startAdornment: (
-                    <>
-                      <InputAdornment position="start">
-                        <KeyIcon />
-                      </InputAdornment>
-                    
-                    </>
-                  ),
-                }}
-              />{" "}
-              <Box sx={{ display: "flex" }}>
-                <Typography
-                  sx={{
-                    fontFamily: "poppins",
-                    fontSize: 13,
-                    fontWeight: 600,
-                    cursor: "pointer",
-                    color: "black",
-                    mt: 2,
-                  }}
-                >
-                  Forgot Password
-                </Typography>
-
-                <LoadingButton
-                 
-                  type="submit"
-                  sx={{
-                    backgroundColor: "#f76334",
-                    color: "white",
-                    width: "50%",
-                    fontSize: 16,
-                    m: "auto",
-                    borderRadius: "100px",
-                    "&:hover": {
-                      color: "red",
-                      border: "1px solid #ff7f56",
-                      backgroundColor: "white",
-                    },
-                  }}
-                >
-                  Login
-                </LoadingButton>
-              </Box>
-            </form> */}
 
             <form onSubmit={addForm.handleSubmit}>
               <Box>
@@ -168,10 +110,12 @@ export default function Login() {
                     item
                     md={12}
                     xs={12}
-                    sx={{ display: "flex", flexDirection: "column", mt: 5 }}
+                    sx={{ display: "flex", flexDirection: "column", mt: 2 }}
                   >
                     {/* =====================================================================00 */}
-                    <FormLabel sx={{ mb: 2 }}>Email</FormLabel>
+                    <FormLabel sx={[theme.darkText, { mb: 2 }]}>
+                      Email
+                    </FormLabel>
                     <TextField
                       error={
                         addForm.touched.email && Boolean(addForm.errors.email)
@@ -195,7 +139,9 @@ export default function Login() {
                         ),
                       }}
                     />{" "}
-                    <FormLabel sx={{ mb: 2, mt: 2 }}>Password</FormLabel>
+                    <FormLabel sx={[theme.darkText, { mb: 2, mt: 5 }]}>
+                      Password
+                    </FormLabel>
                     <TextField
                       error={
                         addForm.touched.password &&
@@ -250,28 +196,40 @@ export default function Login() {
                   disabled={add.isLoading}
                   loading={add.isLoading}
                   type="submit"
-                  sx={{
-                    backgroundColor: "#f76334",
-                    color: "white",
-                    width: "100%",
-                    fontSize: 16,
-                    m: "auto",
-                    fontWeight:"bolder",
+                  // sx={{
+                  //   backgroundColor: "#f76334",
+                  //   color: "white",
+                  //   width: "100%",
+                  //   fontSize: 16,
+                  //   m: "auto",
+                  //   fontWeight:"bolder",
 
-                    mt: 5,
-                    borderRadius: "100px",
-                    p: 2,
-                    "&:hover": {
-                      color: "red",
-                      border: "2px solid #ff7f56",
-                      backgroundColor: "white",
+                  //   mt: 5,
+                  //   borderRadius: "100px",
+                  //   p: 2,
+                  //   "&:hover": {
+                  //     color: "red",
+                  //     border: "2px solid #ff7f56",
+                  //     backgroundColor: "white",
+
+                  //   },
+                  // }},
+                  sx={[
+                    theme.primaryBtn,
+                    {
+                      width: "100%",
+                      [theme.breakpoints.down("sm")]: {
+                        mt: 1,
+                      },
+                      [theme.breakpoints.up("sm")]: {
+                        mt: 5,
+                      },
 
                     },
-                  }}
+                  ]}
                 >
                   Login
                 </LoadingButton>
-                
               </Box>
             </form>
 
@@ -305,10 +263,13 @@ export default function Login() {
             md={6}
             sm={12}
             xs={12}
+            order={{ xs: 1, sm: 1, lg: 1 }}
+
             sx={{
               // minWidth: "50%",
-              backgroundColor: "#ffede1",
-              boxShadow: "0px 6px 8px 0px #f3c7ab",
+              backgroundColor: "#2c2f33",
+              boxShadow: "0px 6px 8px 0px #2c2f33",
+              borderRadius: 1,
 
               p: 5,
               display: "flex",
@@ -318,45 +279,30 @@ export default function Login() {
           >
             <Image src={"/logo.png"} height={150} width={150} />
             <Typography
-              variant="h5"
-              sx={{ mt: 5, color: "black", fontWeight: "bolder" }}
+              variant="h4"
+              // sx={{ mt: 5, color: "black", fontWeight: "bolder" }}
+              sx={[theme.lightText, { mt: 1 }]}
             >
               One Fine Stay
             </Typography>
-            <Typography
-              sx={{
-                mt: 5,
-                fontFamily: "poppins",
-                color: "black",
-              }}
-            >
+            <Typography sx={[theme.lightText, { mt: 1, fontSize: 14 }]}>
               One Fine Stay is the most advance CRM system which employs
               Blockchain and run on the OFS-coin
             </Typography>
             <Box sx={{ display: "flex", gap: 2, width: "100%" }}>
               <Box
-                sx={{
-                  color: "#ff9625",
-                  fontWeight: 500,
-                  backgroundColor: "#ffddc7",
-                  textAlign: "center",
-                  borderRadius: 1,
-                  p: 1,
-                  mt: 5,
-                }}
+                sx={[
+                  theme.lightCard,
+                  { p: 1, mt: 5, textAlign: "center", fontWeight: "bolder" },
+                ]}
               >
                 Blockchain
               </Box>{" "}
               <Box
-                sx={{
-                  color: "#ff9625",
-                  fontWeight: 500,
-                  backgroundColor: "#ffddc7",
-                  textAlign: "center",
-                  borderRadius: 1,
-                  p: 1,
-                  mt: 5,
-                }}
+                sx={[
+                  theme.lightCard,
+                  { p: 1, mt: 5, textAlign: "center", fontWeight: "bolder" },
+                ]}
               >
                 OFS Token
               </Box>

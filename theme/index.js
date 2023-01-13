@@ -103,7 +103,7 @@ export const theme = createTheme({
     MuiInputLabel: {
       styleOverrides: {
         outlined: {
-          color: "#9A6715",
+          color: "green",
         },
         focused: {
           backgroundColor: "red",
@@ -433,47 +433,19 @@ export const theme = createTheme({
   //         }
   //       }
   //     },
-  //     retailCard: {
 
-  //       h1: {
-  //         fontSize: "21px",
-  //         color: "#8B5704"
-  //       },
-  //       h2: {
-  //         fontSize: 27,
-  //         fontWeight: "bold",
-  //         color: "#001737",
-  //         mt: 3
-  //       },
-  //       h3: {
-  //         fontSize: 17,
-  //         fontWeight: "regular",
-  //         color: "#001737",
-  //         mt: 1
-  //       }
-  //     },
-  //     table: {
-  //       color: '#925F0F',
-  //       fontWeight: 600
-  //     },
-  //     cardModal: {
-  //       color: "black",
-  //       fontWeight: 500
-  //     }
-  //   }
-  // },
-
+  //==================== OFS =============================================
   custom: {
     primary: {
-      main: "#ff9e80",
-      light: "#a7a5cb",
-      dark: "#1b1a32",
+      main: "#99aab5",
+      light: "#99aab5",
+      dark: "#23272a",
       contrastText: "#FFFFFF",
     },
     secondary: {
       main: "#ff9e80",
       light: "#a7a5cb",
-      dark: "#1b1a32",
+      dark: "#23272a",
       contrastText: "#FFFFFF",
     },
     navbar: {
@@ -484,14 +456,41 @@ export const theme = createTheme({
         backgroundColor: "#1b1a32",
       },
     },
-    typography:{
-      h1:{
-        fontSize:"1.6rem",
-        fontWeight:"bold",
-        color:"gray"
+    typography: {
+      h1: {
+        fontSize: "1.6rem",
+        fontWeight: "bold",
+        color: "gray",
       },
-      h2:{}
-    }
+      h2: {},
+    },
+  },
+
+  primaryBtn: {
+    backgroundColor: "#7289da",
+    fontWeight: "bolder",
+    color: "white",
+    "&:hover": {
+      color: "#7289da",
+      border: "2px solid #7289da",
+      backgroundColor: "white",
+    },
+  },
+
+  lightCard:{
+    backgroundColor:"#ffffff",
+    color:"#23272a",
+    borderRadius:1,
+  },
+
+  lightText:{
+    color:"#ffffff",
+    fontFamily:"poppins"
+  },
+  darkText:{
+    color:"#23272a",
+    fontFamily:"poppins"
+
   },
 
   //==================================================================

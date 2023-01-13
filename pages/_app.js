@@ -33,7 +33,7 @@ const App = (props) => {
       <QueryClientProvider client={queryClient}>
         {/* <CacheProvider> */}
         <Head>
-          <title>CRM</title>
+          <title>OFS Admin Panel</title>
           <meta name="viewport" content="initial-scale=1, width=device-width" />
         </Head>
         {/* <LocalizationProvider dateAdapter={AdapterDateFns}> */}

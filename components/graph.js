@@ -13,9 +13,10 @@ import { useEffect, useState } from "react";
 import dayjs from "dayjs";
 import { useRouter } from "next/router";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
-
 import { Bar, Pie } from "react-chartjs-2";
 import axiosInstance from "../api/axios";
+import { useTheme } from "@mui/system";
+import { useDarkMode } from "../context/darkMode";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -25,7 +26,8 @@ export default function Graph() {
   const { query } = useController({ filter: "NEW" });
   const router = useRouter();
   const [account, setAccount] = useState({});
-
+  const theme = useTheme();
+  const { darkMode } = useDarkMode();
   useEffect(() => {
     axiosInstance.get("/account/total").then((res) => setAccount(res.data));
   }, []);
@@ -55,17 +57,17 @@ export default function Graph() {
         borderRadius: 1,
         // width: "70%",
         mt: 2,
+        backgroundColor: darkMode ? "#2c2f33" : "#ffffff",
+
+
       }}
     >
       {/* //======================================== */}
 
       <Typography
-        sx={{
-          fontWeight: "bold",
-          fontSize: "18px",
-          fontFamily: "poppins",
-          mb: 2,
-        }}
+        sx={
+          darkMode ? [theme.lightText, { mb: 2 }] : [theme.darkText, { mb: 2 }]
+        }
       >
         Bookings :
       </Typography>
@@ -75,6 +77,8 @@ export default function Graph() {
         sx={{
           overflow: "auto",
           borderRadius: 1,
+          height:250,
+          m:"auto"
         }}
       >
         <Pie data={data} />
