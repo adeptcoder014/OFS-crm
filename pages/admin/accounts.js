@@ -112,7 +112,10 @@ export default function Accounts() {
       </Dialog>
 
       {/* =========================== */}
-      <Box sx={{ backgroundColor: darkMode ? "#23272a" : "white" }}>
+      <Box sx={{ backgroundColor: darkMode ? "#23272a" : "white", [theme.breakpoints.down("sm")]: {
+                      
+                      ml:-3,        
+                    }, }}>
         <Typography
           variant="h5"
           sx={
@@ -122,7 +125,7 @@ export default function Accounts() {
                   {
                     [theme.breakpoints.down("sm")]: {
                       m: 2,
-                      ml: 9,
+                      ml: 9,        
                     },
                     [theme.breakpoints.up("sm")]: {
                       m: 2,
@@ -168,7 +171,7 @@ export default function Accounts() {
               [theme.breakpoints.down("sm")]: {
                 p: 1,
                 width:240,
-                ml:8
+                ml:2
               },
               [theme.breakpoints.up("sm")]: {
                 p: 3,
@@ -203,7 +206,7 @@ export default function Accounts() {
               [theme.breakpoints.down("sm")]: {
                 p: 1,
                 width:240,
-                ml:8,
+                ml:2,
                 mt:2
               },
               [theme.breakpoints.up("sm")]: {
@@ -238,7 +241,7 @@ export default function Accounts() {
               [theme.breakpoints.down("sm")]: {
                 p: 1,
                 width:240,
-                ml:8,
+                ml:2,
                 mt:2
               },
               [theme.breakpoints.up("sm")]: {

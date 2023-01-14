@@ -105,10 +105,10 @@ export default function AccountHeadsEntry() {
               ml: 5,
             },
             [theme.breakpoints.down("sm")]: {
-              // width:"100%"
-              ml: 0.1,
+              // width:"80%",
+              // ml: 0.1,
               // mt:-5,
-              p:4
+              // p:4
             },
           }}
         >

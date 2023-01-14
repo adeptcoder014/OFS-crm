@@ -58,9 +58,9 @@ export default function UserRentalDetails() {
           sx={{
             backgroundColor: darkMode ? "#23272a" : "white",
             [theme.breakpoints.down("sm")]: {
-              ml: 7,
+              ml: -2
             },
-            ml: 6,
+           
           }}
         >
           <Typography
