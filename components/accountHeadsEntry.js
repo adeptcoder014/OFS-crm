@@ -11,8 +11,10 @@ import {
   Dialog,
 } from "@mui/material";
 import { useState } from "react";
-import axiosInstance  from "../api/axios";
+import axiosInstance from "../api/axios";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
+import { useTheme } from "@mui/system";
+import { useDarkMode } from "../context/darkMode";
 //=================================
 const accountsHeads = [
   {
@@ -44,13 +46,14 @@ const accountsHeads = [
   },
 ];
 //=================================
-export default function        AccountHeadsEntry() {
+export default function AccountHeadsEntry() {
   //=============================================
   const [accountHead, setAccountHead] = useState("");
 
   const [debit, setDebit] = useState();
   const [open, setOpen] = useState(false);
-
+  const theme = useTheme();
+  const { darkMode } = useDarkMode();
   //========================================
   return (
     <>
@@ -94,34 +97,128 @@ export default function        AccountHeadsEntry() {
           spacing={2}
           sx={{
             boxShadow: "0px 1px 2px 0px grey",
-            // backgroundColor:"wheat",
+            backgroundColor: darkMode ? "#2c2f33" : "white",
             // width: "200%",
             p: 2,
             borderRadius: 1,
+            [theme.breakpoints.up("sm")]: {
+              ml: 5,
+            },
+            [theme.breakpoints.down("sm")]: {
+              // width:"100%"
+              ml: 0.1,
+              // mt:-5,
+              p:4
+            },
           }}
         >
-          <Grid item xl={4} lg={4} md={4} sm={12} xs={12}>
-            <Typography sx={{ fontWeight: "bolder", color: "gray" }}>
+          <Grid
+            item
+            xl={4}
+            lg={4}
+            md={4}
+            sm={12}
+            xs={12}
+            
+          >
+            <Typography
+              sx={
+                darkMode
+                  ? [
+                      theme.lightText,
+                      {
+                        [theme.breakpoints.down("sm")]: {
+                          fontSize: 16,
+                          m: 1,
+                          mt: 5,
+                        },
+                      },
+                    ]
+                  : [
+                      theme.darkText,
+                      {
+                        [theme.breakpoints.down("sm")]: {
+                          fontSize: 16,
+                          m: 1,
+                          mt: 5,
+                        },
+                      },
+                    ]
+              }
+            >
               Accounts Heads
             </Typography>
-            <FormControl size="small" fullWidth>
+            <FormControl
+              sx={{
+                "& .MuiOutlinedInput-root": {
+                  "& fieldset": {
+                    borderColor: darkMode ? "white" : "gray",
+                  },
+                },
+                input: {
+                  color: darkMode ? "white" : "gray",
+                },
+              }}
+              size="small"
+              fullWidth
+            >
               <Select
                 onChange={(e) => {
                   setAccountHead(e.target.value);
+                }}
+                sx={{
+                  "& .MuiOutlinedInput-root": {
+                    "& fieldset": {
+                      borderColor: darkMode ? "white" : "gray",
+                    },
+                  },
+                  input: {
+                    color: darkMode ? "white" : "gray",
+                  },
+                  [theme.breakpoints.down("sm")]: {
+                    ml: 1,
+                    width: 220,
+                  },
                 }}
               >
                 <MenuItem>Choose accounts heads</MenuItem>
 
                 {accountsHeads.map((x) => (
-                  <MenuItem key={x.name} value={x.name.toUpperCase()}>{x.name}</MenuItem>
+                  <MenuItem key={x.name} value={x.name.toUpperCase()}>
+                    {x.name}
+                  </MenuItem>
                 ))}
               </Select>
             </FormControl>
           </Grid>
 
-       
           <Grid item xl={4} lg={4} md={4} sm={12} xs={12}>
-            <Typography sx={{ fontWeight: "bolder", color: "gray" }}>
+            <Typography
+              sx={
+                darkMode
+                  ? [
+                      theme.lightText,
+                      {
+                        [theme.breakpoints.down("sm")]: {
+                          fontSize: 16,
+
+                          ml: 2,
+                        },
+                      },
+                    ]
+                  : [
+                      theme.darkText,
+                      {
+                        [theme.breakpoints.down("sm")]: {
+                          fontSize: 16,
+
+                          ml: 2,
+                        },
+                      },
+                    ]
+              }
+            >
+              {" "}
               Debit
             </Typography>
             <TextField
@@ -130,17 +227,53 @@ export default function        AccountHeadsEntry() {
                 setDebit(e.target.value);
               }}
               size="small"
+              sx={{
+                "& .MuiOutlinedInput-root": {
+                  "& fieldset": {
+                    borderColor: darkMode ? "white" : "gray",
+                  },
+                },
+                input: {
+                  color: darkMode ? "white" : "gray",
+                },
+                [theme.breakpoints.down("sm")]: {
+                  ml: 1,
+                },
+              }}
             />
           </Grid>
 
           <Grid item xl={4} lg={4} md={4} sm={12} xs={12}>
-            <Typography sx={{ fontWeight: "bolder", color: "gray" }}>
+            <Typography
+              sx={
+                darkMode
+                  ? [
+                      theme.lightText,
+                      {
+                        [theme.breakpoints.down("sm")]: {
+                          fontSize: 16,
+                          ml: 2,
+                        },
+                      },
+                    ]
+                  : [
+                      theme.darkText,
+                      {
+                        [theme.breakpoints.down("sm")]: {
+                          fontSize: 16,
+                          ml: 2,
+                        },
+                      },
+                    ]
+              }
+            >
+              {" "}
               Action
             </Typography>
             <Button
               sx={{
-                backgroundColor: "black",
-                color: "white",
+                backgroundColor: "white",
+                color: "gray",
                 p: "10px 45px",
                 borderRadius: 1,
                 fontWeight: "bolder",
@@ -149,6 +282,11 @@ export default function        AccountHeadsEntry() {
                   color: "black",
                   border: "2px solid black",
                   backgroundColor: "white",
+                },
+                [theme.breakpoints.down("sm")]: {
+                  fontSize: 16,
+                  ml: 2,
+                  width: 220,
                 },
               }}
               onClick={() => {

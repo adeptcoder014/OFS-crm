@@ -23,6 +23,7 @@ import axiosInstance from "../../api/axios";
 import ReportProblemIcon from "@mui/icons-material/ReportProblem";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import ShowNotice from "../../components/notice";
+import { useDarkMode } from "../../context/darkMode";
 //====================================
 function getWindowDimensions() {
   if (typeof window !== "undefined") {
@@ -62,7 +63,7 @@ export default function Notice() {
   const [ressponse, setRessponse] = useState("");
   //==========================
   const theme = useTheme();
-
+  const { darkMode } = useDarkMode();
   const [windowDimensions, setWindowDimensions] = useState(
     getWindowDimensions()
   );
@@ -153,119 +154,297 @@ export default function Notice() {
         </Box>
       </Dialog>
       {/* =========================== */}
-      <Typography
-        variant="h5"
-        sx={[theme.custom.typography.h1, { mb: 5, mt: 5 }]}
-      >
-        Create Notice
-      </Typography>
-      {/* ====================================== */}
-      <Box
-        sx={{
-          width: windowDimensions?.width < 550 ? "100%" : "100%",
-          display: "flex",
-          flexDirection: windowDimensions?.width < 550 ? "column" : "row",
-          justifyContent: "space-around",
-          boxShadow: "0px 1px 2px 0px grey",
-          p: 2,
-          m: "auto",
-          borderRadius: 2,
-        }}
-      >
-        <Typography sx={{ fontWeight: "bolder" }}>Choose Label </Typography>
-        <FormControl
-          size="small"
+      <Box sx={{ backgroundColor: darkMode ? "#23272a" : "white" }}>
+        <Typography
+          variant="h5"
+          sx={
+            darkMode
+              ? [
+                  theme.lightText,
+                  {
+                    [theme.breakpoints.down("sm")]: {
+                      fontSize: 16,
+                      m: "auto",
+                      ml: 9,
+                      mb: 5,
+                      mt: 5,
+                    },
+                    [theme.breakpoints.up("sm")]: {
+                      ml: 9,
+                      mt: 5,
+                    },
+                  },
+                ]
+              : [
+                  theme.darkText,
+                  {
+                    [theme.breakpoints.down("sm")]: {
+                      m: "auto",
+                      ml: 9,
+                      mb: 5,
+                      mt: 5,
+                    },
+                    [theme.breakpoints.up("sm")]: {
+                      ml: 9,
+
+                      mt: 5,
+                    },
+                  },
+                ]
+          }
+        >
+          Create Notice
+        </Typography>
+        {/* ====================================== */}
+        <Box
           sx={{
-            //  width: "30%" ,
-            width: windowDimensions?.width < 550 ? "100%" : "30%",
-            mt: windowDimensions?.width < 550 ? 5 : 0,
+            display: "flex",
+            justifyContent: "space-around",
+            boxShadow: "0px 1px 2px 0px grey",
+            p: 2,
+            borderRadius: 2,
+            backgroundColor: darkMode ? "#2c2f33" : "white",
+            [theme.breakpoints.up("sm")]: {
+              width: "50%",
+              ml: 8,
+            },
+            [theme.breakpoints.down("sm")]: {
+              flexDirection: "column",
+            },
           }}
         >
-          <InputLabel id="demo-simple-select-label">Notice Type</InputLabel>
-          <Select
-            id="type"
-            onChange={(e) => setType(e.target.value)}
-            label="Notice Type"
+          <Typography
+            sx={
+              darkMode
+                ? [
+                    theme.lightText,
+                    {
+                      [theme.breakpoints.down("sm")]: {
+                        fontSize: 16,
+                        m: "auto",
+                      },
+                      [theme.breakpoints.up("sm")]: {
+                        m: 1,
+                        mt: 5,
+                      },
+                    },
+                  ]
+                : [
+                    theme.darkText,
+                    {
+                      [theme.breakpoints.down("sm")]: {
+                        fontSize: 16,
+                        m: "auto",
+                      },
+                      [theme.breakpoints.up("sm")]: {
+                        m: 1,
+                        mt: 5,
+                      },
+                    },
+                  ]
+            }
           >
-            {noticeTypes.map((x) => (
-              <MenuItem key={x} value={x.value}>
-                {x.type}
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
-      </Box>
-      {/* ====================================== */}
-
-      <Box
-        sx={{
-          width: windowDimensions?.width < 550 ? "100%" : "100%",
-          boxShadow: "0px 1px 2px 0px grey",
-          p: 2,
-          borderRadius: 2,
-          mt: 5,
-          mb: 5,
-        }}
-      >
-        <Typography sx={{ fontWeight: "bolder" }}>Enter notice </Typography>
-        <form id="notice">
-          <TextField
-            onChange={(e) => setNotice(e.target.value)}
-            fullWidth
-            multiline
-            sx={{ mt: 3 }}
-          />
-          <Button
-            onClick={() => {
-              //   if (type === "" || notice === "") {       /// CLIENT_SIDE-VALIDATION
-              //     setError(true);
-              //     return;
-              //   }
-              axiosInstance
-                .post(`${ADMIN_URL}/notice`, {
-                  type,
-                  notice,
-                })
-                .then((res) => {
-                  setOpen(true);
-                  <ShowNotice yes={true} />;
-                })
-                .catch((e) => {
-                  setError(true);
-                  setRessponse(e.response.data.message);
-                });
-            }}
+            Choose Label{" "}
+          </Typography>
+          <FormControl
+            size="small"
             sx={{
-              backgroundColor: "#f76334",
-              color: "white",
-              width: windowDimensions?.width < 550 ? "100%" : "50%",
-              fontSize: 16,
-              fontWeight: "bolder",
-
-              m: "auto",
-              mt: 5,
-              borderRadius: "100px",
-              p: 2,
-              ml: windowDimensions?.width < 550 ? 0 : 40,
-
-              "&:hover": {
-                color: "red",
-                border: "2px solid #ff7f56",
-                backgroundColor: "white",
+              "& .MuiOutlinedInput-root": {
+                "& fieldset": {
+                  borderColor: darkMode ? "white" : "gray",
+                },
+              },
+              input: {
+                color: darkMode ? "white" : "gray",
+              },
+              [theme.breakpoints.up("sm")]: {
+                width: "50%",
+                mt: 4,
+              },
+              [theme.breakpoints.down("sm")]: {
+                width: "80%",
+                ml: 8,
+                mt: 2,
               },
             }}
           >
-            Create <AddIcon sx={{ ml: 2 }} />
-          </Button>
-        </form>
+            <InputLabel id="demo-simple-select-label">Notice Type</InputLabel>
+            <Select
+              id="type"
+              onChange={(e) => setType(e.target.value)}
+              label="Notice Type"
+            >
+              {noticeTypes.map((x) => (
+                <MenuItem
+                  sx={{
+                    input: {
+                      color: darkMode ? "white" : "gray",
+                    },
+                  }}
+                  key={x}
+                  value={x.value}
+                >
+                  {x.type}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        </Box>
+        {/* ====================================== */}
+
+        <Box
+          sx={{
+            backgroundColor: darkMode ? "#2c2f33" : "white",
+            boxShadow: "0px 1px 2px 0px grey",
+            p: 2,
+            borderRadius: 2,
+            mt: 5,
+            mb: 5,
+            [theme.breakpoints.up("sm")]: {
+              ml: 8,
+            },
+          }}
+        >
+          <Typography
+            sx={
+              darkMode
+                ? [
+                    theme.lightText,
+                    {
+                      [theme.breakpoints.down("sm")]: {
+                        fontSize: 16,
+                        m: "auto",
+                        ml: 15,
+                        mb: 2,
+                      },
+                      [theme.breakpoints.up("sm")]: {
+                        m: 1,
+                        mt: 5,
+                      },
+                    },
+                  ]
+                : [
+                    theme.darkText,
+                    {
+                      [theme.breakpoints.down("sm")]: {
+                        fontSize: 16,
+                        m: "auto",
+                        ml: 15,
+                        mb: 2,
+                      },
+                      [theme.breakpoints.up("sm")]: {
+                        m: 1,
+                        mt: 5,
+                      },
+                    },
+                  ]
+            }
+          >
+            Enter notice{" "}
+          </Typography>
+          <form
+            id="notice"
+            style={{ display: "flex", flexDirection: "column" }}
+          >
+            <TextField
+              onChange={(e) => setNotice(e.target.value)}
+              multiline
+              sx={{
+                "& .MuiOutlinedInput-root": {
+                  "& fieldset": {
+                    borderColor: darkMode ? "white" : "gray",
+                  },
+                },
+                "& .MuiInputBase-root": {
+                  color: darkMode ? "white" : "gray",
+                },
+                [theme.breakpoints.down("sm")]: {
+                  width: "80%",
+                  ml: 8,
+                },
+              }}
+            />
+            <Button
+              onClick={() => {
+                //   if (type === "" || notice === "") {       /// CLIENT_SIDE-VALIDATION
+                //     setError(true);
+                //     return;
+                //   }
+                axiosInstance
+                  .post(`${ADMIN_URL}/notice`, {
+                    type,
+                    notice,
+                  })
+                  .then((res) => {
+                    setOpen(true);
+                    <ShowNotice yes={true} />;
+                  })
+                  .catch((e) => {
+                    setError(true);
+                    setRessponse(e.response.data.message);
+                  });
+              }}
+              sx={[
+                theme.primaryBtn,
+                {
+                  [theme.breakpoints.up("sm")]: {
+                    width: "100%",
+                    mt: 4,
+                  },
+                  [theme.breakpoints.down("sm")]: {
+                    width: "80%",
+                    ml: 8,
+                    mt: 3,
+                  },
+                },
+              ]}
+            >
+              Create <AddIcon sx={{ ml: 2 }} />
+            </Button>
+          </form>
+        </Box>
+        <Typography
+          variant="h5"
+          sx={
+            darkMode
+              ? [
+                  theme.lightText,
+                  {
+                    [theme.breakpoints.down("sm")]: {
+                      fontSize: 16,
+                      m: 1,
+                      mt: 5,
+                      ml:9
+                    },
+                    [theme.breakpoints.up("sm")]: {
+                      m: 1,
+                      mt: 5,
+                      ml:9
+                    },
+                  },
+                ]
+              : [
+                  theme.darkText,
+                  {
+                    [theme.breakpoints.down("sm")]: {
+                      fontSize: 16,
+                      m: 1,
+                      mt: 5,
+                      ml:9
+                    },
+                    [theme.breakpoints.up("sm")]: {
+                      m: 1,
+                      mt: 5,
+                      ml:9
+                    },
+                  },
+                ]
+          }
+        >
+          Notices :
+        </Typography>
+        <ShowNotice />
       </Box>
-      <Typography
-        variant="h5"
-        sx={[theme.custom.typography.h1, { mb: 5, mt: 5 }]}
-      >
-        Notices :
-      </Typography>
-      <ShowNotice />
       {/* ====================================== */}
     </>
   );

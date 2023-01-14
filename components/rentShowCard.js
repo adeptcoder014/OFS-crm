@@ -38,18 +38,9 @@ import jwt_decode from "jwt-decode";
 import RentCard from "./RentCard";
 import AppRegistrationIcon from "@mui/icons-material/AppRegistration";
 import CallMadeIcon from "@mui/icons-material/CallMade";
+import { useTheme } from "@mui/system";
+import { useDarkMode } from "../context/darkMode";
 //=====================================
-const style = {
-  position: "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: 400,
-  boxShadow: "inset 0px -2px 6px 0px grey",
-  background: "linear-gradient(252deg, #e1e1e1, #ffffff)",
-  borderRadius: "8px",
-  p: 4,
-};
 
 const Checks = [
   {
@@ -118,9 +109,10 @@ export default function RentShow(props) {
   const router = useRouter();
   const token = useToken();
 
-  // console.log(router.query.id);
-  //=============================
+  const theme = useTheme();
+  const { darkMode } = useDarkMode();
 
+  //=======================================
   const [rent, setRent] = useState(0);
   const [reading, setReading] = useState(0);
   const [duration, setDuration] = useState(0);
@@ -224,22 +216,74 @@ export default function RentShow(props) {
         sx={{ overflow: "scroll" }}
       >
         <Fade in={open}>
-          <Box sx={style}>
+          <Box
+            sx={{
+              position: "absolute",
+              top: "50%",
+              left: "50%",
+              transform: "translate(-50%, -50%)",
+              width: 400,
+              boxShadow: "inset 0px -2px 6px 0px grey",
+              backgroundColor: darkMode ? "#23272a" : "white",
+              borderRadius: "8px",
+              p: 4,
+            }}
+          >
             <form onSubmit={patchForm.handleSubmit}>
               <Typography
                 id="transition-modal-title"
                 variant="h6"
                 component="h2"
+                sx={
+                  darkMode
+                    ? [
+                        theme.lightText,
+                        {
+                          [theme.breakpoints.down("sm")]: {
+                            fontSize: 16,
+                            m: 1,
+                            mt: 5,
+                          },
+                          [theme.breakpoints.up("sm")]: {
+                            m: 1,
+                            mt: 5,
+                          },
+                        },
+                      ]
+                    : [
+                        theme.darkText,
+                        {
+                          [theme.breakpoints.down("sm")]: {
+                            fontSize: 16,
+                            m: 1,
+                            mt: 5,
+                          },
+                          [theme.breakpoints.up("sm")]: {
+                            m: 1,
+                            mt: 5,
+                          },
+                        },
+                      ]
+                }
               >
                 Edit Rent
               </Typography>
-              <Typography sx={{ mb: 3 }}>
-                Dated:{" "}
-                <span style={{ fontWeight: "bold", color: "gray" }}>
-                  {/* {patchForm.values.month}/{patchForm.values.year} */}
+              <Box sx={{ display: "flex" }}>
+                <Typography
+                  sx={
+                    darkMode
+                      ? [theme.lightText, { mr: 1, mb: 2 }]
+                      : [theme.darkText, { mr: 1, mb: 2 }]
+                  }
+                >
+                  For:{" "}
+                </Typography>
+                <Typography
+                  sx={darkMode ? [theme.lightText] : [theme.darkText]}
+                >
                   {rent.month}/{rent.year}
-                </span>
-              </Typography>
+                </Typography>
+              </Box>
               {/* ============= HAVE_GIVEN =========================== */}
               <Box
                 sx={{
@@ -247,14 +291,18 @@ export default function RentShow(props) {
                   flexDirection: "column",
                   p: 2,
                   boxShadow: " 0px -2px 6px 0px grey",
-                  background: "linear-gradient(252deg, #e1e1e1, #ffffff)",
+                  backgroundColor: darkMode ? "#2c2f33" : "white",
                   borderRadius: "8px",
                   mb: 1,
                 }}
               >
-                <FormLabel>Have given</FormLabel>
+                <FormLabel sx={darkMode ? [theme.lightText] : [theme.darkText]}>
+                  Have given
+                </FormLabel>
                 {rent?.due?.rentDue === 0 ? (
-                  <Typography sx={{ mb: 2, mt: 2, fontWeight: "bolder" }}>
+                  <Typography
+                    sx={darkMode ? [theme.lightText] : [theme.darkText]}
+                  >
                     Fuck off
                   </Typography>
                 ) : (
@@ -267,6 +315,16 @@ export default function RentShow(props) {
                     // defaultValue={patchForm?.values?.due?.rentDue}
                     defaultValue={rent?.due?.rentDue}
                     onChange={patchForm.handleChange}
+                    sx={{
+                      "& .MuiOutlinedInput-root": {
+                        "& fieldset": {
+                          borderColor: darkMode ? "white" : "gray",
+                        },
+                      },
+                      input: {
+                        color: darkMode ? "white" : "gray",
+                      },
+                    }}
                   />
                 )}
               </Box>
@@ -279,16 +337,23 @@ export default function RentShow(props) {
                   flexDirection: "column",
                   p: 2,
                   boxShadow: " 0px -2px 6px 0px grey",
-                  background: "linear-gradient(252deg, #e1e1e1, #ffffff)",
+                  backgroundColor: darkMode ? "#2c2f33" : "white",
+                  borderRadius: "8px",
                   borderRadius: "8px",
                   mb: 1,
                 }}
               >
                 <Tooltip title={patchForm.values.eBills.reading}>
-                  <Typography sx={{ mb: 2 }}>E-Bill</Typography>
+                  <Typography
+                    sx={darkMode ? [theme.lightText] : [theme.darkText]}
+                  >
+                    E-Bill
+                  </Typography>
                 </Tooltip>
                 {rent?.due?.ebillDue === 0 ? (
-                  <Typography sx={{ mb: 2, fontWeight: "bolder" }}>
+                  <Typography
+                    sx={darkMode ? [theme.lightText] : [theme.darkText]}
+                  >
                     Fuck off
                   </Typography>
                 ) : (
@@ -340,12 +405,15 @@ export default function RentShow(props) {
                     // flexDirection: "column",
                     p: 2,
                     boxShadow: " 0px -2px 6px 0px grey",
-                    background: "linear-gradient(252deg, #e1e1e1, #ffffff)",
+                    backgroundColor: darkMode ? "#2c2f33" : "white",
+                    borderRadius: "8px",
                     borderRadius: "8px",
                     mb: 1,
                   }}
                 >
-                  <Typography sx={{ cursor: "pointer" }}>
+                  <Typography
+                    sx={darkMode ? [theme.lightText] : [theme.darkText]}
+                  >
                     <FormControlLabel
                       control={
                         <Checkbox
@@ -358,7 +426,9 @@ export default function RentShow(props) {
                       label="Online"
                     />
                   </Typography>{" "}
-                  <Typography sx={{ cursor: "pointer" }}>
+                  <Typography
+                    sx={darkMode ? [theme.lightText] : [theme.darkText]}
+                  >
                     <FormControlLabel
                       control={
                         <Checkbox
@@ -436,13 +506,7 @@ export default function RentShow(props) {
                       Swal.fire("Done !", res, "success");
                     });
                 }}
-                sx={{
-                  backgroundColor: "white",
-                  color: "gray",
-                  fontWeight: "bold",
-                  border: "2px solid gray",
-                  mt: 4,
-                }}
+               sx={[theme.primaryBtn,{mt:3,width:"70%",ml:6}]}
               >
                 Update Rent
               </Button>
@@ -453,7 +517,14 @@ export default function RentShow(props) {
       {/* ======================== RENT SHOW ================================== */}
 
       <Grid
-        sx={{ mb: 2, display: "flex", p: 1 }}
+        sx={{
+          mb: 2,
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          p: 1,
+          backgroundColor: darkMode ? "#2c2f33" : "white",
+        }}
         item
         xl={4}
         lg={4}
@@ -474,14 +545,17 @@ export default function RentShow(props) {
           sx={{
             boxShadow:
               props.status === "DUE"
-                ? "0px 0px 2px 6px #ff000036"
-                : "0px 0px 2px 6px #54ff5433",
-            background: "linear-gradient(252deg, #e1e1e1, #ffffff)",
+                ? "0px 0px 2px 6px #d9534f"
+                : "0px 0px 5px 4px #5cb85c",
+            backgroundColor: darkMode ? "white" : "#99aab5",
             borderRadius: "8px",
             p: 2,
             mb: 1,
             mt: 5,
             // border:"4px solid lightGreen"
+            [theme.breakpoints.down("sm")]: {
+              m: "auto",
+            },
           }}
         >
           {/* --------------------------- */}
@@ -555,7 +629,9 @@ export default function RentShow(props) {
               sx={{
                 fontFamily: "poppins",
                 fontWeight: "bolder",
-                color: "gray",
+                color: "#2c2f33",
+                fontSize: 14,
+                alignSelf: "center",
               }}
             >
               Rent :
@@ -582,10 +658,11 @@ export default function RentShow(props) {
           >
             <Typography
               sx={{
-                mt: 1,
                 fontFamily: "poppins",
                 fontWeight: "bolder",
-                color: "gray",
+                color: "#2c2f33",
+                fontSize: 14,
+                alignSelf: "center",
               }}
             >
               E-Bill:
@@ -615,10 +692,11 @@ export default function RentShow(props) {
             <Tooltip title="To be received">
               <Typography
                 sx={{
-                  mt: 1,
                   fontFamily: "poppins",
                   fontWeight: "bolder",
-                  color: "gray",
+                  color: "#2c2f33",
+                  fontSize: 14,
+                  alignSelf: "center",
                 }}
               >
                 TBR :

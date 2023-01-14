@@ -45,7 +45,7 @@ export default function Cube() {
       <ambientLight />
       <pointLight position={[5, 10, 15]} />
       <Physics>
-        <Dabba position={[1, 5, 1]} rotation={[4, -15, 5]} />
+        <Dabba position={[1, 5, 1]} rotation={[4, -15, 15]} />
         <Spin>
           <Dabba position={[1.5, 0, 1]} rotation={[0.4, -10, -5]} />
         </Spin>

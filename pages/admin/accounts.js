@@ -27,6 +27,7 @@ import GroupAddIcon from "@mui/icons-material/GroupAdd";
 import GroupRemoveIcon from "@mui/icons-material/GroupRemove";
 import AccountTab from "../../components/accountTab";
 import AccountEntry from "../../components/accountEntry";
+import { useDarkMode } from "../../context/darkMode";
 //====================================
 function getWindowDimensions() {
   if (typeof window !== "undefined") {
@@ -48,6 +49,7 @@ export default function Accounts() {
   const [accountTotal, setAccountTotal] = useState([]);
   //==========================
   const theme = useTheme();
+  const { darkMode } = useDarkMode();
 
   const [windowDimensions, setWindowDimensions] = useState(
     getWindowDimensions()
@@ -110,131 +112,182 @@ export default function Accounts() {
       </Dialog>
 
       {/* =========================== */}
-      <Typography
-        variant="h5"
-        sx={[theme.custom.typography.h1, { mb: 5, mt: 5 }]}
-      >
-        Accounts :
-      </Typography>
-      {/* ====================================== */}
-      <Box
-        sx={{
-          width: windowDimensions?.width < 550 ? "100%" : "100%",
-          display: "flex",
-          flexDirection: windowDimensions?.width < 550 ? "column" : "row",
-          justifyContent: "space-around",
-          boxShadow: "0px 1px 2px 0px grey",
-          p: 2,
-          m: "auto",
-          borderRadius: 2,
-        }}
-      >
+      <Box sx={{ backgroundColor: darkMode ? "#23272a" : "white" }}>
+        <Typography
+          variant="h5"
+          sx={
+            darkMode
+              ? [
+                  theme.lightText,
+                  {
+                    [theme.breakpoints.down("sm")]: {
+                      m: 2,
+                      ml: 9,
+                    },
+                    [theme.breakpoints.up("sm")]: {
+                      m: 2,
+                      ml: 9,
+                    },
+                  },
+                ]
+              : [
+                  theme.darkText,
+                  {
+                    [theme.breakpoints.down("sm")]: {
+                      m: 2,
+                      ml: 9,
+                    },
+                    [theme.breakpoints.up("sm")]: {
+                      m: 2,
+                      ml: 9,
+                    },
+                  },
+                ]
+          }
+        >
+          Accounts :
+        </Typography>
+        {/* ====================================== */}
         <Box
           sx={{
+            // width: windowDimensions?.width < 550 ? "100%" : "100%",
+            display: "flex",
+            [theme.breakpoints.down("sm")]: {
+              flexDirection: "column",
+            },
+            justifyContent: "space-around",
+            boxShadow: "0px 1px 2px 0px grey",
             p: 2,
-            borderRadius: 1,
-            backgroundColor: "#4caf50",
-            color: "white",
-            width: windowDimensions?.width < 550 ? "100%" : "20%",
-            mb: windowDimensions?.width < 550 ? 5 : 0,
+            m: "auto",
+            borderRadius: 2,
+            backgroundColor: darkMode ? "#2c2f33" : "white",
           }}
         >
           <Box
             sx={{
-              display: "flex",
-              justifyContent: "space-around",
+              [theme.breakpoints.down("sm")]: {
+                p: 1,
+                width:240,
+                ml:8
+              },
+              [theme.breakpoints.up("sm")]: {
+                p: 3,
+              },
+              borderRadius: 1,
+              backgroundColor: "#4caf50",
+              color: "white",
             }}
           >
-            <Typography
-              variant="h4"
-              sx={{ fontWeight: "bolder", alignSelf: "center" }}
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "space-around",
+              }}
             >
-              ₹ {accountTotal?.totalRent?.toLocaleString("en-IN")}
+              <Typography
+                variant="h4"
+                sx={{ fontWeight: "bolder", alignSelf: "center" }}
+              >
+                ₹ {accountTotal?.totalRent?.toLocaleString("en-IN")}
+              </Typography>
+              <GroupRemoveIcon sx={{ fontSize: 55 }} />
+            </Box>
+
+            <Typography sx={{ fontWeight: "bolder", ml: 10 }}>
+              Credit
             </Typography>
-            <GroupRemoveIcon sx={{ fontSize: 55 }} />
           </Box>
 
-          <Typography sx={{ fontWeight: "bolder", ml: 10 }}>Credit</Typography>
-        </Box>
-
-        <Box
-          sx={{
-            p: 2,
-            borderRadius: 1,
-            backgroundColor: "#ef5350",
-            color: "white",
-            width: windowDimensions?.width < 550 ? "100%" : "20%",
-
-            // width:"20%"
-          }}
-        >
           <Box
             sx={{
-              display: "flex",
-              justifyContent: "space-around",
+              [theme.breakpoints.down("sm")]: {
+                p: 1,
+                width:240,
+                ml:8,
+                mt:2
+              },
+              [theme.breakpoints.up("sm")]: {
+                p: 3,
+              },
+              borderRadius: 1,
+              backgroundColor: "#ef5350",
+              color: "white",
+
+              // width:"20%"
             }}
           >
-            <Typography
-              variant="h4"
-              sx={{ fontWeight: "bolder", alignSelf: "center" }}
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "space-around",
+              }}
             >
-              ₹ {accountTotal?.totalDebit?.toLocaleString("en-IN")}
-            </Typography>
-            <GroupAddIcon sx={{ fontSize: 55 }} />
-          </Box>
+              <Typography
+                variant="h4"
+                sx={{ fontWeight: "bolder", alignSelf: "center" }}
+              >
+                ₹ {accountTotal?.totalDebit?.toLocaleString("en-IN")}
+              </Typography>
+              <GroupAddIcon sx={{ fontSize: 55 }} />
+            </Box>
 
-          <Typography sx={{ fontWeight: "bolder", ml: 10 }}>Debit</Typography>
-        </Box>
-        <Box
-          sx={{
-            p: 2,
-            borderRadius: 1,
-            backgroundColor: "#42a5f5",
-            color: "white",
-            width: windowDimensions?.width < 550 ? "100%" : "20%",
-            mb: windowDimensions?.width < 550 ? 5 : 0,
-          }}
-        >
+            <Typography sx={{ fontWeight: "bolder", ml: 10 }}>Debit</Typography>
+          </Box>
           <Box
             sx={{
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
+              [theme.breakpoints.down("sm")]: {
+                p: 1,
+                width:240,
+                ml:8,
+                mt:2
+              },
+              [theme.breakpoints.up("sm")]: {
+                p: 3,
+              },
+              borderRadius: 1,
+              backgroundColor: "#42a5f5",
+              color: "white",
             }}
           >
-            <Typography variant="h4" sx={{ fontWeight: "bolder" }}>
-              ₹{" "}
-              {(
-                accountTotal?.totalRent - accountTotal?.totalDebit
-              ).toLocaleString("en-IN")}
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <Typography variant="h4" sx={{ fontWeight: "bolder" }}>
+                ₹{" "}
+                {(
+                  accountTotal?.totalRent - accountTotal?.totalDebit
+                ).toLocaleString("en-IN")}
+              </Typography>
+            </Box>
+
+            <Typography sx={{ fontWeight: "bolder", ml: 10, mt: 2 }}>
+              Revenue
             </Typography>
           </Box>
-
-          <Typography sx={{ fontWeight: "bolder", ml: 10, mt: 2 }}>
-            Revenue
-          </Typography>
         </Box>
-      </Box>
-      {/* ====================================== */}
+        {/* ====================================== */}
 
-      {/* <AccountTab /> */}
-      <Box
-        sx={{
-          width: windowDimensions?.width < 550 ? "100%" : "100%",
-          display: "flex",
-          flexDirection: windowDimensions?.width < 550 ? "column" : "row",
-          //   justifyContent: "space-around",
-          boxShadow: "0px 1px 2px 0px grey",
-          p: 2,
-          m: "auto",
-          borderRadius: 1,
-          mt: 4,
-        }}
-      >
-        <AccountEntry />
-      </Box>
+        {/* <AccountTab /> */}
+        <Box
+          sx={{
+            display: "flex",
+            //   justifyContent: "space-around",
+            boxShadow: "0px 1px 2px 0px grey",
+            p: 2,
+            m: "auto",
+            borderRadius: 1,
+            mt: 4,
+          }}
+        >
+          <AccountEntry />
+        </Box>
 
-      {/* ====================================== */}
+        {/* ====================================== */}
+      </Box>
     </>
   );
 }

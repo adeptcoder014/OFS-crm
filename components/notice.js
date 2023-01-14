@@ -6,9 +6,13 @@ import axiosInstance from "../api/axios";
 import Table from "./table";
 import Swal from "sweetalert2";
 import Loading from "./loading";
+import { useTheme } from "@mui/system";
+import { useDarkMode } from "../context/darkMode";
 //==============================================
 export default function ShowNotice() {
   //=============================
+  const theme = useTheme();
+  const { darkMode } = useDarkMode();
 
   const query = useQuery({
     queryKey: ["getNotices"],
@@ -133,7 +137,15 @@ export default function ShowNotice() {
     //     </Box>
     //   </Grid>
     // </Grid>
-    <Box sx={{ minWidth: "100%" }}>
+    <Box
+      sx={{
+        minWidth: "100%",
+        [theme.breakpoints.down("sm")]: {
+          p:"0px 45px",
+          ml:3
+        },
+      }}
+    >
       <Table rows={query?.data?.data} columns={columns} />
     </Box>
   );

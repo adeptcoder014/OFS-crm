@@ -16,9 +16,9 @@ import SearchIcon from "@mui/icons-material/Search";
 import { useTheme } from "@mui/system";
 import { useDarkMode } from "../context/darkMode";
 //================================================
-export default function NewRegisteredUsers() {
+export default function NewRegisteredUsers(props) {
   //================================================
-  const { query } = useController({ filter: "NEW" });
+  const { query } = useController({ filter: props.type });
   const router = useRouter();
   const [user, setUser] = useState("");
   const theme = useTheme();
@@ -35,6 +35,7 @@ export default function NewRegisteredUsers() {
         mt: 2,
         backgroundColor: darkMode ? "#2c2f33" : "#ffffff",
         // height:400
+        
       }}
     >
       {/* //======================================== */}
@@ -70,7 +71,7 @@ export default function NewRegisteredUsers() {
               ]
         }
       >
-        Latest Registration Bookings :
+        {props.title}
       </Typography>
       {/* //======================================== */}
       <Box
@@ -186,7 +187,7 @@ export default function NewRegisteredUsers() {
                 <AppRegistrationIcon
                   onClick={() => {
                     // console.log("------>",params.id)
-                    router.push(`/admin/register-user/?id=${x._id}`);
+                    router.push(`${props.url}?id=${x._id}`);
                   }}
                   sx={{ cursor: "pointer", color: "gray", fontSize: "35px" }}
                 />

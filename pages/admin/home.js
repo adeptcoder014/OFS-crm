@@ -67,8 +67,6 @@ export default function Home(props) {
 
   return (
     <>
-      <Cube />
-
       <Box
         sx={{
           // ...(sidebarOpen && {
@@ -107,8 +105,8 @@ export default function Home(props) {
         >
           <InfoCard
             title="Total Hosteler"
-            // url="/admin/all-users"
-            url="/cube"
+            url="/admin/all-users"
+            // url="/cube"
             color="#205CBE"
             total={dashboard.total}
             icon={
@@ -163,7 +161,11 @@ export default function Home(props) {
         </Grid>
         <Grid container spacing={5}>
           <Grid item xl={6} lg={6} md={6} sm={12} xs={12}>
-            <NewRegisteredUsers />
+            <NewRegisteredUsers
+              type="NEW"
+              title="Latest Registration Bookings :"
+              url='/admin/register-user/'
+            />
           </Grid>
           <Grid item xl={6} lg={6} md={6} sm={12} xs={12}>
             <Graph />

@@ -1,9 +1,4 @@
-import {
-  Grid,
-  Typography,
-
-  Tooltip,
-} from "@mui/material";
+import { Grid, Typography, Tooltip } from "@mui/material";
 
 import { useRouter } from "next/router";
 import React from "react";
@@ -12,6 +7,8 @@ import dayjs from "dayjs";
 
 import MonetizationOnIcon from "@mui/icons-material/MonetizationOn";
 import QrCodeIcon from "@mui/icons-material/QrCode";
+import { useTheme } from "@mui/system";
+import { useDarkMode } from "../context/darkMode";
 //=====================================
 const style = {
   position: "absolute",
@@ -31,6 +28,8 @@ const years = [2021, 2022, 2023];
 //============================================
 export default function WhoEditedCard(props) {
   const router = useRouter();
+  const theme = useTheme();
+  const { darkMode } = useDarkMode();
 
   //========================================
   if (router.query.id === props.rentId)
@@ -41,10 +40,16 @@ export default function WhoEditedCard(props) {
           container
           sx={{
             boxShadow: "0px 2px 3px 0px grey",
-            background: "linear-gradient(252deg, #e1e1e1, #ffffff)",
+            backgroundColor: darkMode ? "#2c2f33" : "white",
             borderRadius: "8px",
             p: 2,
             mb: 2,
+            [theme.breakpoints.up("sm")]: {
+              ml: 5,
+            },
+            [theme.breakpoints.down("sm")]: {
+              ml: 7,
+            },
           }}
         >
           {/* ====================== MONTH ============================ */}
@@ -74,29 +79,69 @@ export default function WhoEditedCard(props) {
           {/* ====================== RENT ============================ */}
 
           <Grid item xs={12} sm={2} md={2} lg={2} xl={2} sx={{}}>
-            <Typography sx={{fontWeight:"bolder"}}>Rent</Typography>
-            <Typography sx={{fontWeight:"bolder",color:"gray",mt:1}}> {props.rent ? props.rent : "₹ x,xxx"}</Typography>
+            <Typography
+              sx={
+                darkMode
+                  ? [theme.lightText, { color: "gray" }]
+                  : [theme.darkText, { color: "gray" }]
+              }
+            >
+              Rent
+            </Typography>
+            <Typography sx={darkMode ? [theme.lightText] : [theme.darkText]}>
+              {" "}
+              {props.rent ? props.rent : "₹ x,xxx"}
+            </Typography>
           </Grid>
 
           {/* ====================== DUE_RENT ============================ */}
 
           <Grid item xs={12} sm={2} md={2} lg={2} xl={2} sx={{}}>
-            <Typography sx={{fontWeight:"bolder"}}>To be receive</Typography>
-            <Typography  sx={{fontWeight:"bolder",color:"gray",mt:1}}> {props.rentDue}</Typography>
+            <Typography
+              sx={
+                darkMode
+                  ? [theme.lightText, { color: "gray" }]
+                  : [theme.darkText, { color: "gray" }]
+              }
+            >
+              To be receive
+            </Typography>
+            <Typography sx={darkMode ? [theme.lightText] : [theme.darkText]}>
+              {" "}
+              {props.rentDue}
+            </Typography>
           </Grid>
-
-          {/* ====================== DUE_eBILL ============================ */}
+          {/* ====================== DUE_EBILL ============================ */}
 
           <Grid item xs={12} sm={2} md={2} lg={2} xl={2} sx={{}}>
-            <Typography sx={{fontWeight:"bolder"}}>Ebill</Typography>
-            <Typography sx={{fontWeight:"bolder",color:"gray",mt:1}}> {props.ebillDue}</Typography>
+            <Typography
+              sx={
+                darkMode
+                  ? [theme.lightText, { color: "gray" }]
+                  : [theme.darkText, { color: "gray" }]
+              }
+            >
+              Ebill
+            </Typography>
+            <Typography sx={darkMode ? [theme.lightText] : [theme.darkText]}>
+              {" "}
+              {props.ebillDue}
+            </Typography>
           </Grid>
           {/* ====================== STATUS ============================ */}
 
           <Grid item xs={12} sm={2} md={2} lg={2} xl={2} sx={{}}>
-            <Typography sx={{fontWeight:"bolder"}}>Total</Typography>
+            <Typography
+              sx={
+                darkMode
+                  ? [theme.lightText, { color: "gray" }]
+                  : [theme.darkText, { color: "gray" }]
+              }
+            >
+              Total
+            </Typography>
             {/* {props.status === "DUE" ? ( */}
-            <Typography sx={{fontWeight:"bolder",color:"gray",mt:1}}>
+            <Typography sx={darkMode ? [theme.lightText] : [theme.darkText]}>
               {"- "}
               {Math.abs(props?.total)}
             </Typography>
@@ -113,11 +158,19 @@ export default function WhoEditedCard(props) {
             xl={2}
             sx={{ alignSelf: "center" }}
           >
-            <Typography sx={{fontWeight:"bolder"}}>Mode</Typography>
-            <Typography sx={{fontWeight:"bolder",color:"black",mt:1}}>
+            <Typography
+              sx={
+                darkMode
+                  ? [theme.lightText, { color: "gray" }]
+                  : [theme.darkText, { color: "gray" }]
+              }
+            >
+              Mode
+            </Typography>
+            <Typography sx={darkMode ? [theme.lightText] : [theme.darkText]}>
               By{" "}
               <span style={{ fontWeight: "bolder" }}>
-                {props?.mode?.collectedBy }{" "}
+                {props?.mode?.collectedBy}{" "}
               </span>
               <span>
                 @
@@ -140,11 +193,10 @@ export default function WhoEditedCard(props) {
                 </span>
               </span>
               {props?.mode?.transactionId === "transactionId" ? (
-                <MonetizationOnIcon sx={{ color: "green",ml:2 }} />
+                <MonetizationOnIcon sx={{ color: "#57f287", ml: 2 }} />
               ) : (
                 <Tooltip title={props?.mode?.transactionId}>
-
-                  <QrCodeIcon sx={{ml:2,color:"gray"}}/>
+                  <QrCodeIcon sx={{ ml: 2, color: "gray" }} />
                 </Tooltip>
               )}
             </Typography>

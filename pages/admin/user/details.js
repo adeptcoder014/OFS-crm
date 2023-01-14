@@ -18,6 +18,8 @@ import Loading from "../../../components/loading";
 import dayjs from "dayjs";
 import { useState } from "react";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
+import { useTheme } from "@mui/system";
+import { useDarkMode } from "../../../context/darkMode";
 //========================================
 export default function UserDetails() {
   //============
@@ -25,7 +27,8 @@ export default function UserDetails() {
   const [openEbill, setOpenEbill] = useState(false);
   const [search, setSearch] = useState("");
   const [ebill, setEbill] = useState("");
-
+  const theme = useTheme();
+  const { darkMode } = useDarkMode();
   //============================
   const router = useRouter();
 
@@ -67,7 +70,7 @@ export default function UserDetails() {
           if (x?.month?.startsWith(search)) {
             return (
               <Box
-              key={x}
+                key={x}
                 sx={{
                   display: "flex",
                   justifyContent: "space-between",
@@ -140,7 +143,7 @@ export default function UserDetails() {
           if (x?.month?.startsWith(ebill)) {
             return (
               <Box
-              key={x}
+                key={x}
                 sx={{
                   display: "flex",
                   justifyContent: "space-between",
@@ -212,12 +215,45 @@ export default function UserDetails() {
         {/* </Box> */}
       </Dialog>{" "}
       {/* =========================== */}
-      <Container maxWidth="md" sx={{ ml: 5 }}>
+      <Container
+        maxWidth="lg  "
+        sx={{ ml: 5, backgroundColor: darkMode ? "#23272a" : "white" }}
+      >
         {/* ------------------- GENERAL_INFORMATION ------------------------------- */}
 
         <Typography
           variant="h5"
-          sx={{ fontWeight: 600, color: "gray", mb: 1, ml: -5 }}
+          sx={
+            darkMode
+              ? [
+                  theme.lightText,
+                  {
+                    [theme.breakpoints.down("sm")]: {
+                      fontSize: 16,
+                      m: 1,
+                      mt: 5,
+                    },
+                    [theme.breakpoints.up("sm")]: {
+                      m: 1,
+                      mt: 5,
+                    },
+                  },
+                ]
+              : [
+                  theme.darkText,
+                  {
+                    [theme.breakpoints.down("sm")]: {
+                      fontSize: 16,
+                      m: 1,
+                      mt: 5,
+                    },
+                    [theme.breakpoints.up("sm")]: {
+                      m: 1,
+                      mt: 5,
+                    },
+                  },
+                ]
+          }
         >
           General Information
         </Typography>
@@ -228,9 +264,17 @@ export default function UserDetails() {
             ml: -5,
             display: "flex",
             boxShadow: "0px 2px 3px 0px grey",
-            background: "linear-gradient(252deg, #e1e1e1, #ffffff)",
-            p: 1,
+            backgroundColor: darkMode ? "#2c2f33" : "white",
+            p: 3,
             borderRadius: "8px",
+            [theme.breakpoints.up("sm")]: {
+              ml: 2,
+              width: "70%",
+            },
+            [theme.breakpoints.down("sm")]: {
+              ml: 2,
+              // width:"70%"
+            },
           }}
         >
           <Grid
@@ -245,26 +289,24 @@ export default function UserDetails() {
           >
             <Avatar sx={{ mr: 1, fontSize: 5 }} />
             <Box sx={{ display: "flex", flexDirection: "column" }}>
-              <Typography sx={{ fontWeight: 600, color: "gray" }}>
+              <Typography sx={darkMode ? [theme.lightText] : [theme.darkText]}>
                 {query?.data?.data.name}
               </Typography>
               <Typography
-                variant="caption"
-                sx={{
-                  color: "gray",
-                  inlineSize: "250px",
-                  wordWrap: "break-word",
-                }}
+                sx={
+                  darkMode
+                    ? [theme.lightText, { fontSize: 12 }]
+                    : [theme.darkText, { fontSize: 12 }]
+                }
               >
                 {query?.data?.data.email}
               </Typography>
               <Typography
-                variant="caption"
-                sx={{
-                  color: "gray",
-                  inlineSize: "150px",
-                  wordWrap: "break-word",
-                }}
+                sx={
+                  darkMode
+                    ? [theme.lightText, { fontSize: 12 }]
+                    : [theme.darkText, { fontSize: 12 }]
+                }
               >
                 {query?.data?.data.phone}
               </Typography>
@@ -296,28 +338,54 @@ export default function UserDetails() {
               >
                 {query?.data?.data.status}
               </Typography>
+              <Typography
+                sx={
+                  darkMode
+                    ? [theme.lightText, { fontSize: 12 }]
+                    : [theme.darkText, { fontSize: 12 }]
+                }
+              >
+                Registered on :{" "}
+                {dayjs(query?.data?.data.registeredDate).format("DD MMM-YYYY")}
+              </Typography>
             </Box>
           </Grid>
           {/* ------------------------------------------ */}
-
-          <Grid
-            item
-            sm={12}
-            md={12}
-            lg={12}
-            xl={12}
-            // sx={{ }}
-          >
-            <Typography sx={{ fontWeight: 600, color: "gray", mr: 1, mt: 2 }}>
-              Registered on :{" "}
-              {dayjs(query?.data?.data.registeredDate).format("DD MMM-YYYY")}
-            </Typography>
-          </Grid>
         </Grid>
         {/* ----------------- HOSTEL_INFORMATION --------------------------------- */}
         <Typography
           variant="h5"
-          sx={{ fontWeight: 600, color: "gray", mb: 1, mt: 5, ml: -5 }}
+          sx={
+            darkMode
+              ? [
+                  theme.lightText,
+                  {
+                    [theme.breakpoints.down("sm")]: {
+                      fontSize: 16,
+                      m: 1,
+                      mt: 5,
+                    },
+                    [theme.breakpoints.up("sm")]: {
+                      m: 1,
+                      mt: 5,
+                    },
+                  },
+                ]
+              : [
+                  theme.darkText,
+                  {
+                    [theme.breakpoints.down("sm")]: {
+                      fontSize: 16,
+                      m: 1,
+                      mt: 5,
+                    },
+                    [theme.breakpoints.up("sm")]: {
+                      m: 1,
+                      mt: 5,
+                    },
+                  },
+                ]
+          }
         >
           Stay Information
         </Typography>
@@ -327,9 +395,17 @@ export default function UserDetails() {
             ml: -5,
             display: "flex",
             boxShadow: "0px 2px 3px 0px grey",
-            background: "linear-gradient(252deg, #e1e1e1, #ffffff)",
+            backgroundColor: darkMode ? "#2c2f33" : "white",
             p: 1,
             borderRadius: "8px",
+            [theme.breakpoints.up("sm")]: {
+              ml: 2,
+              width: "70%",
+            },
+            [theme.breakpoints.down("sm")]: {
+              ml: 2,
+              // width:"70%"
+            },
           }}
         >
           <Grid
@@ -343,12 +419,11 @@ export default function UserDetails() {
               display: "flex",
               justifyContent: "space-between",
               p: 1,
+              
             }}
           >
             {/* <Box sx={{ display: "flex" }}> */}
-            <Typography
-              sx={{ fontWeight: 600, color: "gray", alignSelf: "center" }}
-            >
+            <Typography sx={darkMode ? [theme.lightText] : [theme.darkText]}>
               Room Number :
             </Typography>
 
@@ -368,6 +443,20 @@ export default function UserDetails() {
             }}
           >
             <TextField
+             sx={{
+              "& .MuiOutlinedInput-root": {
+                "& fieldset": {
+                  borderColor: darkMode ? "white" : "gray",
+                },
+              },
+              "& .MuiInputBase-root": {
+                color: darkMode ? "white" : "gray",
+              },
+              [theme.breakpoints.down("sm")]: {
+                width: "80%",
+               
+              },
+            }}
               InputProps={{
                 inputProps: {
                   style: { textAlign: "left" },
@@ -393,9 +482,7 @@ export default function UserDetails() {
             }}
           >
             {/* <Box sx={{ display: "flex" }}> */}
-            <Typography
-              sx={{ fontWeight: 600, color: "gray", alignSelf: "center" }}
-            >
+            <Typography sx={darkMode ? [theme.lightText] : [theme.darkText]}>
               Room Preference :
             </Typography>
 
@@ -415,6 +502,20 @@ export default function UserDetails() {
             }}
           >
             <TextField
+             sx={{
+              "& .MuiOutlinedInput-root": {
+                "& fieldset": {
+                  borderColor: darkMode ? "white" : "gray",
+                },
+              },
+              "& .MuiInputBase-root": {
+                color: darkMode ? "white" : "gray",
+              },
+              [theme.breakpoints.down("sm")]: {
+                width: "80%",
+                
+              },
+            }}
               InputProps={{
                 inputProps: {
                   style: { textAlign: "left" },
@@ -440,9 +541,7 @@ export default function UserDetails() {
             }}
           >
             {/* <Box sx={{ display: "flex" }}> */}
-            <Typography
-              sx={{ fontWeight: 600, color: "gray", alignSelf: "center" }}
-            >
+            <Typography sx={darkMode ? [theme.lightText] : [theme.darkText]}>
               Joining Date :
             </Typography>
 
@@ -472,6 +571,20 @@ export default function UserDetails() {
               defaultValue={dayjs(query?.data?.data.joiningDate).format(
                 "DD-MMM-YYYY"
               )}
+              sx={{
+                "& .MuiOutlinedInput-root": {
+                  "& fieldset": {
+                    borderColor: darkMode ? "white" : "gray",
+                  },
+                },
+                "& .MuiInputBase-root": {
+                  color: darkMode ? "white" : "gray",
+                },
+                [theme.breakpoints.down("sm")]: {
+                  width: "80%",
+                
+                },
+              }}
             />
           </Grid>
         </Grid>
@@ -479,7 +592,37 @@ export default function UserDetails() {
         {/* ------------ DUES_INFORMATION ------------------------------ */}
         <Typography
           variant="h5"
-          sx={{ fontWeight: 600, color: "gray", mb: 1, mt: 5, ml: -5 }}
+          sx={
+            darkMode
+              ? [
+                  theme.lightText,
+                  {
+                    [theme.breakpoints.down("sm")]: {
+                      fontSize: 16,
+                      m: 1,
+                      mt: 5,
+                    },
+                    [theme.breakpoints.up("sm")]: {
+                      m: 1,
+                      mt: 5,
+                    },
+                  },
+                ]
+              : [
+                  theme.darkText,
+                  {
+                    [theme.breakpoints.down("sm")]: {
+                      fontSize: 16,
+                      m: 1,
+                      mt: 5,
+                    },
+                    [theme.breakpoints.up("sm")]: {
+                      m: 1,
+                      mt: 5,
+                    },
+                  },
+                ]
+          }
         >
           Due(s) Information
         </Typography>
@@ -490,10 +633,18 @@ export default function UserDetails() {
             ml: -5,
             display: "flex",
             boxShadow: "0px 2px 3px 0px grey",
-            background: "linear-gradient(252deg, #e1e1e1, #ffffff)",
+            backgroundColor: darkMode ? "#2c2f33" : "white",
             p: 1,
             borderRadius: "8px",
             mb: 2,
+            [theme.breakpoints.up("sm")]: {
+              ml: 2,
+              width: "70%",
+            },
+            [theme.breakpoints.down("sm")]: {
+              ml: 2,
+              // width:"70%"
+            },
           }}
         >
           <Grid
@@ -510,9 +661,7 @@ export default function UserDetails() {
               p: 1,
             }}
           >
-            <Typography
-              sx={{ fontWeight: 600, color: "gray", fontSize: "20px" }}
-            >
+            <Typography sx={darkMode ? [theme.lightText] : [theme.darkText]}>
               Rent :
             </Typography>
           </Grid>
@@ -542,6 +691,16 @@ export default function UserDetails() {
               variant="outlined"
               size="small"
               defaultValue={query?.data?.data?.dues?.rents?.at(-1)?.rent}
+            sx={{
+              "& .MuiOutlinedInput-root": {
+                "& fieldset": {
+                  borderColor: darkMode ? "white" : "gray",
+                },
+              },
+              "& .MuiInputBase-root": {
+                color: darkMode ? "white" : "gray",
+              },  
+            }}
             />{" "}
             <MoreVertIcon
               onClick={() => setOpen(true)}
@@ -567,9 +726,7 @@ export default function UserDetails() {
               p: 1,
             }}
           >
-            <Typography
-              sx={{ fontWeight: 600, color: "gray", fontSize: "20px" }}
-            >
+            <Typography sx={darkMode ? [theme.lightText] : [theme.darkText]}>
               E-Bills :
             </Typography>
           </Grid>
@@ -598,7 +755,19 @@ export default function UserDetails() {
               }}
               variant="outlined"
               size="small"
-              defaultValue={query?.data?.data?.dues?.rents?.at(-1)?.due?.ebillDue}
+              defaultValue={
+                query?.data?.data?.dues?.rents?.at(-1)?.due?.ebillDue
+              }
+              sx={{
+                "& .MuiOutlinedInput-root": {
+                  "& fieldset": {
+                    borderColor: darkMode ? "white" : "gray",
+                  },
+                },
+                "& .MuiInputBase-root": {
+                  color: darkMode ? "white" : "gray",
+                },
+              }}
             />{" "}
             <MoreVertIcon
               onClick={() => setOpenEbill(true)}

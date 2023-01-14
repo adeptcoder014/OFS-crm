@@ -7,7 +7,7 @@ import {
   InputBase,
   InputAdornment,
 } from "@mui/material";
-import { Box, width } from "@mui/system";
+import { Box, useTheme, width } from "@mui/system";
 import AppRegistrationIcon from "@mui/icons-material/AppRegistration";
 import { useController } from "../controller/user";
 import { useState } from "react";
@@ -17,6 +17,8 @@ import { styled, alpha } from "@mui/material/styles";
 import SearchIcon from "@mui/icons-material/Search";
 import Loading from "./loading";
 import InfoIcon from "@mui/icons-material/Info";
+import { useDarkMode } from "../context/darkMode";
+import NewRegisteredUsers from "./NewRegisteredUsers";
 //================================================
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -74,6 +76,8 @@ export default function Users(props) {
   const { query } = useController({ filter: "REGISTERED" });
   const router = useRouter();
   const [user, setUser] = useState("");
+  const theme = useTheme();
+  const { darkMode } = useDarkMode();
   //================================================
   if (query.isLoading) {
     return <Loading />;
@@ -91,41 +95,12 @@ export default function Users(props) {
       >
         {/* //======================================== */}
 
-        {/* //======================================== */}
-        <Box
-          sx={{
-            p: 5,
-            boxShadow: "0px 1px 3px 0px grey",
-            borderRadius: 1,
-            // width: "70%",
-            mt: 2,
-          }}
-        >
-          {/* //======================================== */}
-
-          <Typography
-            sx={{
-              fontWeight: "bold",
-              fontSize: "18px",
-              fontFamily: "poppins",
-              mb: 2,
-            }}
-          >
-            All Users:{" "}
-            <span
-              style={{
-                backgroundColor: "black",
-                color: "white",
-                padding: 10,
-                borderRadius: 20,
-                marginLeft: 20,
-              }}
-            >
-              {props.user.length}
-            </span>
-          </Typography>
-          {/* //======================================== */}
-          <Box
+        <NewRegisteredUsers
+          type="REGISTERED"
+          title="All users :"
+          url="/admin/user/details/"
+        />
+        {/* <Box
             sx={{
               display: "flex",
               justifyContent: "space-between",
@@ -134,6 +109,10 @@ export default function Users(props) {
               boxShadow: "0px 1px 3px 0px grey",
               p: 2,
               borderRadius: 1,
+              [theme.breakpoints.down("sm")]: {
+                ml:5,
+                mt:3
+              },
             }}
           >
         
@@ -149,9 +128,21 @@ export default function Users(props) {
               size="small"
               variant="outlined"
               onChange={(e) => setUser(e.target.value)}
+              sx={{
+                "& .MuiOutlinedInput-root": {
+                  "& fieldset": {
+                    borderColor: darkMode ? "white" : "gray",
+                  },
+                },
+                "& .MuiInputBase-root": {
+                  color: darkMode ? "white" : "gray",
+                },
+                [theme.breakpoints.down("sm")]: {
+                  width: "100%",
+                },
+              }}
             />
           </Box>
-          {/* //======================================== */}
           <Box
             sx={{
               overflow: "auto",
@@ -217,10 +208,7 @@ export default function Users(props) {
                 );
               }
             })}
-          </Box>
-          {/* //======================================== */}
-        </Box>
-        {/* //======================================== */}
+          </Box> */}
       </Box>
     );
   }

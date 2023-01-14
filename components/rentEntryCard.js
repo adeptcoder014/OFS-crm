@@ -26,6 +26,8 @@ import { SelectAllSharp } from "@mui/icons-material";
 import { useToken } from "../context/localStorageToken";
 import { getAdminById } from "../api/admin";
 import jwt_decode from "jwt-decode";
+import { useTheme } from "@mui/system";
+import { useDarkMode } from "../context/darkMode";
 //==================================================
 const style = {
   position: "absolute",
@@ -55,6 +57,8 @@ export default function RentEntry(props) {
   const [collectedBy, setCollectedBy] = useState("");
   const [transactionId, setTransactionId] = useState("");
 
+  const theme = useTheme();
+  const { darkMode } = useDarkMode();
   //===========================
   useEffect(() => {
     getAdminById(jwt_decode(token)._id).then((res) => setAdmin(res.data.data));
@@ -187,12 +191,27 @@ export default function RentEntry(props) {
       </Modal>
       {/* ==================== RENT_CYCLE ==================================== */}
       <Grid item xs={12} sm={12} md={6} lg={6} xl={6} sx={{}}>
-        <Typography sx={{ mb: 2 }}>Rent Cycle</Typography>
+        <Typography
+          sx={
+            darkMode
+              ? [theme.lightText, { mb: 1, fontSize: 12 }]
+              : [theme.darkText, { mb: 1, fontSize: 12 }]
+          }
+        >
+          Rent Cycle :
+        </Typography>
         <TextField
-          
-         
           size="small"
-          // variant="standard"
+          sx={{
+            "& .MuiOutlinedInput-root": {
+              "& fieldset": {
+                borderColor: darkMode ? "white" : "gray",
+              },
+            },
+            input: {
+              color: darkMode ? "white" : "gray",
+            },
+          }}
           type="number"
           value={rentCycle}
           onChange={(e) => setRentCycle(e.target.value)}
@@ -201,23 +220,56 @@ export default function RentEntry(props) {
       {/* ==================== RENT ==================================== */}
 
       <Grid item xs={12} sm={12} md={6} lg={6} xl={6} sx={{}}>
-        <Typography sx={{ mb: 2 }}>Rent</Typography>
+        <Typography
+          sx={
+            darkMode
+              ? [theme.lightText, { mb: 1, mt: 2, fontSize: 12 }]
+              : [theme.darkText, { mb: 1, mt: 2, fontSize: 12 }]
+          }
+        >
+          Rent :
+        </Typography>
         <TextField
-        
           size="small"
           // variant="standard"
           type="number"
           onChange={(e) => setRent(e.target.value)}
+          sx={{
+            "& .MuiOutlinedInput-root": {
+              "& fieldset": {
+                borderColor: darkMode ? "white" : "gray",
+              },
+            },
+            input: {
+              color: darkMode ? "white" : "gray",
+            },
+          }}
         />
       </Grid>
       {/* ==================== METER_READING ==================================== */}
 
-      <Grid item xs={12} sm={12} md={6} lg={6} xl={6} sx={{ mt: 2 }}>
-        <Typography sx={{ mb: 2, fontWeight: "bold" }}>Ebill</Typography>
+      <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
+        <Typography
+          sx={
+            darkMode
+              ? [theme.lightText, { mb: 1, mt: 2, fontSize: 12 }]
+              : [theme.darkText, { mb: 1, mt: 2, fontSize: 12 }]
+          }
+        >
+          Ebill :
+        </Typography>
         <TextField
-         
           size="small"
-          // variant="standard"
+          sx={{
+            "& .MuiOutlinedInput-root": {
+              "& fieldset": {
+                borderColor: darkMode ? "white" : "gray",
+              },
+            },
+            input: {
+              color: darkMode ? "white" : "gray",
+            },
+          }}
           type="number"
           onChange={(e) => setReading(e.target.value)}
         />
@@ -225,7 +277,13 @@ export default function RentEntry(props) {
       {/* ==================== DURATION ==================================== */}
 
       <Grid item xs={12} sm={12} md={6} lg={6} xl={6} sx={{}}>
-        <Typography sx={{ mb: 2, fontWeight: "bold", mt: 2 }}>
+        <Typography
+          sx={
+            darkMode
+              ? [theme.lightText, { mb: 1, mt: 2, fontSize: 12 }]
+              : [theme.darkText, { mb: 1, mt: 2, fontSize: 12 }]
+          }
+        >
           Duration
         </Typography>
         <input
@@ -235,10 +293,11 @@ export default function RentEntry(props) {
           }}
           style={{
             // border: 0,
-            border: "1px solid gray",
+            border: darkMode ? "1px solid white" : "1px solid gray",
             padding: 12,
             borderRadius: 8,
             backgroundColor: "transparent",
+            width: 230,
           }}
         />
       </Grid>
@@ -276,17 +335,19 @@ export default function RentEntry(props) {
                 Swal.fire("Ooops !", e.response.data.message, "error")
               );
           }}
-          // fullWidth
-          sx={{
-            backgroundColor: "white",
-            color: "gray",
-            fontWeight: "bold",
-            border: "2px solid gray ",
-            mt: 5,
-            width: "50%",
-            ml:25
-            
-          }}
+          sx={[
+            theme.primaryBtn,
+            {
+              mt: 5,
+              [theme.breakpoints.down("sm")]: {
+                width: 240,
+              },
+              [theme.breakpoints.up("sm")]: {
+                width: 540,
+                ml:25
+              },
+            },
+          ]}
         >
           Update
         </Button>

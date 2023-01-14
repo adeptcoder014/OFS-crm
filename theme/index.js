@@ -103,7 +103,7 @@ export const theme = createTheme({
     MuiInputLabel: {
       styleOverrides: {
         outlined: {
-          color: "green",
+          color: "gray",
         },
         focused: {
           backgroundColor: "red",

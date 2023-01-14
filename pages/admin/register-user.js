@@ -37,9 +37,14 @@ import { useRentController } from "../../controller/rental";
 import { useState } from "react";
 import { ADMIN_URL } from "../../constants/url";
 import MailIcon from "@mui/icons-material/Mail";
+import { useTheme } from "@mui/system";
+import { useDarkMode } from "../../context/darkMode";
 //============================================================================
 export default function RegisterUser() {
   const [open, setOpen] = useState(false);
+
+  const theme = useTheme();
+  const { darkMode } = useDarkMode();
   //============ RENTAL_STRUCTURE ================================
   const giveRemainingRent = (days) => {
     const remainingDays = 30 - days;
@@ -130,102 +135,262 @@ export default function RegisterUser() {
           />{" "}
         </Box>
       </Dialog>
-      <Typography variant="h4" sx={{ fontFamily: "poppins", m:3 }}>
-        User details
-      </Typography>
-      <Container
-        maxWidth="lg"
+      <Box
         sx={{
-          mt: 1,
-          backgroundColor: "#f5f5f5",
-          boxShadow: "0px 3px 3px 0px #b1cdb1",
-          borderRadius: "6px",
-          p: 5,
+          backgroundColor: darkMode ? "#23272a" : "white",
+          [theme.breakpoints.down("sm")]: {
+            width: "130%",
+          },
         }}
       >
-        {/* //]============================= */}
-        <Grid container>
-          {/* //------------------------- */}
+        <Typography
+          variant="h4"
+          sx={
+            darkMode ? [theme.lightText, { m: 7 }] : [theme.darkText, { m: 7 }]
+          }
+        >
+          User details
+        </Typography>
+        <Container
+          // maxWidth="lg"
+          sx={{
+            mt: 1,
+            backgroundColor: darkMode ? "#2c2f33" : "white",
+            boxShadow: "0px 3px 3px 0px #b1cdb1",
+            borderRadius: "6px",
+            p: 5,
+            [theme.breakpoints.down("sm")]: {
+              width: "75%",
+              ml: 9,
+            },
+          }}
+        >
+          {/* //]============================= */}
+          <Grid container>
+            {/* //------------------------- */}
 
-          <Grid item xl={4} lg={4} md={4} sm={12} xs={12}>
-            <Box
-              sx={{ mb: 2 }}
-              item
-              xl={1}
-              lg={1}
-              md={4}
-              xs={12}
-              onClick={() => setOpen(true)}
-            >
-              <img
-                src={`${ADMIN_URL}/${query?.data?.data?.photo}`}
-                style={{
-                  border: "1px dashed gray",
-                  width: 280,
-                  height: 150,
-
-                  // maxWidth: "-webkit-fill-available",
-                }}
-              />{" "}
-            </Box>
-          </Grid>
-          {/* //------------------------- */}
-          <Grid item xl={4} lg={4} md={4} sm={12} xs={12}>
-            <Box item xl={6} lg={6} md={4} xs={12} sx={{ flexBasis: "350px" }}>
-              <Typography
-                sx={{
-                  color: "gray",
-                  fontWeight: "bold",
-                  fontFamily: "poppins",
-                  // ml: 1,
-                }}
-              >
-                <span style={{ color: "black" }}>Name</span> :{" "}
-                {query?.data?.data?.name} {query?.data?.data?.zodiac?.symbol}
-              </Typography>
+            <Grid item xl={4} lg={4} md={4} sm={12} xs={12}>
               <Box
-                sx={{
-                  display: "flex",
-                }}
+                sx={{ mb: 2 }}
+                item
+                xl={1}
+                lg={1}
+                md={4}
+                xs={12}
+                onClick={() => setOpen(true)}
               >
-                <Typography
+                <img
+                  src={`${ADMIN_URL}/${query?.data?.data?.photo}`}
+                  style={{
+                    border: "1px dashed gray",
+                    width: 280,
+                    height: 150,
+
+                    // maxWidth: "-webkit-fill-available",
+                  }}
+                />{" "}
+              </Box>
+            </Grid>
+            {/* //------------------------- */}
+            <Grid item xl={4} lg={4} md={4} sm={12} xs={12}>
+              <Box
+                item
+                xl={6}
+                lg={6}
+                md={4}
+                xs={12}
+                sx={{ flexBasis: "350px" }}
+              >
+                <Box sx={{ display: "flex" }}>
+                  <Typography
+                    sx={
+                      darkMode
+                        ? [
+                            theme.lightText,
+                            {
+                              mr: 2,
+                              [theme.breakpoints.down("sm")]: {
+                                fontSize: 13,
+                              },
+                              color: "gray",
+                            },
+                          ]
+                        : [
+                            theme.darkText,
+                            {
+                              mr: 2,
+                              [theme.breakpoints.down("sm")]: {
+                                fontSize: 13,
+                              },
+                              color: "gray",
+                            },
+                          ]
+                    }
+                  >
+                    Name
+                  </Typography>{" "}
+                  <Typography
+                    sx={
+                      darkMode
+                        ? [
+                            theme.lightText,
+                            {
+                              [theme.breakpoints.down("sm")]: {
+                                fontSize: 13,
+                              },
+                            },
+                          ]
+                        : [
+                            theme.darkText,
+                            {
+                              [theme.breakpoints.down("sm")]: {
+                                fontSize: 13,
+                              },
+                            },
+                          ]
+                    }
+                  >
+                    {query?.data?.data?.name}{" "}
+                    {query?.data?.data?.zodiac?.symbol}
+                  </Typography>
+                </Box>
+                <Box
                   sx={{
-                    color: "gray",
-                    fontWeight: "bolder",
-                    fontFamily: "poppins",
-                    mt: 2,
+                    display: "flex",
                   }}
                 >
                   {/* <MailIcon sx={{}} /> */}
-                  <span style={{ color: "black" }}>Email</span> :{" "}
-                  {query?.data?.data?.email}
-                </Typography>
-              </Box>
-              <Box
-                sx={{
-                  display: "flex",
-                }}
-              >
-                <Typography
+                  <Typography
+                    sx={
+                      darkMode
+                        ? [
+                            theme.lightText,
+                            {
+                              mr: 2,
+                              [theme.breakpoints.down("sm")]: {
+                                fontSize: 13,
+                              },
+                              color: "gray",
+                            },
+                          ]
+                        : [
+                            theme.darkText,
+                            {
+                              mr: 2,
+                              [theme.breakpoints.down("sm")]: {
+                                fontSize: 13,
+                              },
+                              color: "gray",
+                            },
+                          ]
+                    }
+                  >
+                    Email
+                  </Typography>{" "}
+                  <Typography
+                    sx={
+                      darkMode
+                        ? [
+                            theme.lightText,
+                            {
+                              mr: 2,
+                              [theme.breakpoints.down("sm")]: {
+                                fontSize: 13,
+                              },
+                            },
+                          ]
+                        : [
+                            theme.darkText,
+                            {
+                              mr: 2,
+                              [theme.breakpoints.down("sm")]: {
+                                fontSize: 13,
+                              },
+                            },
+                          ]
+                    }
+                  >
+                    {query?.data?.data?.email}
+                  </Typography>
+                </Box>
+                <Box
                   sx={{
-                    color: "gray",
-                    fontWeight: "bolder",
-                    fontFamily: "poppins",
-                    mt: 2,
-                    // ml: 1,
+                    display: "flex",
                   }}
                 >
-                  <span style={{ color: "black" }}>Phone</span> :{" "}
-                  {query?.data?.data?.phone}
-                </Typography>
+                  <Typography
+                    sx={
+                      darkMode
+                        ? [
+                            theme.lightText,
+                            {
+                              mr: 2,
+                              [theme.breakpoints.down("sm")]: {
+                                fontSize: 13,
+                              },
+                              color: "gray",
+                            },
+                          ]
+                        : [
+                            theme.darkText,
+                            {
+                              mr: 2,
+                              [theme.breakpoints.down("sm")]: {
+                                fontSize: 13,
+                              },
+                              color: "gray",
+                            },
+                          ]
+                    }
+                  >
+                    Phone
+                  </Typography>{" "}
+                  <Typography
+                    sx={
+                      darkMode
+                        ? [
+                            theme.lightText,
+                            {
+                              mr: 2,
+                              [theme.breakpoints.down("sm")]: {
+                                fontSize: 13,
+                              },
+                            },
+                          ]
+                        : [
+                            theme.darkText,
+                            {
+                              mr: 2,
+                              [theme.breakpoints.down("sm")]: {
+                                fontSize: 13,
+                              },
+                            },
+                          ]
+                    }
+                  >
+                    {query?.data?.data?.phone}
+                  </Typography>
+                </Box>
               </Box>
-            </Box>
-          </Grid>
-          {/* //------------------------- */}
-          <Grid item xl={4} lg={4} md={4} sm={12} xs={12}>
-            {query?.data?.data?.roomPreference === "double" ? (
-              <>
-                <Tooltip title="*room preference">
+            </Grid>
+            {/* //------------------------- */}
+            <Grid item xl={4} lg={4} md={4} sm={12} xs={12}>
+              {query?.data?.data?.roomPreference === "double" ? (
+                <>
+                  <Tooltip title="*room preference">
+                    <BedroomParentIcon
+                      sx={{
+                        backgroundColor: "gray",
+                        color: "white",
+                        borderRadius: "3px",
+                        fontSize: 45,
+                        mt: 2,
+                      }}
+                    />
+                  </Tooltip>
+                </>
+              ) : (
+                <>
                   <BedroomParentIcon
                     sx={{
                       backgroundColor: "gray",
@@ -235,151 +400,184 @@ export default function RegisterUser() {
                       mt: 2,
                     }}
                   />
-                </Tooltip>
-              </>
-            ) : (
-              <>
-                <BedroomParentIcon
-                  sx={{
-                    backgroundColor: "gray",
-                    color: "white",
-                    borderRadius: "3px",
-                    fontSize: 45,
-                    mt: 2,
-                  }}
-                />
-                <BedroomChildIcon
-                  sx={{
-                    backgroundColor: "gray",
-                    color: "white",
-                    borderRadius: "3px",
-                    fontSize: 45,
-                  }}
-                />
-              </>
-            )}
+                  <BedroomChildIcon
+                    sx={{
+                      backgroundColor: "gray",
+                      color: "white",
+                      borderRadius: "3px",
+                      fontSize: 45,
+                    }}
+                  />
+                </>
+              )}
+            </Grid>
           </Grid>
-        </Grid>
-      </Container>
+        </Container>
 
-      {/* ===================== FORM ================================== */}
+        {/* ===================== FORM ================================== */}
 
-      <Container
-        maxWidth="lg"
-        sx={{
-          mt: 5,
-          //   backgroundColor: "#f5f5f5",
-          boxShadow: "0px 3px 3px 0px #b1cdb1",
-          borderRadius: "6px",
-          p: 5,
-        }}
-      >
-        <form onSubmit={patchForm.handleSubmit}>
-          {" "}
-          <Typography variant="h4" sx={{ fontFamily: "poppins", mb: 5 }}>
-            Assign User Information
-          </Typography>
-          <Grid container sx={{ width: "100%", mt: 5, display: "flex", p: 0 }}>
-            <Grid
-              className="responsive"
-              item
-              md={6}
-              xs={12}
-              sx={{ display: "flex", flexDirection: "column", mb: 5 }}
+        <Container
+          maxWidth="lg"
+          sx={{
+            mt: 5,
+            backgroundColor: darkMode ? "#2c2f33" : "white",
+            boxShadow: "0px 3px 3px 0px #b1cdb1",
+            borderRadius: "6px",
+            p: 5,
+            [theme.breakpoints.down("sm")]: {
+              width: "80%",
+            },
+          }}
+        >
+          <form onSubmit={patchForm.handleSubmit}>
+            {" "}
+            <Typography
+              variant="h4"
+              sx={
+                darkMode
+                  ? [theme.lightText, { m: 7 }]
+                  : [theme.darkText, { m: 7 }]
+              }
             >
-              <FormLabel sx={{ mb: 2 }}>Room Number</FormLabel>
-              <TextField
-                error={patchForm.touched.room && Boolean(patchForm.errors.room)}
-                helperText={patchForm.touched.room && patchForm.errors.room}
-                id="room"
-                type="number"
-                name="room"
-                value={patchForm?.values?.room}
-                onChange={patchForm.handleChange}
-                sx={{
-                  width: "90%",
-                  "& label.Mui-focused": {
-                    color: "red",
-                  },
-                }}
-                size="small"
-                variant="standard"
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <LuggageIcon />
-                    </InputAdornment>
-                  ),
-                }}
-              />
-            </Grid>
+              {" "}
+              Assign User Information
+            </Typography>
             <Grid
-              className="responsive"
-              item
-              md={6}
-              xs={12}
-              sx={{ display: "flex", flexDirection: "column" }}
+              container
+              sx={{ width: "100%", mt: 5, display: "flex", p: 0 }}
             >
-              <FormLabel sx={{ mb: 2 }}>Electricity Meter Reading </FormLabel>
-              <TextField
-                error={
-                  patchForm.touched.meterReading &&
-                  Boolean(patchForm.errors.meterReading)
-                }
-                helperText={
-                  patchForm.touched.meterReading &&
-                  patchForm.errors.meterReading
-                }
-                id="meterReading"
-                name="meterReading"
-                type="number"
-                value={patchForm?.values?.meterReading}
-                onChange={patchForm.handleChange}
-                sx={{ width: "90%" }}
-                size="small"
-                variant="standard"
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <ElectricMeterIcon />
-                    </InputAdornment>
-                  ),
-                }}
-              />
-            </Grid>
+              <Grid
+                className="responsive"
+                item
+                md={6}
+                xs={12}
+                sx={{ display: "flex", flexDirection: "column", mb: 5 }}
+              >
+                <FormLabel
+                  sx={
+                    darkMode
+                      ? [theme.lightText, { mb: 2 }]
+                      : [theme.darkText, { mb: 2 }]
+                  }
+                >
+                  Room Number
+                </FormLabel>
+                <TextField
+                  error={
+                    patchForm.touched.room && Boolean(patchForm.errors.room)
+                  }
+                  helperText={patchForm.touched.room && patchForm.errors.room}
+                  id="room"
+                  type="number"
+                  name="room"
+                  value={patchForm?.values?.room}
+                  onChange={patchForm.handleChange}
+                  sx={{
+                    width: "90%",
+                    "& label.Mui-focused": {
+                      color: "red",
+                    },
+                  }}
+                  size="small"
+                  variant="standard"
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <LuggageIcon />
+                      </InputAdornment>
+                    ),
+                  }}
+                />
+              </Grid>
+              <Grid
+                className="responsive"
+                item
+                md={6}
+                xs={12}
+                sx={{ display: "flex", flexDirection: "column" }}
+              >
+                <FormLabel
+                  sx={
+                    darkMode
+                      ? [theme.lightText, { mb: 2 }]
+                      : [theme.darkText, { mb: 2 }]
+                  }
+                >
+                  Electricity Meter Reading{" "}
+                </FormLabel>
+                <TextField
+                  error={
+                    patchForm.touched.meterReading &&
+                    Boolean(patchForm.errors.meterReading)
+                  }
+                  helperText={
+                    patchForm.touched.meterReading &&
+                    patchForm.errors.meterReading
+                  }
+                  id="meterReading"
+                  name="meterReading"
+                  type="number"
+                  value={patchForm?.values?.meterReading}
+                  onChange={patchForm.handleChange}
+                  sx={{ width: "90%" }}
+                  size="small"
+                  variant="standard"
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <ElectricMeterIcon />
+                      </InputAdornment>
+                    ),
+                  }}
+                />
+              </Grid>
 
-            <Grid
-              item
-              md={6}
-              xs={12}
-              sx={{ display: "flex", flexDirection: "column", mt: 5 }}
-            >
-              <FormLabel sx={{ mb: 2 }}>Joining Date </FormLabel>
+              <Grid
+                item
+                md={6}
+                xs={12}
+                sx={{ display: "flex", flexDirection: "column",
+                [theme.breakpoints.up("sm")]: {
+              
+                  mt:11
+                },
+              }}
+              >
+                <FormLabel
+                  sx={
+                    darkMode
+                      ? [theme.lightText, { mb: 2 }]
+                      : [theme.darkText, { mb: 2 }]
+                  }
+                >
+                  Joining Date{" "}
+                </FormLabel>
 
-              <TextField
-                error={
-                  patchForm.touched.joiningDate &&
-                  Boolean(patchForm.errors.joiningDate)
-                }
-                helperText={
-                  patchForm.touched.joiningDate && patchForm.errors.joiningDate
-                }
-                id="joiningDate"
-                type="date"
-                name="joiningDate"
-                value={patchForm?.values?.joiningDate.split("T")[0]}
-                onChange={patchForm.handleChange}
-                sx={{
-                  width: "90%",
-                  "& label.Mui-focused": {
-                    color: "red",
-                  },
-                }}
-                size="small"
-                variant="standard"
-              />
-            </Grid>
-            {/* <Grid
+                <TextField
+                  error={
+                    patchForm.touched.joiningDate &&
+                    Boolean(patchForm.errors.joiningDate)
+                  }
+                  helperText={
+                    patchForm.touched.joiningDate &&
+                    patchForm.errors.joiningDate
+                  }
+                  id="joiningDate"
+                  type="date"
+                  name="joiningDate"
+                  value={patchForm?.values?.joiningDate.split("T")[0]}
+                  onChange={patchForm.handleChange}
+                  sx={{
+                    width: "90%",
+                    "& label.Mui-focused": {
+                      color: "red",
+                    },
+                  }}
+                  size="small"
+                  variant="standard"
+                />
+              </Grid>
+              {/* <Grid
                 className="responsive"
                 item
                 md={6}
@@ -417,114 +615,113 @@ export default function RegisterUser() {
                   }}
                 />
               </Grid> */}
-            <Grid
-              className="responsive"
-              item
-              md={6}
-              xs={12}
-              sx={{ display: "flex", flexDirection: "column", mt: 6 }}
-            >
-              <FormLabel sx={{ mb: 2 }}>Remark</FormLabel>
-
-              <TextField
-                multiline
-                error={
-                  patchForm.touched.remark && Boolean(patchForm.errors.remark)
-                }
-                helperText={patchForm.touched.remark && patchForm.errors.remark}
-                id="remark"
-                name="remark"
-                value={patchForm?.values?.remark}
-                onChange={patchForm.handleChange}
-                sx={{ width: "90%" }}
-                size="small"
-                variant="standard"
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <CommentIcon />
-                    </InputAdornment>
-                  ),
-                }}
-              />
-            </Grid>
-            <Grid
-              sx={{ display: "flex" }}
-              item
-              xl={6}
-              lg={6}
-              md={6}
-              xs={12}
-              sm={12}
-            >
-              <LoadingButton
-                // onClick={() => console.log("xxx----->", router.query.id)}
-                disabled={patch.isLoading}
-                loading={patch.isLoading}
-                type="submit"
-                sx={{
-                  backgroundColor: "#ff855f",
-                  color: "white",
-                  width: "50%",
-                  fontSize: 16,
-                  m: "auto",
-                  mt: 1,
-                  borderRadius: "100px",
-                  p: 2,
-                  fontWeight: "bolder",
-
-                  "&:hover": {
-                    color: "#ff855f",
-                    fontWeight: "bolder",
-                    border: "2px solid #ff855f",
-                    backgroundColor: "white",
-                  },
-                }}
+              <Grid
+                className="responsive"
+                item
+                md={6}
+                xs={12}
+                sx={{ display: "flex", flexDirection: "column", mt: 6 }}
               >
-                Approve
-              </LoadingButton>{" "}
-            </Grid>
-            <Grid
-              sx={{ display: "flex" }}
-              item
-              xl={6}
-              lg={6}
-              md={6}
-              xs={12}
-              sm={12}
-            >
-              <LoadingButton
-                fullWidth
-                // onClick={() => console.log("xxx----->", router.query.id)}
-                disabled={patch.isLoading}
-                loading={patch.isLoading}
-                type="submit"
-                sx={{
-                  // backgroundColor: "#ff855f",
-                  color: "#ff855f",
-                  width: "50%",
-                  fontSize: 16,
-                  m: "auto",
-                  mt: 1,
-                  borderRadius: "100px",
-                  p: 2,
-                  border: "2px solid #ff855f",
-                  fontWeight: "bolder",
+                <FormLabel
+                  sx={
+                    darkMode
+                      ? [theme.lightText, { mb: 2,mt:5 }]
+                      : [theme.darkText, { mb: 2,mt:5 }]
+                  }
+                >
+                  Remark
+                </FormLabel>
 
-                  "&:hover": {
-                    color: "white",
-                    fontWeight: "bolder",
-                    border: "2px solid #ff855f",
-                    backgroundColor: "#ff855f",
-                  },
-                }}
+                <TextField
+                  multiline
+                  error={
+                    patchForm.touched.remark && Boolean(patchForm.errors.remark)
+                  }
+                  helperText={
+                    patchForm.touched.remark && patchForm.errors.remark
+                  }
+                  id="remark"
+                  name="remark"
+                  value={patchForm?.values?.remark}
+                  onChange={patchForm.handleChange}
+                  sx={{ width: "90%" }}
+                  size="small"
+                  variant="standard"
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <CommentIcon />
+                      </InputAdornment>
+                    ),
+                  }}
+                />
+              </Grid>
+              <Grid
+                sx={{ display: "flex" }}
+                item
+                xl={6}
+                lg={6}
+                md={6}
+                xs={12}
+                sm={12}
               >
-                Disapprove
-              </LoadingButton>{" "}
+                <LoadingButton
+                  fullWidth // onClick={() => console.log("xxx----->", router.query.id)}
+                  disabled={patch.isLoading}
+                  loading={patch.isLoading}
+                  type="submit"
+                  sx={[theme.primaryBtn,{
+                    [theme.breakpoints.up("sm")]: {
+                      width:"80%",
+                      mt:5
+                    },
+                  }]}
+                >
+                  Approve
+                </LoadingButton>{" "}
+              </Grid>
+              <Grid
+                sx={{ display: "flex" }}
+                item
+                xl={6}
+                lg={6}
+                md={6}
+                xs={12}
+                sm={12}
+              >
+                <LoadingButton
+                  fullWidth
+                  // onClick={() => console.log("xxx----->", router.query.id)}
+                  disabled={patch.isLoading}
+                  loading={patch.isLoading}
+                  type="submit"
+                  sx={[theme.primaryBtn,{
+                    [theme.breakpoints.up("sm")]: {
+                      width:"80%",
+                      mt:5
+                    },
+
+                    [theme.breakpoints.down("sm")]: {
+
+                      mt:3
+                    },
+                  
+                    backgroundColor:"#ed4245",
+                    "&:hover": {
+                      color: "#ed4245",
+                      border: "2px solid #ed4245",
+                      backgroundColor: "white",
+                    },
+                    
+                  }]}
+                >
+                  Disapprove
+                </LoadingButton>{" "}
+              </Grid>
             </Grid>
-          </Grid>
-        </form>
-      </Container>
+          </form>
+        </Container>
+      </Box>
     </>
   );
 }
