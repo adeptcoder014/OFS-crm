@@ -91,6 +91,7 @@ export default function Rents() {
 
       {query?.data?.data?.map((x) => (
         <Box
+        key={x}
           sx={{
             backgroundColor: darkMode ? "#2c2f33" : "white",
             display: "flex",
