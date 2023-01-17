@@ -30,20 +30,34 @@ import { useDarkMode } from "../../context/darkMode";
 import Cube from "../../components/3dCube";
 //==========================================================
 export default function Home(props) {
+  const router = useRouter();
+  const [admin, setAdmin] = React.useState({});
+  React.useEffect(() => {
+    if (typeof window !== "undefined") {
+      const token = localStorage.getItem("Token");
+
+      if (!token) {
+        router.push("/admin/login");
+      } else {
+        getAdminById(jwt_decode(token)._id).then((res) =>
+          setAdmin(res.data.data)
+        );
+      }
+    }
+  }, []);
+
   React.useEffect(() => {
     axiosInstance.get("/dashboard").then((res) => setDashboard(res.data));
   }, []);
 
-  React.useEffect(() => {
-    const token = localStorage.getItem("Token");
-    getAdminById(jwt_decode(token)._id).then((res) => setAdmin(res.data.data));
-  }, []);
+  // React.useEffect(() => {
+  //   const token = localStorage.getItem("Token");
+  //   getAdminById(jwt_decode(token)._id).then((res) => setAdmin(res.data.data));
+  // }, []);
   //========================================================
   const [Token, setToken] = React.useState("");
-  const [admin, setAdmin] = React.useState({});
   const [dashboard, setDashboard] = React.useState({});
   //========================================================
-  const router = useRouter();
   const { sidebarOpen, setSidebarOpen } = useSidebarOpen();
   const theme = useTheme();
   const { query } = useController({ filter: "NEW" });
@@ -164,7 +178,7 @@ export default function Home(props) {
             <NewRegisteredUsers
               type="NEW"
               title="Latest Registration Bookings :"
-              url='/admin/register-user/'
+              url="/admin/register-user/"
             />
           </Grid>
           <Grid item xl={6} lg={6} md={6} sm={12} xs={12}>

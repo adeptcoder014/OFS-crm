@@ -34,8 +34,8 @@ import { useDarkMode } from "../../context/darkMode";
 import { useTheme } from "@mui/system";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import RequestQuoteIcon from "@mui/icons-material/RequestQuote";
-import BroadcastOnHomeIcon from '@mui/icons-material/BroadcastOnHome';
-import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
+import BroadcastOnHomeIcon from "@mui/icons-material/BroadcastOnHome";
+import AccountBalanceIcon from "@mui/icons-material/AccountBalance";
 //===================================================================
 const drawerWidth = 250;
 
@@ -55,7 +55,6 @@ const closedMixin = (theme) => ({
   }),
   overflowX: "hidden",
   width: `calc(${theme.spacing(7)} + 1px)`,
-
 
   [theme.breakpoints.up("sm")]: {
     width: `calc(${theme.spacing(6)} + 1px)`,
@@ -346,7 +345,10 @@ export default function DashboardSidebar(props) {
                 "You have been logged out!",
                 "Log in to continue",
                 "success"
-              ).then(res => window.location.reload())
+              ).finally(() => {
+                // window.location.reload();
+                router.push("/admin/login");
+              });
             }}
             sx={{
               // zoom: '90%',

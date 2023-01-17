@@ -168,24 +168,7 @@ export default function DashboardNavbar(props) {
     </Menu>
   );
 
-  const [token, setToken] = React.useState({});
-  const [admin, setAdmin] = React.useState({});
-  React.useEffect(() => {
-    if (typeof window !== "undefined") {
-      const token = localStorage.getItem("Token");
-      if (token) {
-        const tokenInfo = jwt_decode(token)._id;
-        {
-          tokenInfo ? setToken(tokenInfo) : null;
-        }
-      }
-      getAdminById(jwt_decode(token)._id).then((res) =>
-        setAdmin(res.data.data)
-      );
-    }
-  }, []);
 
-  // console.log("TOKEN ------>", token);
 
   //=========================================================
 
@@ -194,9 +177,7 @@ export default function DashboardNavbar(props) {
       <AppBar
         position="fixed"
         sx={{
-          backgroundColor: darkMode
-            ? theme.custom.navbar.dark
-            : theme.custom.navbar.light,
+          backgroundColor: darkMode ? "#23272a" : "#99aab5",
           zIndex: 99999999999999,
           height: "70px",
           ...(props.open && { width: "calc(100% - 250px)" }), // calc(max - min)
@@ -222,7 +203,7 @@ export default function DashboardNavbar(props) {
           >
             Admin Center
           </Typography>
-       
+
           <Search>
             <SearchIconWrapper>
               <SearchIcon />
