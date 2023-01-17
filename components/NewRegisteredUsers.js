@@ -15,14 +15,28 @@ import { useRouter } from "next/router";
 import SearchIcon from "@mui/icons-material/Search";
 import { useTheme } from "@mui/system";
 import { useDarkMode } from "../context/darkMode";
+import axiosInstance from "../api/axios";
+import { ADMIN_URL } from "../constants/url";
+import axios from "axios";
 //================================================
 export default function NewRegisteredUsers(props) {
   //================================================
   const { query } = useController({ filter: props.type });
   const router = useRouter();
-  const [user, setUser] = useState("");
+  const [user, setUser] = useState(query?.data?.data?.user);
   const theme = useTheme();
+
+  const [w, setW] = useState("");
+
   const { darkMode } = useDarkMode();
+  // console.log(query?.data?.data?.user)
+
+
+  const filter = user?.filter(x =>{
+    if(x.name.toLowerCase().includes(w)){
+      return(x)
+    }
+  })
   //================================================
 
   return (
@@ -35,7 +49,6 @@ export default function NewRegisteredUsers(props) {
         mt: 2,
         backgroundColor: darkMode ? "#2c2f33" : "#ffffff",
         // height:400
-        
       }}
     >
       {/* //======================================== */}
@@ -119,10 +132,10 @@ export default function NewRegisteredUsers(props) {
           }}
           size="small"
           variant="outlined"
-          onChange={(e) => console.log(e.target.value)
-            // setUser(e.target.value)
-          
-          }
+          onChange={(e) => {
+            setW(e.target.value);
+            // axios.get(`${ADMIN_URL}/user/search?user=nischal`);
+          }}
           sx={{
             "& .MuiOutlinedInput-root": {
               "& fieldset": {
@@ -144,8 +157,9 @@ export default function NewRegisteredUsers(props) {
           p: 2,
         }}
       >
-        {query?.data?.data?.user?.map((x) => {
-          if (x.name.toLowerCase().startsWith(user)) {
+        {filter?.map((x) => {
+          
+          // if (x.name.toLowerCase().includes(w)) {
             return (
               <Box
                 key={x}
@@ -193,7 +207,7 @@ export default function NewRegisteredUsers(props) {
                 />
               </Box>
             );
-          }
+          // }
         })}
       </Box>
       {/* //======================================== */}

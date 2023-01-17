@@ -14,7 +14,7 @@ import DashboardLayout from "../../components/layout/user-layout";
 import BedIcon from "@mui/icons-material/Bed";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useMutation } from "@tanstack/react-query";
 import { getUserById, userProfileUpdate } from "../../api/user";
 import Loading from "../../components/loading";
 import OutletIcon from "@mui/icons-material/Outlet";
@@ -28,13 +28,13 @@ import LoadingButton from "@mui/lab/LoadingButton";
 import axios from "axios";
 import { ADMIN_URL } from "../../constants/url";
 import Swal from "sweetalert2";
-
+import { useFormik } from "formik";
 //===========================================================
 
 export default function Profile() {
   //=====================================
   const theme = useTheme();
-  const { add, addForm } = useController();
+  // const { add, addForm } = useController();
 
   const { darkMode } = useDarkMode();
   let userId = "";
@@ -46,13 +46,41 @@ export default function Profile() {
     queryKey: ["getUserDetails"],
     queryFn: () => axiosInstance.get(`/user/${userId}`),
   });
+
+  const addForm = useFormik({
+    initialValues: {
+      name: "",
+      email: "",
+      phone: "",
+      profilePhoto: "",
+    },
+    onSubmit: (values) => {
+      add.mutate(values);
+    },
+  });
+
+  const add = useMutation({
+    mutationFn: userProfileUpdate,
+    onSuccess: (res) => {
+      return Swal.fire(
+        "Logged in !",
+        "profile updated",
+        "success"
+      )
+      // .then(() => router.push("/admin/home"));
+    },
+    onError: (err) =>
+      // console.log("ERROr ---",err),
+      Swal.fire("Error !", err.response.data, "error"),
+  });
+
   const [profilePhoto, setProfilePhoto] = useState("");
 
-  const [name, setName] = useState(query?.data?.data?.name);
+  // const [name, setName] = useState(query?.data?.data?.name);
 
-  const [email, setEmail] = useState(query?.data?.data?.email);
+  // const [email, setEmail] = useState(query?.data?.data?.email);
 
-  const [phone, setPhone] = useState(query?.data?.data?.phone);
+  // const [phone, setPhone] = useState(query?.data?.data?.phone);
 
   if (query.isLoading) {
     return <Loading />;
@@ -65,6 +93,10 @@ export default function Profile() {
     <Box
       sx={{
         backgroundColor: darkMode ? "#23272a" : "#99aab5",
+        [theme.breakpoints.down("sm")]: {
+          ml: -9,
+          mt: -2,
+        },
       }}
     >
       <Box>
@@ -95,7 +127,7 @@ export default function Profile() {
           p: 1,
         }}
       >
-        <form>
+        <form onSubmit={addForm.handleSubmit}>
           {" "}
           <Grid
             spacing={5}
@@ -125,14 +157,21 @@ export default function Profile() {
               <TextField
                 fullWidth
                 type="file"
-                //   error={
-                //     addForm.touched.name && Boolean(addForm.errors.name)
-                //   }
-                //   helperText={addForm.touched.name && addForm.errors.name}
+                error={
+                  addForm.touched.profilePhoto &&
+                  Boolean(addForm.errors.profilePhoto)
+                }
+                helperText={
+                  addForm.touched.profilePhoto && addForm.errors.profilePhoto
+                }
                 id="profilePhoto"
                 name="profilePhoto"
                 onChange={(e) => {
-                  setProfilePhoto(e.target.files[0]);
+                  addForm.setFieldValue("profilePhoto", e.target.files[0]);
+
+                  if (e.target.files && e.target.files[0]) {
+                    setProfilePhoto(URL.createObjectURL(e.target.files[0]));
+                  }
                 }}
                 sx={{
                   //   width: "90%",
@@ -165,14 +204,14 @@ export default function Profile() {
               </Typography>
               <TextField
                 fullWidth
-                //   error={
-                //     addForm.touched.name && Boolean(addForm.errors.name)
-                //   }
-                //   helperText={addForm.touched.name && addForm.errors.name}
-                //   id="name"
+                error={addForm.touched.name && Boolean(addForm.errors.name)}
+                helperText={addForm.touched.name && addForm.errors.name}
+                id="name"
                 name="name"
-                defaultValue={query?.data?.data?.name}
-                onChange={(e) => setName(e.target.value)}
+                // defaultValue={query?.data?.data?.name}
+                // onChange={(e) => setName(e.target.value)}
+                value={addForm.values.name}
+                onChange={addForm.handleChange}
                 sx={{
                   //   width: "90%",
                   backgroundColor: "#f6f8fb",
@@ -217,8 +256,10 @@ export default function Profile() {
                 //   helperText={addForm.touched.name && addForm.errors.name}
                 //   id="name"
                 name="email"
-                defaultValue={query?.data?.data?.email}
-                onChange={(e) => setEmail(e.target.value)}
+                // defaultValue={query?.data?.data?.email}
+                // onChange={(e) => setEmail(e.target.value)}
+                value={addForm.values.email}
+                onChange={addForm.handleChange}
                 sx={{
                   //   width: "90%",
                   backgroundColor: "#f6f8fb",
@@ -263,8 +304,10 @@ export default function Profile() {
                 //   helperText={addForm.touched.name && addForm.errors.name}
                 //   id="name"
                 name="phone"
-                defaultValue={query?.data?.data?.phone}
-                onChange={(e) => setPhone(e.target.value)}
+                // defaultValue={query?.data?.data?.phone}
+                // onChange={(e) => setPhone(e.target.value)}
+                value={addForm.values.phone}
+                onChange={addForm.handleChange}
                 sx={{
                   //   width: "90%",
                   backgroundColor: "#f6f8fb",
@@ -282,14 +325,14 @@ export default function Profile() {
               {/* ========================================================================>> */}
             </Grid>
 
-            <Button
-              //   disabled={add.isLoading}
-              //   loading={add.isLoading}
+            <LoadingButton
+              disabled={add.isLoading}
+              loading={add.isLoading}
               type="submit"
-              onClick={(e) => {
-                e.preventDefault();
-                userProfileUpdate({ name, email, profilePhoto, phone });
-              }}
+              // onClick={(e) => {
+              //   e.preventDefault();
+              //   userProfileUpdate({ name, email, profilePhoto, phone });
+              // }}
               sx={[
                 theme.primaryBtn,
                 {
@@ -302,7 +345,7 @@ export default function Profile() {
               ]}
             >
               Update Profile
-            </Button>
+            </LoadingButton>
           </Grid>
         </form>
       </Box>

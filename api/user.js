@@ -24,10 +24,8 @@ export const loginUser = (data) => {
 //-------------------------------------
 export const userProfileUpdate = (data) => {
   const formData = new FormData();
+  console.log("<----", data);
   let { name, email, phone, profilePhoto } = data;
-  // console.log("Name --", name);
-  // console.log("email --", email);
-  // console.log("profilePhoto --", profilePhoto);
 
   formData.append("name", name);
   formData.append("email", email);
@@ -36,11 +34,6 @@ export const userProfileUpdate = (data) => {
   if (profilePhoto instanceof File) {
     formData.append("profilePhoto", profilePhoto);
   }
-  console.log("<----", formData.get("profilePhoto"));
 
-  return axios.post(`${ADMIN_URL}/user/profile`, formData, {
-    headers: {
-      "Content-Type":"application/json",
-    },
-  });
+  return axiosInstance.post(`${ADMIN_URL}/user/profile`, formData);
 };
