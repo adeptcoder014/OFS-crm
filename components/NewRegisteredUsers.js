@@ -33,7 +33,7 @@ export default function NewRegisteredUsers(props) {
 
 
   const filter = user?.filter(x =>{
-    if(x.name.toLowerCase().includes(w)){
+    if(x.name.toLowerCase().includes(w.toLowerCase())){
       return(x)
     }
   })
