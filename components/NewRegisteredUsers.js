@@ -21,7 +21,7 @@ import axios from "axios";
 //================================================
 export default function NewRegisteredUsers(props) {
   //================================================
-  const { query } = useController({ filter: props.type });
+  const { query } = useController({ filter: "NEW" });
   const router = useRouter();
   const [user, setUser] = useState(query?.data?.data?.user);
   const theme = useTheme();

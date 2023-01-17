@@ -19,6 +19,7 @@ import Loading from "./loading";
 import InfoIcon from "@mui/icons-material/Info";
 import { useDarkMode } from "../context/darkMode";
 import NewRegisteredUsers from "./NewRegisteredUsers";
+import AllRegisteredUsers from "./AllRegisteredUser";
 //================================================
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -82,134 +83,23 @@ export default function Users(props) {
   if (query.isLoading) {
     return <Loading />;
   }
-  if (typeof query?.data?.data?.user !== "undefined") {
-    return (
-      <Box
-        sx={{
-          p: 5,
-          boxShadow: "0px 1px 3px 0px grey",
-          borderRadius: 1,
-          // width: "70%",
-          mt: 2,
-        }}
-      >
-        {/* //======================================== */}
+  return (
+    <Box
+      sx={{
+        p: 5,
+        boxShadow: "0px 1px 3px 0px grey",
+        borderRadius: 1,
+        // width: "70%",
+        mt: 2,
+      }}
+    >
+      {/* //======================================== */}
 
-        <NewRegisteredUsers
-          type="REGISTERED"
-          title="All users :"
-          url="/admin/user/details/"
-        />
-        {/* <Box
-            sx={{
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-              mb: 4,
-              boxShadow: "0px 1px 3px 0px grey",
-              p: 2,
-              borderRadius: 1,
-              [theme.breakpoints.down("sm")]: {
-                ml:5,
-                mt:3
-              },
-            }}
-          >
-        
-            <TextField
-            placeholder="Search user ..."
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <SearchIcon />
-                  </InputAdornment>
-                ),
-              }}
-              size="small"
-              variant="outlined"
-              onChange={(e) => setUser(e.target.value)}
-              sx={{
-                "& .MuiOutlinedInput-root": {
-                  "& fieldset": {
-                    borderColor: darkMode ? "white" : "gray",
-                  },
-                },
-                "& .MuiInputBase-root": {
-                  color: darkMode ? "white" : "gray",
-                },
-                [theme.breakpoints.down("sm")]: {
-                  width: "100%",
-                },
-              }}
-            />
-          </Box>
-          <Box
-            sx={{
-              overflow: "auto",
-              borderRadius: 1,
-              height: "250px",
-            }}
-          >
-            {props?.user?.map((x) => {
-              // console.log("---->", x);
-              if (x.name.toLowerCase().startsWith(user)) {
-                return (
-                  <Box
-                  key={x}
-                    sx={{
-                      p: 1,
-                      boxShadow: "0px 1px 3px 0px grey",
-                      borderRadius: 1,
-                      display: "flex",
-                      justifyContent: "space-around",
-                      alignItems: "center",
-                      mb: 1,
-                    }}
-                  >
-                    <Avatar />
-                    <Box
-                      sx={{
-                        p: 1,
-                        display: "flex",
-                        flexDirection: "column",
-                      }}
-                    >
-                      <Typography
-                        sx={{
-                          fontWeight: "bolder",
-                          fontSize: "100%",
-                          color: "gray",
-                        }}
-                      >
-                        {x.name}
-                      </Typography>
-                      <Typography
-                        sx={{
-                          color: "#205CBE",
-                          fontWeight: "bolder",
-                          fontSize: "80%",
-                        }}
-                      >
-                        joined : {dayjs(x.joiningDate).format("D-MMM")}
-                      </Typography>
-                    </Box>
-                    <InfoIcon
-                      onClick={() => {
-                        // console.log("------>",params.id)
-                        router.push(`/admin/user/details/?id=${x._id}`);
-                      }}
-                      sx={{
-                        cursor: "pointer",
-                        color: "gray",
-                        fontSize: "35px",
-                      }}
-                    />
-                  </Box>
-                );
-              }
-            })}
-          </Box> */}
-      </Box>
-    );
-  }
+      <AllRegisteredUsers
+        type="REGISTERED"
+        title="All users :"
+        url="/admin/user/details/"
+      />
+    </Box>
+  );
 }
