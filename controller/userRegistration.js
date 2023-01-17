@@ -38,7 +38,7 @@ export const useController = () => {
         "Registration Done ",
         "Wait for the Admin approval",
         "success"
-      ).then(() => router.push(`/user/home/?id=${res.data.user._id}`));
+      ).then(() => router.push(`/user/pending/?id=${res.data.user._id}`));
     },
     onError: (err) =>
       Swal.fire(

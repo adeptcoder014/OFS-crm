@@ -26,8 +26,11 @@ import LoadingButton from "@mui/lab/LoadingButton";
 import Loading from "./loading";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import { useRentController } from "../controller/rental";
+import { useTheme } from "@mui/system";
 //===================================================
 export default function Registration() {
+  const theme = useTheme();
+
   const [double, setDouble] = React.useState(false);
   const [tripple, setTripple] = React.useState(false);
   const { query, add, addForm } = useController();
@@ -75,9 +78,9 @@ export default function Registration() {
               // zIndex:-888,
               color: "white",
               fontFamily: "poppins",
-              p:5,
-              mt:5  ,
-              width:"50%"
+              p: 5,
+              mt: 5,
+              width: "50%",
             }}
           >
             Welcome To One Fine Stay Hostel
@@ -198,8 +201,10 @@ export default function Registration() {
               {image ? (
                 <img
                   src={image}
-                 
-                  style={{ maxWidth:"100%"}}
+                  style={{
+                    width: "400px",
+                    height: "250px",
+                  }}
                 />
               ) : null}
             </Grid>
@@ -404,23 +409,19 @@ export default function Registration() {
             disabled={add.isLoading}
             loading={add.isLoading}
             type="submit"
-            sx={{
-              backgroundColor: "#f76334",
-              color: "white",
-              width: "50%",
-              fontSize: 16,
-              m: "auto",
-              mt: 5,
-              borderRadius: "100px",
-              p: 2,
-              "&:hover": {
-                color: "red",
-                border: "1px solid #ff7f56",
-                backgroundColor: "white",
+            sx={[
+              theme.primaryBtn,
+              {
+                [theme.breakpoints.up("sm")]: {
+                  width: "70%",
+                  m: "auto",
+                  mt: 3,
+                  fontSize: 18,
+                },
               },
-            }}
+            ]}
           >
-            Register a user
+            Register
           </LoadingButton>
         </Box>
       </form>

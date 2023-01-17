@@ -18,37 +18,17 @@ import OutletIcon from "@mui/icons-material/Outlet";
 import dayjs from "dayjs";
 import axiosInstance from "../../api/axios";
 import SearchIcon from "@mui/icons-material/Search";
-
+import { useTheme } from "@mui/system";
+import { useDarkMode } from "../../context/darkMode";
 //===========================================================
-function getWindowDimensions() {
-  if (typeof window !== "undefined") {
-    const { innerWidth: width, innerHeight: height } = window;
-    return {
-      width,
-      height,
-    };
-  }
-}
-//--------------------------------------------------------
+
 export default function Home() {
   //=====================================
   const [type, setType] = useState("");
-  //==============================
-  const [windowDimensions, setWindowDimensions] = useState(
-    getWindowDimensions()
-  );
-
-  useEffect(() => {
-    function handleResize() {
-      setWindowDimensions(getWindowDimensions());
-    }
-    if (typeof window !== "undefined") {
-      window.addEventListener("resize", handleResize);
-      return () => window.removeEventListener("resize", handleResize);
-    }
-  }, []);
   //---------------------------------------------------
   const router = useRouter();
+  const theme = useTheme();
+  const { darkMode } = useDarkMode();
 
   const query = useQuery({
     queryKey: ["userById", router.query.id],
@@ -66,17 +46,26 @@ export default function Home() {
   if (query.isLoading) {
     return <Loading />;
   }
-  // console.log("noticeQuery--->", );
   const user = query.data.data;
+  console.log("USER --->", user.dues.rents[0].due.rentDue );
   //================================================
   return (
     <Container
       maxWidth="md"
-      sx={{ background: "linear-gradient(#dce29f, #c1c54e)" }}
+      sx={{
+        background: darkMode
+          ? "linear-gradient(#2c2f33, #2c2f33)"
+          : "linear-gradient(#99aab5, #99aab5)",
+        [theme.breakpoints.down("sm")]: {
+          ml: -9,
+          mt: -2,
+          width: "130%",
+        },
+      }}
     >
       {/* ------------------- GENERAL_INFORMATION ------------------------------- */}
 
-      <Typography variant="h5" sx={{ fontWeight: 600, color: "gray", mb: 1 }}>
+      <Typography variant="h6" sx={{ fontWeight: 600, color: "gray", mb: 1 }}>
         General Information
       </Typography>
 
@@ -134,8 +123,7 @@ export default function Home() {
         >
           <Box
             sx={{
-              backgroundColor:
-                query?.data?.data.status === "NEW" ? "red" : "#22BB33",
+              backgroundColor: user?.status === "NEW" ? "red" : "#22BB33",
               // width: "20%",
               textAlign: "center",
               fontWeight: "bolder",
@@ -145,7 +133,7 @@ export default function Home() {
               borderRadius: "8px",
             }}
           >
-            {query?.data?.data.status}
+            {user?.status}
           </Box>
         </Grid>
         {/* ------------------------------------------ */}
@@ -164,218 +152,226 @@ export default function Home() {
         </Grid>
       </Grid>
       {/* ----------------- HOSTEL_INFORMATION --------------------------------- */}
-      <Typography
-        variant="h5"
-        sx={{ fontWeight: 600, color: "gray", mb: 1, mt: 5 }}
-      >
-        Stay Information
-      </Typography>
-      <Grid
-        container
-        sx={{
-          // width:"150%",
+      {user.status === "REGISTERED" ? (
+        <>
+          <Typography
+            variant="h6"
+            sx={{ fontWeight: 600, color: "gray", mb: 1, mt: 5 }}
+          >
+            Stay Information
+          </Typography>
+          <Grid
+            container
+            sx={{
+              // width:"150%",
 
-          // mt: 5,
-          display: "flex",
-          // justifyContent: "space-around",
-          // alignItems:"space-between",
-          boxShadow: "0px 2px 3px 0px grey",
-          background: "linear-gradient(252deg, #e1e1e1, #ffffff)",
-          p: 1,
-          borderRadius: "8px",
-        }}
-      >
-        <Grid
-          item
-          xs={12}
-          sm={12}
-          md={6}
-          lg={6}
-          xl={6}
-          sx={{
-            display: "flex",
-            justifyContent: "space-between",
-            p: 3,
-          }}
-        >
-          <Box sx={{ display: "flex" }}>
-            <Typography sx={{ fontWeight: 600, color: "gray" }}>
-              Room Number :
-            </Typography>
-            <Typography
-              // variant="caption"
+              // mt: 5,
+              display: "flex",
+              // justifyContent: "space-around",
+              // alignItems:"space-between",
+              boxShadow: "0px 2px 3px 0px grey",
+              background: "linear-gradient(252deg, #e1e1e1, #ffffff)",
+              p: 1,
+              borderRadius: "8px",
+            }}
+          >
+            <Grid
+              item
+              xs={12}
+              sm={12}
+              md={6}
+              lg={6}
+              xl={6}
               sx={{
-                color: "#28282B",
-                ml: 1,
-                fontWeight: "bold",
+                display: "flex",
+                justifyContent: "space-between",
+                p: 3,
               }}
             >
-              {user.room}
-            </Typography>
-          </Box>
-        </Grid>
-        <Grid
-          item
-          xs={12}
-          sm={12}
-          md={6}
-          lg={6}
-          xl={6}
-          sx={{
-            display: "flex",
-            justifyContent: "space-between",
-            p: 3,
-          }}
-        >
-          <Box sx={{ display: "flex" }}>
-            <Typography sx={{ fontWeight: 600, color: "gray" }}>
-              Room Preference :
-            </Typography>
-            <Typography
-              // variant="caption"
+              <Box sx={{ display: "flex" }}>
+                <Typography sx={{ fontWeight: 600, color: "gray" }}>
+                  Room Number :
+                </Typography>
+                <Typography
+                  // variant="caption"
+                  sx={{
+                    color: "#28282B",
+                    ml: 1,
+                    fontWeight: "bold",
+                  }}
+                >
+                  {user.room}
+                </Typography>
+              </Box>
+            </Grid>
+            <Grid
+              item
+              xs={12}
+              sm={12}
+              md={6}
+              lg={6}
+              xl={6}
               sx={{
-                color: "#28282B",
-                ml: 1,
-                fontWeight: "bold",
+                display: "flex",
+                justifyContent: "space-between",
+                p: 3,
               }}
             >
-              {user.roomPreference}
-            </Typography>
-          </Box>
-        </Grid>
-      </Grid>
+              <Box sx={{ display: "flex" }}>
+                <Typography sx={{ fontWeight: 600, color: "gray" }}>
+                  Room Preference :
+                </Typography>
+                <Typography
+                  // variant="caption"
+                  sx={{
+                    color: "#28282B",
+                    ml: 1,
+                    fontWeight: "bold",
+                  }}
+                >
+                  {user.roomPreference}
+                </Typography>
+              </Box>
+            </Grid>
+          </Grid>
+        </>
+      ) : null}
 
       {/* ------------ DUES_INFORMATION ------------------------------ */}
-      <Typography
-        variant="h5"
-        sx={{ fontWeight: 600, color: "gray", mb: 1, mt: 5 }}
-      >
-        Due(s) Information
-      </Typography>
-      <Grid
-        maxWidth="sm"
-        container
-        sx={{
-          display: "flex",
-          boxShadow: "0px 2px 3px 0px grey",
-          background: "linear-gradient(252deg, #e1e1e1, #ffffff)",
-          p: 1,
-          borderRadius: "8px",
-        }}
-      >
-        <Grid
-          item
-          xs={6}
-          sm={6}
-          md={6}
-          lg={6}
-          xl={6}
-          sx={{
-            display: "flex",
-            justifyContent: "start",
 
-            p: 1,
-          }}
-        >
-          <Typography sx={{ fontWeight: 600, color: "gray" }}>
-            Rent :
-          </Typography>
-        </Grid>
-        <Grid
-          item
-          xs={6}
-          sm={6}
-          md={6}
-          lg={6}
-          xl={6}
-          sx={{
-            display: "flex",
-            justifyContent: "center",
-            p: 1,
-          }}
-        >
+      {user.status === "REGISTERED" ? (
+        <>
           <Typography
-            sx={{ fontWeight: 600, color: "#28282B", fontSize: "20px" }}
+            variant="h6"
+            sx={{ fontWeight: 600, color: "gray", mb: 1, mt: 5 }}
           >
-            {/* ₹ {user.dues} */}
+            Due(s) Information
           </Typography>
-        </Grid>
-
-        <Grid
-          item
-          xs={6}
-          sm={6}
-          md={6}
-          lg={6}
-          xl={6}
-          sx={{
-            display: "flex",
-            justifyContent: "start",
-
-            p: 1,
-          }}
-        >
-          <Typography sx={{ fontWeight: "bolder", color: "gray" }}>
-            E-Bills :
-          </Typography>
-        </Grid>
-        <Grid
-          item
-          xs={6}
-          sm={6}
-          md={6}
-          lg={6}
-          xl={6}
-          sx={{
-            display: "flex",
-            justifyContent: "center",
-            p: 1,
-          }}
-        >
-          <Typography sx={{ fontWeight: 600, color: "#28282B" }}>
-            {/* ₹ {user.eBills} */}
-          </Typography>
-        </Grid>
-
-        <Grid
-          item
-          xs={6}
-          sm={6}
-          md={6}
-          lg={6}
-          xl={6}
-          sx={{
-            display: "flex",
-            justifyContent: "start",
-
-            p: 1,
-          }}
-        >
-          <Typography sx={{ fontWeight: 600, color: "gray" }}>
-            Miscellaneous:
-          </Typography>
-        </Grid>
-        <Grid
-          item
-          xs={6}
-          sm={6}
-          md={6}
-          lg={6}
-          xl={6}
-          sx={{
-            display: "flex",
-            justifyContent: "center",
-            p: 1,
-          }}
-        >
-          {/* <TextField/> */}
-          <Typography
-            sx={{ fontWeight: 600, color: "#28282B", fontSize: "20px" }}
+          <Grid
+            maxWidth="sm"
+            container
+            sx={{
+              display: "flex",
+              boxShadow: "0px 2px 3px 0px grey",
+              background: "linear-gradient(252deg, #e1e1e1, #ffffff)",
+              p: 1,
+              borderRadius: "8px",
+            }}
           >
-            {/* ₹ {user.misc} */}
-          </Typography>
-        </Grid>
-      </Grid>
+            <Grid
+              item
+              xs={6}
+              sm={6}
+              md={6}
+              lg={6}
+              xl={6}
+              sx={{
+                display: "flex",
+                justifyContent: "start",
+
+                p: 1,
+              }}
+            >
+              <Typography sx={{ fontWeight: 600, color: "gray" }}>
+                Rent <span style={{fontSize:11}}>(for this month)</span>
+              </Typography>
+            </Grid>
+            <Grid
+              item
+              xs={6}
+              sm={6}
+              md={6}
+              lg={6}
+              xl={6}
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                p: 1,
+              }}
+            >
+              <Typography
+                sx={{ fontWeight: 600, color: "#28282B" }}
+              >
+                ₹ { user.dues.rents[0].due.rentDue}
+              </Typography>
+            </Grid>
+
+            <Grid
+              item
+              xs={6}
+              sm={6}
+              md={6}
+              lg={6}
+              xl={6}
+              sx={{
+                display: "flex",
+                justifyContent: "start",
+
+                p: 1,
+              }}
+            >
+              <Typography sx={{ fontWeight: "bolder", color: "gray" }}>
+                E-Bills :
+              </Typography>
+            </Grid>
+            <Grid
+              item
+              xs={6}
+              sm={6}
+              md={6}
+              lg={6}
+              xl={6}
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                p: 1,
+              }}
+            >
+              <Typography sx={{ fontWeight: 600, color: "#28282B" }}>
+              ₹ { user.dues.rents[0].due.ebillDue}
+
+              </Typography>
+            </Grid>
+
+            {/* <Grid
+              item
+              xs={6}
+              sm={6}
+              md={6}
+              lg={6}
+              xl={6}
+              sx={{
+                display: "flex",
+                justifyContent: "start",
+
+                p: 1,
+              }}
+            >
+              <Typography sx={{ fontWeight: 600, color: "gray" }}>
+                Miscellaneous:
+              </Typography>
+            </Grid>
+            <Grid
+              item
+              xs={6}
+              sm={6}
+              md={6}
+              lg={6}
+              xl={6}
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                p: 1,
+              }}
+            >
+              <Typography
+                sx={{ fontWeight: 600, color: "#28282B", fontSize: "20px" }}
+              >
+              </Typography>
+            </Grid> */}
+          </Grid>
+        </>
+      ) : null}
 
       {/* ------------ GENERAL_NOTICE ------------------------------ */}
       <Box
@@ -388,7 +384,7 @@ export default function Home() {
         }}
       >
         <Typography
-          variant="h5"
+          variant="h6"
           sx={{ fontWeight: 600, color: "gray", mb: 1, mt: 5 }}
         >
           General Notice
@@ -466,8 +462,8 @@ export default function Home() {
                       color: "gray",
                       fontSize: 12,
                     }}
-                  >{dayjs(x.time).format("DD MMM")}{" "}
-                    @
+                  >
+                    {dayjs(x.time).format("DD MMM")} @
                     {
                       dayjs(x.time)
                         .format("YYYY-MM-DDTHH:mm:ssZ[Z]")
@@ -477,12 +473,12 @@ export default function Home() {
                     }
                     {":"}
                     {
-                    dayjs(x.time)
-                      .format("YYYY-MM-DDTHH:mm:ssZ[Z]")
-                      .split("T")[1]
-                      .split("+")[0]
-                      .split(":")[1]
-                  }
+                      dayjs(x.time)
+                        .format("YYYY-MM-DDTHH:mm:ssZ[Z]")
+                        .split("T")[1]
+                        .split("+")[0]
+                        .split(":")[1]
+                    }
                   </span>
                   <Box sx={{ width: "99%", p: 2 }}>
                     <Typography sx={{ fontWeight: 600, color: "gray" }}>

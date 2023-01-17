@@ -31,7 +31,10 @@ import { useTheme } from "@mui/system";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import Drawer from "@mui/material/Drawer";
-
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import RequestQuoteIcon from "@mui/icons-material/RequestQuote";
+import BroadcastOnHomeIcon from "@mui/icons-material/BroadcastOnHome";
+import AccountBalanceIcon from "@mui/icons-material/AccountBalance";
 //===================================================================
 const drawerWidth = 250;
 
@@ -85,11 +88,13 @@ export default function DashboardSidebar(props) {
         anchor="right"
         open={open}
       >
-        <DrawerHeader sx={{
-             backgroundColor: darkMode
-             ? theme.custom.primary.dark
-             : theme.custom.primary.light,
-        }}>
+        <DrawerHeader
+          sx={{
+            backgroundColor: darkMode
+              ? theme.custom.primary.dark
+              : theme.custom.primary.light,
+          }}
+        >
           <Typography sx={{ flex: 1, fontWeight: "bold" }}>
             User Home
           </Typography>
@@ -104,30 +109,104 @@ export default function DashboardSidebar(props) {
         </DrawerHeader>
         <Divider />
         <List>
-          {["Inbox", "Starred", "Send email", "Drafts"].map((text, index) => (
-            <ListItem key={text} disablePadding>
-              <ListItemButton>
-                <ListItemIcon>
-                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+          {[
+            {
+              href: "/user/profile",
+              title: "Profile",
+              icon: (
+                <AccountCircleIcon
+                  sx={{
+                    color: darkMode ? "white" : "#2c2f33",
+                  }}
+                />
+              ),
+            },
+            {
+              href: "/user/rents",
+              title: "Rents",
+              icon: (
+                <RequestQuoteIcon
+                  sx={{
+                    color: darkMode ? "white" : "#2c2f33",
+                  }}
+                />
+              ),
+            },
+            {
+              href: "/user/ebills",
+              title: "E-bills",
+              icon: (
+                <BroadcastOnHomeIcon
+                  sx={{
+                    color: darkMode ? "white" : "#2c2f33",
+                  }}
+                />
+              ),
+            },
+            {
+              href: "/admin/accounts",
+              title: "Notices",
+              icon: (
+                <AccountBalanceIcon
+                  sx={{
+                    color: darkMode ? "white" : "#2c2f33",
+                  }}
+                />
+              ),
+            },
+          ].map((text, index) => (
+            <ListItem
+              key={text.title}
+              disablePadding
+              sx={{
+                display: "block",
+                fontWeight: "bolder",
+                backgroundColor: darkMode ? "#2c2f33" : "white",
+                color: darkMode ? "white" : "#2c2f33",
+              }}
+            >
+              <ListItemButton
+                sx={{
+                  minHeight: 48,
+                  justifyContent: open ? "initial" : "center",
+                  px: 2.5,
+                  fontWeight: "bolder",
+                }}
+              >
+                <ListItemIcon
+                  sx={{
+                    minWidth: 0,
+                    mr: open ? 3 : null,
+                    justifyContent: "start",
+                    color: "white",
+                    fontWeight: "bolder",
+                  }}
+                >
+                  <NextLink href={text.href} passHref>
+                    {text.icon}
+                  </NextLink>
+                  {/* <DashboardIcon/> */}
+                  {/* {index % 2 === 0 ? <InboxIcon /> : <MailIcon />} */}
                 </ListItemIcon>
-                <ListItemText primary={text} />
+                <NextLink
+                  sx={{ fontWeight: "bolder" }}
+                  href={text.href}
+                  passHref
+                >
+                  {open ? (
+                    <ListItemText>
+                      <Typography sx={{ fontWeight: 600 }}>
+                        {text.title}
+                      </Typography>
+                    </ListItemText>
+                  ) : null}
+                </NextLink>
               </ListItemButton>
             </ListItem>
           ))}
         </List>
         <Divider />
-        <List>
-          {["All mail", "Trash", "Spam"].map((text, index) => (
-            <ListItem key={text} disablePadding>
-              <ListItemButton>
-                <ListItemIcon>
-                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                </ListItemIcon>
-                <ListItemText primary={text} />
-              </ListItemButton>
-            </ListItem>
-          ))}
-        </List>
+
         <Box>
           <Switch
             sx={{ mb: 2, color: "red" }}
