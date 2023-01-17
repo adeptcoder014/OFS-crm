@@ -50,10 +50,10 @@ export default function Home(props) {
     axiosInstance.get("/dashboard").then((res) => setDashboard(res.data));
   }, []);
 
-  // React.useEffect(() => {
-  //   const token = localStorage.getItem("Token");
-  //   getAdminById(jwt_decode(token)._id).then((res) => setAdmin(res.data.data));
-  // }, []);
+  React.useEffect(() => {
+    const token = localStorage.getItem("Token");
+    getAdminById(jwt_decode(token)._id).then((res) => setAdmin(res.data.data));
+  }, []);
   //========================================================
   const [Token, setToken] = React.useState("");
   const [dashboard, setDashboard] = React.useState({});
