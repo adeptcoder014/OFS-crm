@@ -48,9 +48,9 @@ export default function Home() {
     }
   }, []);
 
-useEffect(()=>{
-  axios.get(`${ADMIN_URL}/notice`).then(res =>setNotices(res.data))
-},[])
+  useEffect(() => {
+    axios.get(`${ADMIN_URL}/notice`).then((res) => setNotices(res.data));
+  }, []);
 
   // const noticeQuery = useQuery({
   //   queryKey: ["noticeQuery"],
@@ -129,9 +129,7 @@ useEffect(()=>{
         >
           <Avatar sx={{ mr: 1, fontSize: 5 }} />
           <Box>
-            <Typography sx={{ fontFamily: "poppins" }}>
-              {user?.name}
-            </Typography>
+            <Typography sx={{ fontFamily: "poppins" }}>{user?.name}</Typography>
             <Typography
               sx={{
                 fontFamily: "poppins",
@@ -463,6 +461,7 @@ useEffect(()=>{
               if (x.type === "LAUNDARY") {
                 return (
                   <Box
+                    key={x}
                     // maxWidth="md"
                     container
                     sx={{
