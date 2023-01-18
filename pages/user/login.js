@@ -16,20 +16,39 @@ import KeyIcon from "@mui/icons-material/Key";
 import { useController } from "../../controller/userLogin";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { SignpostOutlined } from "@mui/icons-material";
 import { useTheme } from "@mui/system";
-import PhoneIcon from '@mui/icons-material/Phone';
+import PhoneIcon from "@mui/icons-material/Phone";
+import axios from "axios";
+import { ADMIN_URL } from "../../constants/url";
+import Swal from "sweetalert2";
+import jwt_decode from "jwt-decode";
+import { getUserById } from "../../api/user";
+
 //============================================
 export default function Pending() {
+  const [phone, setPhone] = useState(0);
+
+  //==========================================
   const { login, loginForm } = useController();
   const [showPassword, setShowPassword] = useState(false);
   const router = useRouter();
 
   const theme = useTheme();
   //-------------------------------------
-
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const userToken = localStorage.getItem("userToken");
+      if (userToken) {
+        router.push("/user/home");
+      }
+      //  if() {
+      //   router.push("/user/login");
+      // }
+    }
+  }, []);
   //=====================================================
   return (
     <>
@@ -103,49 +122,52 @@ export default function Pending() {
             </Box>
             {/* ================================================== */}
 
-            <form onSubmit={loginForm.handleSubmit}>
-              <Box>
-                {" "}
+            {/* <form onSubmit={loginForm.handleSubmit}> */}
+            <Box>
+              {" "}
+              <Grid
+                container
+                // sx={{ width: "100%", mt: 5, display: "flex", p: 0 }}
+              >
                 <Grid
-                  container
-                  // sx={{ width: "100%", mt: 5, display: "flex", p: 0 }}
+                  className="responsive"
+                  item
+                  md={12}
+                  xs={12}
+                  sx={{ display: "flex", flexDirection: "column", mt: 5 }}
                 >
-                  <Grid
-                    className="responsive"
-                    item
-                    md={12}
-                    xs={12}
-                    sx={{ display: "flex", flexDirection: "column", mt: 5 }}
-                  >
-                    {/* =====================================================================00 */}
-                    <FormLabel sx={[theme.darkText, { mb: 2 }]}>
-                      Mobile Number
-                    </FormLabel>
-                    <TextField
-                      error={
-                        loginForm.touched.phone && Boolean(loginForm.errors.phone)
-                      }
-                      helperText={loginForm.touched.phone && loginForm.errors.phone}
-                      id="phone"
-                      name="phone"
-                      value={loginForm.values.phone}
-                      onChange={loginForm.handleChange}
-                      sx={{
-                        width: "90%",
-                        backgroundColor: "#f6f8fb",
-                        color: "white",
-                      }}
-                      type='number'
-                      size="small"
-                      InputProps={{
-                        startAdornment: (
-                          <InputAdornment position="start">
-                            <PhoneIcon />
-                          </InputAdornment>
-                        ),
-                      }}
-                    />{" "}
-                    {/* <FormLabel sx={[theme.darkText, { mb: 2, mt: 5 }]}>
+                  {/* =====================================================================00 */}
+                  <FormLabel sx={[theme.darkText, { mb: 2 }]}>
+                    Mobile Number
+                  </FormLabel>
+                  <TextField
+                    // error={
+                    //   loginForm.touched.phone && Boolean(loginForm.errors.phone)
+                    // }
+                    // helperText={
+                    //   loginForm.touched.phone && loginForm.errors.phone
+                    // }
+                    id="phone"
+                    name="phone"
+                    // value={loginForm.values.phone}
+                    // onChange={loginForm.handleChange}
+                    onChange={(e) => setPhone(e.target.value)}
+                    sx={{
+                      width: "90%",
+                      backgroundColor: "#f6f8fb",
+                      color: "white",
+                    }}
+                    type="number"
+                    size="small"
+                    InputProps={{
+                      startAdornment: (
+                        <InputAdornment position="start">
+                          <PhoneIcon />
+                        </InputAdornment>
+                      ),
+                    }}
+                  />{" "}
+                  {/* <FormLabel sx={[theme.darkText, { mb: 2, mt: 5 }]}>
                       Password
                     </FormLabel>
                     <TextField
@@ -195,48 +217,45 @@ export default function Pending() {
                         ),
                       }}
                     />{" "} */}
-                    {/* ========================================================================>> */}
-                  </Grid>
+                  {/* ========================================================================>> */}
                 </Grid>
-                <LoadingButton
-                  disabled={login.isLoading}
-                  loading={login.isLoading}
-                  type="submit"
-                  // sx={{
-                  //   backgroundColor: "#f76334",
-                  //   color: "white",
-                  //   width: "100%",
-                  //   fontSize: 16,
-                  //   m: "auto",
-                  //   fontWeight:"bolder",
-
-                  //   mt: 5,
-                  //   borderRadius: "100px",
-                  //   p: 2,
-                  //   "&:hover": {
-                  //     color: "red",
-                  //     border: "2px solid #ff7f56",
-                  //     backgroundColor: "white",
-
-                  //   },
-                  // }},
-                  sx={[
-                    theme.primaryBtn,
-                    {
-                      width: "100%",
-                      [theme.breakpoints.down("sm")]: {
-                        mt: 1,
-                      },
-                      [theme.breakpoints.up("sm")]: {
-                        mt: 13,
-                      },
+              </Grid>
+              <Button
+                // disabled={login.isLoading}
+                // loading={login.isLoading}
+                type="submit"
+                onClick={() => {
+                  axios
+                    .post(`${ADMIN_URL}/user/login`, { phone })
+                    .then((res) => {
+                      localStorage.setItem("userToken", res.data);
+                      // const user = await getUserById(jwt_decode(res.data).id);
+                      // console.log(user)
+                      return Swal.fire(
+                        "Logged in !",
+                        "Continue with the OFS User Panel",
+                        "success"
+                      );
+                    })
+                    .finally(() => router.push("/user/home"));
+                }}
+                sx={[
+                  theme.primaryBtn,
+                  {
+                    width: "100%",
+                    [theme.breakpoints.down("sm")]: {
+                      mt: 1,
                     },
-                  ]}
-                >
-                  Login
-                </LoadingButton>
-              </Box>
-            </form>
+                    [theme.breakpoints.up("sm")]: {
+                      mt: 13,
+                    },
+                  },
+                ]}
+              >
+                Login
+              </Button>
+            </Box>
+            {/* </form> */}
 
             {/* ======================================================= */}
             {/* <LoadingButton

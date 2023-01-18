@@ -31,10 +31,11 @@ import { useTheme } from "@mui/system";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import Drawer from "@mui/material/Drawer";
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import RequestQuoteIcon from "@mui/icons-material/RequestQuote";
 import BroadcastOnHomeIcon from "@mui/icons-material/BroadcastOnHome";
 import AccountBalanceIcon from "@mui/icons-material/AccountBalance";
+
 //===================================================================
 const drawerWidth = 250;
 
@@ -77,7 +78,9 @@ export default function DashboardSidebar(props) {
     <>
       <Drawer
         sx={{
-          backgroundColor: "red",
+          background: darkMode
+            ? "linear-gradient(#2c2f33, #2c2f33)"
+            : "linear-gradient(#99aab5, #99aab5)",
           width: drawerWidth,
           flexShrink: 0,
           "& .MuiDrawer-paper": {
@@ -95,7 +98,15 @@ export default function DashboardSidebar(props) {
               : theme.custom.primary.light,
           }}
         >
-          <Typography sx={{ flex: 1, fontWeight: "bold" }}>
+          <Typography
+            variant="h7"
+            sx={
+              darkMode
+                ? [theme.lightText, { mr: 5 }]
+                : [theme.darkText, { mr: 5 }]
+            }
+          >
+            {" "}
             User Home
           </Typography>
 
@@ -107,8 +118,8 @@ export default function DashboardSidebar(props) {
             )}
           </IconButton>
         </DrawerHeader>
-        <Divider />
-        <List>
+        {/* <Divider /> */}
+        <List sx={{ mt: -2 }}>
           {[
             {
               href: "/user/profile",
@@ -144,7 +155,7 @@ export default function DashboardSidebar(props) {
               ),
             },
             {
-              href: "/admin/accounts",
+              href: "/user/notices",
               title: "Notices",
               icon: (
                 <AccountBalanceIcon
@@ -205,16 +216,79 @@ export default function DashboardSidebar(props) {
             </ListItem>
           ))}
         </List>
-        <Divider />
+        {/* <Divider /> */}
 
-        <Box>
+        <Box
+          sx={{
+            background: darkMode
+              ? "linear-gradient(#2c2f33, #2c2f33)"
+              : "white",
+            mt: -2,
+            height: "80vh",
+            display: "flex",
+          }}
+        >
           <Switch
-            sx={{ mb: 2, color: "red" }}
+            sx={{ mt: 5 }}
             onChange={() => setDarkMode((prev) => !prev)}
             label="dark"
+          />
+
+          <Typography
+            sx={
+              darkMode
+                ? [theme.lightText, { mt: 6 }]
+                : [theme.darkText, { mt: 6 }]
+            }
           >
-            hii
-          </Switch>
+            Dark Mode
+          </Typography>
+        </Box>
+
+        <Box
+          sx={{
+            background: darkMode
+              ? "linear-gradient(#2c2f33, #2c2f33)"
+              : "white",
+            // mt: -2,
+
+            height: "80vh",
+            display: "flex",
+          }}
+          onClick={() => {
+            // if (typeof window !== "undefined") {
+            // }
+            localStorage.clear();
+            Swal.fire(
+              "You have been logged out!",
+              "Log in to continue",
+              "success"
+            )
+              .then(() => {
+                onClose;
+              })
+              .finally(() => {
+                // window.location.reload();
+                router.push("/user/login");
+              });
+          }}
+        >
+          <LogoutIcon
+            sx={{
+              color: darkMode ? "white" : "black",
+              ml: 2,
+            }}
+          />
+
+          <Typography
+            sx={
+              darkMode
+                ? [theme.lightText, { ml: 1 }]
+                : [theme.darkText, { ml: 1 }]
+            }
+          >
+            Logout
+          </Typography>
         </Box>
       </Drawer>
     </>

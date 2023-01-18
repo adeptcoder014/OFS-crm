@@ -4,6 +4,7 @@ import { Toolbar, Typography, IconButton } from "@mui/material";
 import React from "react";
 import MenuIcon from "@mui/icons-material/Menu";
 import { useDarkMode } from "../context/darkMode";
+import { useRouter } from "next/router";
 //======================================================
 const drawerWidth = 240;
 
@@ -27,22 +28,28 @@ const AppBar = styled(MuiAppBar, {
 export default function Navbar(props) {
   const { open, onSidebarOpen } = props;
   const { darkMode, setDarkMode } = useDarkMode();
-  const theme = useTheme()
+  const theme = useTheme();
+
+  const router = useRouter();
   //=====================================
   return (
     <AppBar
       position="fixed"
       open={open}
-      sx={
-        {
-            backgroundColor: darkMode
-            ? theme.custom.navbar.dark
-            : theme.custom.navbar.light,
-        }
-      }
+      sx={{
+        backgroundColor: darkMode
+          ? theme.custom.navbar.dark
+          : theme.custom.navbar.light,
+      }}
     >
       <Toolbar>
-        <Typography variant="h6" noWrap sx={{ flexGrow: 1 }} component="div">
+        <Typography
+          variant="h6"
+          noWrap
+          sx={{ flexGrow: 1, cursor: "pointer" }}
+          component="div"
+          onClick={() => router.push("/user/home")}
+        >
           User Dashboard
         </Typography>
         <IconButton

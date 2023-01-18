@@ -17,6 +17,8 @@ export const useController = () => {
       phone: "",
     },
     onSubmit: (values) => {
+
+      // console.log("VALUES ---", values)
       login.mutate(values);
     },
   });
@@ -25,19 +27,22 @@ export const useController = () => {
   const login = useMutation({
     mutationFn: loginUser,
     onSuccess: (res) => {
-      //   console.log(res.data[0]._id);
       return Swal.fire(
         "Logged in !",
         "Continue with the OFS User Panel",
         "success"
-      ).then(() => {
-        localStorage.setItem("userId",res.data[0]._id )
-        router.push(`/user/home?id=${res.data[0]._id}`)
-    });
+      )
+        .then(() => {
+          console.log("RES ----", res.data.token);
+          localStorage.setItem("userToken", res.data.token);
+        })
+        .finally(() => {
+          router.push(`/user/home`);
+        });
     },
     onError: (err) => {
-      console.log("ERROr ---", err),
-        Swal.fire("Error !", err.response.data, "error");
+      // console.log("ERRPR ---------------------------->", err),
+        Swal.fire("Error !", err.message, "error");
     },
   });
 

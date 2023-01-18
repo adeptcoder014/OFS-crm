@@ -20,34 +20,64 @@ import axiosInstance from "../../api/axios";
 import SearchIcon from "@mui/icons-material/Search";
 import { useTheme } from "@mui/system";
 import { useDarkMode } from "../../context/darkMode";
+import React from "react";
+import jwt_decode from "jwt-decode";
+import { ADMIN_URL } from "../../constants/url";
+import axios from "axios";
+
 //===========================================================
 
 export default function Home() {
-  //=====================================
-  const [type, setType] = useState("");
-  //---------------------------------------------------
+  const [notices, setNotices] = useState([]);
+  const [user, setUser] = useState({});
+
   const router = useRouter();
+  React.useEffect(() => {
+    if (typeof window !== "undefined") {
+      const token = localStorage.getItem("userToken");
+
+      if (!token) {
+        router.push("/user/login");
+      }
+      if (token) {
+        // console.log(jwt_decode(token).id);
+        axios
+          .get(`${ADMIN_URL}/user/${jwt_decode(token).id}`)
+          .then((res) => setUser(res.data));
+      }
+    }
+  }, []);
+
+useEffect(()=>{
+  axios.get(`${ADMIN_URL}/notice`).then(res =>setNotices(res.data))
+},[])
+
+  // const noticeQuery = useQuery({
+  //   queryKey: ["noticeQuery"],
+  //   queryFn: () => axios.get(`${ADMIN_URL}/notice`),
+  // });
+
+  // if (noticeQuery.isLoading) {
+  //   return <Loading />;
+  // }
+
+  // console.log(noticeQuery.)
+
+  //---------------------------------------------------
   const theme = useTheme();
   const { darkMode } = useDarkMode();
 
-  const query = useQuery({
-    queryKey: ["userById", router.query.id],
-    queryFn: () => getUserById(router.query.id),
-    enabled: !!router.query.id,
-  });
+  // const query = useQuery({
+  //   queryKey: ["userById", userId],
+  //   queryFn: () => getUserById(userId),
+  //   enabled: !!userId,
+  // });
 
-  const noticeQuery = useQuery({
-    queryKey: ["noticeQuery"],
-    queryFn: () => axiosInstance.get("/notice"),
-
-    enabled: !!router.query.id,
-  });
-
-  if (query.isLoading) {
-    return <Loading />;
-  }
-  const user = query.data.data;
-  console.log("USER --->", user.dues.rents[0].due.rentDue );
+  // if (query.isLoading) {
+  //   return <Loading />;
+  // }
+  // const user = query.data.data;
+  // console.log("USER --->", user.dues.rents[0].due.rentDue);
   //================================================
   return (
     <Container
@@ -65,7 +95,10 @@ export default function Home() {
     >
       {/* ------------------- GENERAL_INFORMATION ------------------------------- */}
 
-      <Typography variant="h6" sx={{ fontWeight: 600, color: "gray", mb: 1 }}>
+      <Typography
+        variant="h6"
+        sx={darkMode ? [theme.lightText, { m: 2 }] : [theme.darkText, { m: 2 }]}
+      >
         General Information
       </Typography>
 
@@ -96,18 +129,20 @@ export default function Home() {
         >
           <Avatar sx={{ mr: 1, fontSize: 5 }} />
           <Box>
-            <Typography sx={{ fontWeight: 600, color: "gray" }}>
-              {query?.data?.data.name}
+            <Typography sx={{ fontFamily: "poppins" }}>
+              {user?.name}
             </Typography>
             <Typography
-              variant="caption"
               sx={{
+                fontFamily: "poppins",
+                fontSize: 12,
                 color: "gray",
-                inlineSize: "150px",
-                wordWrap: "break-word",
+                [theme.breakpoints.down("sm")]: {
+                  mb: 2,
+                },
               }}
             >
-              {query?.data?.data.email}
+              {user?.email}
             </Typography>
           </Box>
         </Grid>
@@ -115,11 +150,17 @@ export default function Home() {
 
         <Grid
           item
+          xs={12}
           sm={12}
           md={6}
           lg={6}
           xl={6}
-          sx={{ display: "flex", justifyContent: "flex-end" }}
+          sx={{
+            display: "flex",
+            [theme.breakpoints.down("sm")]: {
+              flexDirection: "column",
+            },
+          }}
         >
           <Box
             sx={{
@@ -127,7 +168,6 @@ export default function Home() {
               // width: "20%",
               textAlign: "center",
               fontWeight: "bolder",
-              mb: 2,
               color: "white",
               p: 1,
               borderRadius: "8px",
@@ -140,6 +180,7 @@ export default function Home() {
 
         <Grid
           item
+          xs={12}
           sm={12}
           md={12}
           lg={12}
@@ -156,7 +197,11 @@ export default function Home() {
         <>
           <Typography
             variant="h6"
-            sx={{ fontWeight: 600, color: "gray", mb: 1, mt: 5 }}
+            sx={
+              darkMode
+                ? [theme.lightText, { m: 2 }]
+                : [theme.darkText, { m: 2 }]
+            }
           >
             Stay Information
           </Typography>
@@ -243,7 +288,11 @@ export default function Home() {
         <>
           <Typography
             variant="h6"
-            sx={{ fontWeight: 600, color: "gray", mb: 1, mt: 5 }}
+            sx={
+              darkMode
+                ? [theme.lightText, { m: 2 }]
+                : [theme.darkText, { m: 2 }]
+            }
           >
             Due(s) Information
           </Typography>
@@ -273,7 +322,7 @@ export default function Home() {
               }}
             >
               <Typography sx={{ fontWeight: 600, color: "gray" }}>
-                Rent <span style={{fontSize:11}}>(for this month)</span>
+                Rent <span style={{ fontSize: 11 }}>(for this month)</span>
               </Typography>
             </Grid>
             <Grid
@@ -289,10 +338,8 @@ export default function Home() {
                 p: 1,
               }}
             >
-              <Typography
-                sx={{ fontWeight: 600, color: "#28282B" }}
-              >
-                ₹ { user.dues.rents[0].due.rentDue}
+              <Typography sx={{ fontWeight: 600, color: "#28282B" }}>
+                ₹ {user.dues.rents[0].due.rentDue}
               </Typography>
             </Grid>
 
@@ -328,8 +375,7 @@ export default function Home() {
               }}
             >
               <Typography sx={{ fontWeight: 600, color: "#28282B" }}>
-              ₹ { user.dues.rents[0].due.ebillDue}
-
+                ₹ {user.dues.rents[0].due.ebillDue}
               </Typography>
             </Grid>
 
@@ -370,127 +416,126 @@ export default function Home() {
               </Typography>
             </Grid> */}
           </Grid>
-        </>
-      ) : null}
 
-      {/* ------------ GENERAL_NOTICE ------------------------------ */}
-      <Box
-        sx={{
-          boxShadow: "0px 2px 3px 0px grey",
-          background: "linear-gradient(252deg, #e1e1e1, #ffffff)",
-          p: 1,
-          borderRadius: "8px",
-          mt: 2,
-        }}
-      >
-        <Typography
-          variant="h6"
-          sx={{ fontWeight: 600, color: "gray", mb: 1, mt: 5 }}
-        >
-          General Notice
-        </Typography>
-        {/* ===================== */}
-        <Box
-          sx={{
-            display: "flex",
-            // justifyContent: "space-around",
-            // alignItems: "center",
-            mb: 4,
-            ml: 1,
-          }}
-        >
-          <TextField
-            placeholder="Search by tag ..."
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position="start">
-                  <SearchIcon />
-                </InputAdornment>
-              ),
+          <Typography
+            variant="h6"
+            sx={
+              darkMode
+                ? [theme.lightText, { m: 2 }]
+                : [theme.darkText, { m: 2 }]
+            }
+          >
+            {" "}
+            Laundary status:
+          </Typography>
+          <Grid
+            maxWidth="sm"
+            container
+            sx={{
+              display: "flex",
+              boxShadow: "0px 2px 3px 0px grey",
+              background: darkMode
+                ? "linear-gradient(#2c2f33, #2c2f33)"
+                : "linear-gradient(#99aab5, #99aab5)",
+              p: 1,
+              borderRadius: "8px",
             }}
-            size="small"
-            variant="outlined"
-            onChange={(e) => setType(e.target.value)}
-          />
-        </Box>
-        {/* ===================== */}
-        {noticeQuery.data.data.map((x) => {
-          if (x.type.toLowerCase().startsWith(type)) {
-            return (
-              <>
-                <Box
-                  maxWidth="md"
-                  container
-                  sx={{
-                    mb: 5,
+          >
+            <Grid
+              item
+              xs={12}
+              sm={12}
+              md={12}
+              lg={12}
+              xl={12}
+              sx={{
+                display: "flex",
+                justifyContent: "start",
 
-                    // display: "flex",
-                    boxShadow: "0px 2px 3px 0px grey",
-                    background: "linear-gradient(252deg, #e1e1e1, #ffffff)",
-                    p: 1,
-                    borderRadius: "8px",
-                  }}
-                >
+                p: 1,
+              }}
+            >
+              {/* <Typography sx={{ fontWeight: 600, color: "gray" }}>
+                Rent <span style={{ fontSize: 11 }}>(for this month)</span>
+              </Typography> */}
+            </Grid>
+            {notices?.map((x) => {
+              if (x.type === "LAUNDARY") {
+                return (
                   <Box
+                    // maxWidth="md"
+                    container
                     sx={{
-                      backgroundColor:
-                        x.type === "FOOD"
-                          ? "#4caf50"
-                          : x.type === "LAUNDARY"
-                          ? "#0288d1"
-                          : x.type === "MISC"
-                          ? "#ff9800"
-                          : x.type === "RENTAL"
-                          ? "#d32f2f"
-                          : null,
-
-                      color: "blue",
-                      textAlign: "center",
-                      fontWeight: "bolder",
-                      // mb: 2,
+                      mb: 5,
+                      width: "100%",
+                      // display: "flex",
+                      boxShadow: "0px 2px 3px 0px grey",
+                      background: "linear-gradient(252deg, #e1e1e1, #ffffff)",
                       p: 1,
                       borderRadius: "8px",
-                      display: "inline-block",
-                      color: "white",
                     }}
                   >
-                    {x.type}
-                  </Box>{" "}
-                  <span
-                    style={{
-                      fontWeight: "bold",
-                      color: "gray",
-                      fontSize: 12,
-                    }}
-                  >
-                    {dayjs(x.time).format("DD MMM")} @
-                    {
-                      dayjs(x.time)
-                        .format("YYYY-MM-DDTHH:mm:ssZ[Z]")
-                        .split("T")[1]
-                        .split("+")[0]
-                        .split(":")[0]
-                    }
-                    {":"}
-                    {
-                      dayjs(x.time)
-                        .format("YYYY-MM-DDTHH:mm:ssZ[Z]")
-                        .split("T")[1]
-                        .split("+")[0]
-                        .split(":")[1]
-                    }
-                  </span>
-                  <Box sx={{ width: "99%", p: 2 }}>
-                    <Typography sx={{ fontWeight: 600, color: "gray" }}>
-                      {x.notice}
-                    </Typography>
+                    <Box
+                      sx={{
+                        backgroundColor:
+                          x.type === "FOOD"
+                            ? "#4caf50"
+                            : x.type === "LAUNDARY"
+                            ? "#0288d1"
+                            : x.type === "MISC"
+                            ? "#ff9800"
+                            : x.type === "RENTAL"
+                            ? "#d32f2f"
+                            : null,
+
+                        color: "blue",
+                        textAlign: "center",
+                        fontWeight: "bolder",
+                        // mb: 2,
+                        p: 1,
+                        borderRadius: "8px",
+                        display: "inline-block",
+                        color: "white",
+                      }}
+                    >
+                      {x.type}
+                    </Box>{" "}
+                    <span
+                      style={{
+                        fontWeight: "bold",
+                        color: "gray",
+                        fontSize: 12,
+                      }}
+                    >
+                      {dayjs(x.time).format("DD MMM")} @
+                      {
+                        dayjs(x.time)
+                          .format("YYYY-MM-DDTHH:mm:ssZ[Z]")
+                          .split("T")[1]
+                          .split("+")[0]
+                          .split(":")[0]
+                      }
+                      {":"}
+                      {
+                        dayjs(x.time)
+                          .format("YYYY-MM-DDTHH:mm:ssZ[Z]")
+                          .split("T")[1]
+                          .split("+")[0]
+                          .split(":")[1]
+                      }
+                    </span>
+                    <Box sx={{ p: 2 }}>
+                      <Typography sx={{ fontWeight: 600, color: "gray" }}>
+                        {x.notice}
+                      </Typography>
+                    </Box>
                   </Box>
-                </Box>
-              </>
-            );
-          }
-        })}
-      </Box>
+                );
+              }
+            })}
+          </Grid>
+        </>
+      ) : null}
     </Container>
   );
 }
