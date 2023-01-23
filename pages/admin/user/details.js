@@ -216,8 +216,13 @@ export default function UserDetails() {
       </Dialog>{" "}
       {/* =========================== */}
       <Container
-        maxWidth="lg  "
-        sx={{ ml: 5, backgroundColor: darkMode ? "#23272a" : "white" }}
+        maxWidth=""
+        sx={{ ml: 5, backgroundColor: darkMode ? "#23272a" : "white" ,
+        [theme.breakpoints.up("sm")]: {
+          ml: -2,
+          // width: "140vw",
+        },
+      }}
       >
         {/* ------------------- GENERAL_INFORMATION ------------------------------- */}
 
@@ -691,16 +696,20 @@ export default function UserDetails() {
               variant="outlined"
               size="small"
               defaultValue={query?.data?.data?.dues?.rents?.at(-1)?.rent}
-            sx={{
-              "& .MuiOutlinedInput-root": {
-                "& fieldset": {
-                  borderColor: darkMode ? "white" : "gray",
+              sx={{
+                "& .MuiOutlinedInput-root": {
+                  "& fieldset": {
+                    borderColor: darkMode ? "white" : "gray",
+                  },
                 },
-              },
-              "& .MuiInputBase-root": {
-                color: darkMode ? "white" : "gray",
-              },  
-            }}
+                "& .MuiInputBase-root": {
+                  color: darkMode ? "white" : "gray",
+                },
+                [theme.breakpoints.down("sm")]: {
+                  width: "80%",
+                  ml: 8,
+                },
+              }}
             />{" "}
             <MoreVertIcon
               onClick={() => setOpen(true)}
