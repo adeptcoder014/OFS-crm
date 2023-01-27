@@ -29,29 +29,26 @@ import axios from "axios";
 import { ADMIN_URL } from "../../constants/url";
 import Swal from "sweetalert2";
 import { useFormik } from "formik";
+import jwt_decode from "jwt-decode";
+
 //===========================================================
 
 export default function Profile() {
+  const router = useRouter();
+  const [user, setUser] = useState({});
+  useEffect(() => {
+    axios
+      .get(`${ADMIN_URL}/user/${router.query.id}`)
+      .then((res) => setUser(res.data));
+  }, []);
   //=====================================
   const theme = useTheme();
   // const { add, addForm } = useController();
 
   const { darkMode } = useDarkMode();
-  let userId = "";
-  if (typeof window !== "undefined") {
-    userId = localStorage.getItem("userId");
-  }
-
-  const query = useQuery({
-    queryKey: ["getUserDetails"],
-    queryFn: () => axiosInstance.get(`/user/${userId}`),
-  });
 
   const addForm = useFormik({
     initialValues: {
-      name: "",
-      email: "",
-      phone: "",
       profilePhoto: "",
     },
     onSubmit: (values) => {
@@ -59,14 +56,24 @@ export default function Profile() {
     },
   });
 
+  // console.log(user.id);
+
   const add = useMutation({
-    mutationFn: userProfileUpdate,
+    // mutationFn: userProfileUpdate,
+    mutationFn: (values) => {
+      const formData = new FormData();
+      console.log("||-----------><----", values);
+      let { profilePhoto } = values;
+
+      if (profilePhoto instanceof File) {
+        formData.append("profilePhoto", profilePhoto);
+      }
+
+      return axiosInstance.post(`${ADMIN_URL}/user/profile/${user.id}`, formData);
+    },
+
     onSuccess: (res) => {
-      return Swal.fire(
-        "Logged in !",
-        "profile updated",
-        "success"
-      )
+      return Swal.fire("Logged in !", "profile updated", "success");
       // .then(() => router.push("/admin/home"));
     },
     onError: (err) =>
@@ -76,18 +83,6 @@ export default function Profile() {
 
   const [profilePhoto, setProfilePhoto] = useState("");
 
-  // const [name, setName] = useState(query?.data?.data?.name);
-
-  // const [email, setEmail] = useState(query?.data?.data?.email);
-
-  // const [phone, setPhone] = useState(query?.data?.data?.phone);
-
-  if (query.isLoading) {
-    return <Loading />;
-  }
-  //==============================
-
-  //   console.log(query.data.data);
   //================================================
   return (
     <Box
@@ -104,14 +99,26 @@ export default function Profile() {
           <img
             src={profilePhoto}
             style={{
-              width: 100,
-              height: 100,
-              margin: "10px",
+              width: 200,
+              height: 200,
+              padding: 15,
               borderRadius: "100%",
+              marginBottom: -45,
             }}
           />
         ) : (
-          <Avatar sx={{ width: 100, height: 100, m: 2 }} />
+          // <Avatar sx={{ width: 100, height: 100, m: 2 }} />
+          <img
+          src={`${ADMIN_URL}/${user.profilePhoto}`}
+
+          style={{
+            width: 200,
+            height: 200,
+            padding: 15,
+            borderRadius: "100%",
+            marginBottom: -45,
+          }}
+        />
         )}
       </Box>
 
@@ -177,6 +184,10 @@ export default function Profile() {
                   //   width: "90%",
                   backgroundColor: "#f6f8fb",
                   color: "white",
+                  [theme.breakpoints.down("sm")]: {
+                    width: "70%",
+                    borderRadius: 1,
+                  },
                 }}
                 size="small"
               />{" "}
@@ -208,14 +219,18 @@ export default function Profile() {
                 helperText={addForm.touched.name && addForm.errors.name}
                 id="name"
                 name="name"
-                // defaultValue={query?.data?.data?.name}
+                value={user?.name}
                 // onChange={(e) => setName(e.target.value)}
-                value={addForm.values.name}
+                // value={addForm.values.name}
                 onChange={addForm.handleChange}
                 sx={{
                   //   width: "90%",
                   backgroundColor: "#f6f8fb",
                   color: "white",
+                  [theme.breakpoints.down("sm")]: {
+                    width: "70%",
+                    borderRadius: 1,
+                  },
                 }}
                 size="small"
                 InputProps={{
@@ -225,7 +240,7 @@ export default function Profile() {
                     </InputAdornment>
                   ),
                 }}
-              />{" "}
+              />
               {/* ========================================================================>> */}
             </Grid>
 
@@ -258,12 +273,16 @@ export default function Profile() {
                 name="email"
                 // defaultValue={query?.data?.data?.email}
                 // onChange={(e) => setEmail(e.target.value)}
-                value={addForm.values.email}
+                value={user?.email}
                 onChange={addForm.handleChange}
                 sx={{
                   //   width: "90%",
                   backgroundColor: "#f6f8fb",
                   color: "white",
+                  [theme.breakpoints.down("sm")]: {
+                    width: "70%",
+                    borderRadius: 1,
+                  },
                 }}
                 size="small"
                 InputProps={{
@@ -306,12 +325,16 @@ export default function Profile() {
                 name="phone"
                 // defaultValue={query?.data?.data?.phone}
                 // onChange={(e) => setPhone(e.target.value)}
-                value={addForm.values.phone}
+                value={user?.phone}
                 onChange={addForm.handleChange}
                 sx={{
                   //   width: "90%",
                   backgroundColor: "#f6f8fb",
                   color: "white",
+                  [theme.breakpoints.down("sm")]: {
+                    width: "70%",
+                    borderRadius: 1,
+                  },
                 }}
                 size="small"
                 InputProps={{
@@ -338,6 +361,11 @@ export default function Profile() {
                 {
                   [theme.breakpoints.up("sm")]: {
                     m: "auto",
+                    mt: 4,
+                    width: "50%",
+                  },
+                  [theme.breakpoints.down("sm")]: {
+                    ml: 5,
                     mt: 4,
                     width: "50%",
                   },

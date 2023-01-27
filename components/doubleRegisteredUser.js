@@ -177,7 +177,21 @@ export default function DoubleRegisteredUsers(props) {
                 // width: "90%",
               }}
             >
-              <Avatar />
+              {x.profilePhoto ? (
+                <>
+                  <img
+                    src={`${ADMIN_URL}/${x.profilePhoto}`}
+                    style={{
+                      borderRadius: "100%",
+                      width: 50,
+                      height: 50,
+                    }}
+                  />
+                </>
+              ) : (
+                <Avatar />
+              )}
+
               <Box
                 sx={{
                   p: 1,

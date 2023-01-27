@@ -20,6 +20,7 @@ import { useState } from "react";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { useTheme } from "@mui/system";
 import { useDarkMode } from "../../../context/darkMode";
+import { ADMIN_URL } from "../../../constants/url";
 //========================================
 export default function UserDetails() {
   //============
@@ -217,12 +218,14 @@ export default function UserDetails() {
       {/* =========================== */}
       <Container
         maxWidth=""
-        sx={{ ml: 5, backgroundColor: darkMode ? "#23272a" : "white" ,
-        [theme.breakpoints.up("sm")]: {
-          ml: -2,
-          // width: "140vw",
-        },
-      }}
+        sx={{
+          ml: 5,
+          backgroundColor: darkMode ? "#23272a" : "white",
+          [theme.breakpoints.up("sm")]: {
+            ml: -2,
+            // width: "140vw",
+          },
+        }}
       >
         {/* ------------------- GENERAL_INFORMATION ------------------------------- */}
 
@@ -292,8 +295,23 @@ export default function UserDetails() {
               display: "flex",
             }}
           >
-            <Avatar sx={{ mr: 1, fontSize: 5 }} />
-            <Box sx={{ display: "flex", flexDirection: "column" }}>
+            {query?.data?.data?.profilePhoto ? (
+              <>
+                <img
+                  src={`${ADMIN_URL}/${query?.data?.data?.profilePhoto}`}
+                  style={{
+                    borderRadius: "100%",
+                    width: 100,
+                    height: 100,
+                    marginRight:15
+                  }}
+                />
+              </>
+            ) : (
+              <Avatar />
+            )}
+
+            <Box sx={{ display: "flex", flexDirection: "column" ,mt:1}}>
               <Typography sx={darkMode ? [theme.lightText] : [theme.darkText]}>
                 {query?.data?.data.name}
               </Typography>
@@ -424,7 +442,6 @@ export default function UserDetails() {
               display: "flex",
               justifyContent: "space-between",
               p: 1,
-              
             }}
           >
             {/* <Box sx={{ display: "flex" }}> */}
@@ -448,20 +465,19 @@ export default function UserDetails() {
             }}
           >
             <TextField
-             sx={{
-              "& .MuiOutlinedInput-root": {
-                "& fieldset": {
-                  borderColor: darkMode ? "white" : "gray",
+              sx={{
+                "& .MuiOutlinedInput-root": {
+                  "& fieldset": {
+                    borderColor: darkMode ? "white" : "gray",
+                  },
                 },
-              },
-              "& .MuiInputBase-root": {
-                color: darkMode ? "white" : "gray",
-              },
-              [theme.breakpoints.down("sm")]: {
-                width: "80%",
-               
-              },
-            }}
+                "& .MuiInputBase-root": {
+                  color: darkMode ? "white" : "gray",
+                },
+                [theme.breakpoints.down("sm")]: {
+                  width: "80%",
+                },
+              }}
               InputProps={{
                 inputProps: {
                   style: { textAlign: "left" },
@@ -507,20 +523,19 @@ export default function UserDetails() {
             }}
           >
             <TextField
-             sx={{
-              "& .MuiOutlinedInput-root": {
-                "& fieldset": {
-                  borderColor: darkMode ? "white" : "gray",
+              sx={{
+                "& .MuiOutlinedInput-root": {
+                  "& fieldset": {
+                    borderColor: darkMode ? "white" : "gray",
+                  },
                 },
-              },
-              "& .MuiInputBase-root": {
-                color: darkMode ? "white" : "gray",
-              },
-              [theme.breakpoints.down("sm")]: {
-                width: "80%",
-                
-              },
-            }}
+                "& .MuiInputBase-root": {
+                  color: darkMode ? "white" : "gray",
+                },
+                [theme.breakpoints.down("sm")]: {
+                  width: "80%",
+                },
+              }}
               InputProps={{
                 inputProps: {
                   style: { textAlign: "left" },
@@ -587,7 +602,6 @@ export default function UserDetails() {
                 },
                 [theme.breakpoints.down("sm")]: {
                   width: "80%",
-                
                 },
               }}
             />

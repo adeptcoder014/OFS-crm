@@ -109,7 +109,22 @@ export default function Home() {
             // background: "linear-gradient(252deg, #e1e1e1, red)",
           }}
         >
-          <Avatar sx={{ mr: 1, fontSize: 5 }} />
+          {user?.profilePhoto ? (
+            <>
+              <img
+                src={`${ADMIN_URL}/${user.profilePhoto}`}
+                style={{
+                  borderRadius: "100%",
+                  width: 50,
+                  height: 50,
+                  marginRight:5
+                }}
+              />
+            </>
+          ) : (
+            <Avatar />
+          )}
+
           <Box>
             <Typography sx={{ fontFamily: "poppins" }}>{user?.name}</Typography>
             <Typography

@@ -176,10 +176,23 @@ export default function AllRegisteredUsers(props) {
                 justifyContent: "space-around",
                 alignItems: "center",
                 mb: 1,
-                // width: "90%",
               }}
             >
-              <Avatar />
+              {x.profilePhoto ? (
+                <>
+                  <img
+                    src={`${ADMIN_URL}/${x.profilePhoto}`}
+                    style={{
+                      borderRadius: "100%",
+                      width:50,
+                      height:50
+                    }}
+                  />
+                </>
+              ) : (
+                <Avatar />
+              )}
+
               <Box
                 sx={{
                   p: 1,
@@ -211,7 +224,6 @@ export default function AllRegisteredUsers(props) {
               />
             </Box>
           );
-          // }
         })}
       </Box>
       {/* //======================================== */}

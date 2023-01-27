@@ -35,6 +35,9 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import RequestQuoteIcon from "@mui/icons-material/RequestQuote";
 import BroadcastOnHomeIcon from "@mui/icons-material/BroadcastOnHome";
 import AccountBalanceIcon from "@mui/icons-material/AccountBalance";
+import { ADMIN_URL } from "../../constants/url";
+import axios from "axios";
+import jwt_decode from "jwt-decode";
 
 //===================================================================
 const drawerWidth = 250;
@@ -70,6 +73,26 @@ export default function DashboardSidebar(props) {
     }
   }, [router.asPath]);
   //----------------------------
+
+
+const[userId,setUserId] = useState()
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const token = localStorage.getItem("userToken");
+
+      if (!token) {
+        router.push("/user/login");
+      }
+      if (token) {
+        axios
+          .get(`${ADMIN_URL}/user/${jwt_decode(token).id}`)
+          .then((res) => setUserId(res.data.id));
+      }
+    }
+  }, []);
+//===================================
+
   const handleDrawerClose = () => {
     setOpen(false);
   };
@@ -122,7 +145,7 @@ export default function DashboardSidebar(props) {
         <List sx={{ mt: -2 }}>
           {[
             {
-              href: "/user/profile",
+              href: `/user/profile?id=${userId}`,
               title: "Profile",
               icon: (
                 <AccountCircleIcon

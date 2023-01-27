@@ -25,11 +25,8 @@ export const loginUser = (data) => {
 export const userProfileUpdate = (data) => {
   const formData = new FormData();
   console.log("<----", data);
-  let { name, email, phone, profilePhoto } = data;
+  let { profilePhoto } = data;
 
-  formData.append("name", name);
-  formData.append("email", email);
-  formData.append("phone", phone);
 
   if (profilePhoto instanceof File) {
     formData.append("profilePhoto", profilePhoto);

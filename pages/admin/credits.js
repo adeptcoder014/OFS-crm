@@ -121,6 +121,7 @@ export default function Credits() {
         {filter?.map((x) => {
           return (
             <TotalCredits
+            key={x}
               time={x.time}
               rentCollected={x.rentDue}
               ebillCollected={x.ebillDue}

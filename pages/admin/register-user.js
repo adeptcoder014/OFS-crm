@@ -135,7 +135,7 @@ export default function RegisterUser() {
               border: "1px dashed gray",
               // maxWidth: "-webkit-fill-available",
             }}
-          />{" "}
+          />
         </Box>
       </Dialog>
       <Box
