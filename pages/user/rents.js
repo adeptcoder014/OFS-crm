@@ -20,32 +20,58 @@ import axiosInstance from "../../api/axios";
 import SearchIcon from "@mui/icons-material/Search";
 import { useTheme } from "@mui/system";
 import { useDarkMode } from "../../context/darkMode";
+import { ADMIN_URL } from "../../constants/url";
+import jwt_decode from "jwt-decode";
+import axios from "axios";
 //===========================================================
-
 export default function Rents() {
   //=====================================
   const theme = useTheme();
   const { darkMode } = useDarkMode();
-  let userId = "";
-  if (typeof window !== "undefined") {
-    userId = localStorage.getItem("userId");
-  }
+  const [user, setUser] = useState({});
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const token = localStorage.getItem("userToken");
 
-  const query = useQuery({
-    queryKey: ["getUserRents"],
-    queryFn: () => axiosInstance.get(`/user/get-rents/${userId}`),
-  });
+      if (!token) {
+        router.push("/user/login");
+      }
+      if (token) {
+        axios
+          .get(`${ADMIN_URL}/user/${jwt_decode(token).id}`)
+          .then((res) => setUser(res.data));
+      }
+    }
+  }, []);
 
-  if (query.isLoading) {
-    return <Loading />;
-  }
 
-  //   console.log(query.data.data);
+  // const query = useQuery({
+  //   queryKey: ["getUserRents"],
+  //   queryFn: () => axiosInstance.get(`/user/get-rents/${user.id}`),
+  // });
+
+  // if (query.isLoading) {
+  //   return <Loading />;
+  // }
+  // console.log(user.dues.rents);
+
   //================================================
   return (
     <Box
       sx={{
         backgroundColor: darkMode ? "#23272a" : "#99aab5",
+        [theme.breakpoints.down('sm')]:{
+          // backgroundColor:"red",
+          mt:-2,
+          ml:-9,
+          height:"100vh"
+        },
+        [theme.breakpoints.up('sm')]:{
+          // backgroundColor:"red",
+          mt:-2,
+          ml:-9,
+          height:"100vh"
+        }
       }}
     >
       <Typography
@@ -89,9 +115,9 @@ export default function Rents() {
         Yours Rents :{" "}
       </Typography>
 
-      {query?.data?.data?.map((x) => (
+      {user?.dues?.rents?.map((x) => (
         <Box
-        key={x}
+          key={x}
           sx={{
             backgroundColor: darkMode ? "#2c2f33" : "white",
             display: "flex",
@@ -100,11 +126,17 @@ export default function Rents() {
             boxShadow: darkMode
               ? "0px 0px 2px 0px white"
               : "0px 0px 2px 0px gray",
-              p:1
+            p: 1,
           }}
         >
           <Box>
-            <Typography sx={darkMode ? [theme.lightText,{color:"gray"}] : [theme.darkText]}>
+            <Typography
+              sx={
+                darkMode
+                  ? [theme.lightText, { color: "gray" }]
+                  : [theme.darkText]
+              }
+            >
               Month
             </Typography>
             <Typography sx={darkMode ? [theme.lightText] : [theme.darkText]}>
@@ -112,7 +144,13 @@ export default function Rents() {
             </Typography>
           </Box>
           <Box>
-            <Typography sx={darkMode ? [theme.lightText,{color:"gray"}] : [theme.darkText]}>
+            <Typography
+              sx={
+                darkMode
+                  ? [theme.lightText, { color: "gray" }]
+                  : [theme.darkText]
+              }
+            >
               Rent
             </Typography>
             <Typography sx={darkMode ? [theme.lightText] : [theme.darkText]}>
@@ -120,7 +158,13 @@ export default function Rents() {
             </Typography>
           </Box>
           <Box>
-            <Typography sx={darkMode ? [theme.lightText,{color:"gray"}] : [theme.darkText]}>
+            <Typography
+              sx={
+                darkMode
+                  ? [theme.lightText, { color: "gray" }]
+                  : [theme.darkText]
+              }
+            >
               Status
             </Typography>
             <Typography
@@ -131,9 +175,9 @@ export default function Rents() {
                       {
                         backgroundColor:
                           x.status === "DUE" ? "#ef5350" : "#4caf50",
-                          textAlign:"center",
-                          color:"white",
-                          borderRadius:"4px"
+                        textAlign: "center",
+                        color: "white",
+                        borderRadius: "4px",
                       },
                     ]
                   : [
@@ -141,9 +185,9 @@ export default function Rents() {
                       {
                         backgroundColor:
                           x.status === "DUE" ? "#ef5350" : "#4caf50",
-                          textAlign:"center",
-                          color:"white",
-                          borderRadius:"4px"
+                        textAlign: "center",
+                        color: "white",
+                        borderRadius: "4px",
                       },
                     ]
               }

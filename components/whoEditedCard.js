@@ -90,7 +90,8 @@ export default function WhoEditedCard(props) {
             </Typography>
             <Typography sx={darkMode ? [theme.lightText] : [theme.darkText]}>
               {" "}
-              {props.rent ? props.rent : "₹ x,xxx"}
+              {/* {props.rent ? props.rent : "₹ x,xxx"} */}
+              {props.rent - props.rentDue}
             </Typography>
           </Grid>
 
@@ -104,7 +105,7 @@ export default function WhoEditedCard(props) {
                   : [theme.darkText, { color: "gray" }]
               }
             >
-              To be receive
+              Rent received
             </Typography>
             <Typography sx={darkMode ? [theme.lightText] : [theme.darkText]}>
               {" "}
@@ -121,7 +122,7 @@ export default function WhoEditedCard(props) {
                   : [theme.darkText, { color: "gray" }]
               }
             >
-              Ebill
+              Ebill received
             </Typography>
             <Typography sx={darkMode ? [theme.lightText] : [theme.darkText]}>
               {" "}
@@ -130,7 +131,7 @@ export default function WhoEditedCard(props) {
           </Grid>
           {/* ====================== STATUS ============================ */}
 
-          <Grid item xs={12} sm={2} md={2} lg={2} xl={2} sx={{}}>
+          {/* <Grid item xs={12} sm={2} md={2} lg={2} xl={2} sx={{}}>
             <Typography
               sx={
                 darkMode
@@ -140,13 +141,11 @@ export default function WhoEditedCard(props) {
             >
               Total
             </Typography>
-            {/* {props.status === "DUE" ? ( */}
             <Typography sx={darkMode ? [theme.lightText] : [theme.darkText]}>
               {"- "}
               {Math.abs(props?.total)}
             </Typography>
-            {/* ) : ( */}
-          </Grid>
+          </Grid> */}
           {/* ====================== MODE ============================ */}
 
           <Grid

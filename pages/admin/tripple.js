@@ -6,12 +6,12 @@ import Table from "../../components/table";
 import Loading from "../../components/loading";
 import { useRouter } from "next/router";
 import NewRegisteredUsers from "../../components/NewRegisteredUsers";
-import Users from "../../components/allUsers";
+import TrippleUser from "../../components/trippleuser";
 import { useDarkMode } from "../../context/darkMode";
 import axiosInstance from "../../api/axios";
 import { useQuery } from "@tanstack/react-query";
 //==========================================
-export default function AllUsers() {
+export default function TrippleUsers() {
   const theme = useTheme();
   const { darkMode } = useDarkMode();
   //================================
@@ -62,12 +62,12 @@ export default function AllUsers() {
                 ]
           }
         >
-          All Users are :
+          All Tripple Bed Users are :
         </Typography>
-        <Users />
+        <TrippleUser />
       </Box>
     </>
   );
 }
 
-AllUsers.getLayout = (page) => <DashboardLayout>{page}</DashboardLayout>;
+TrippleUsers.getLayout = (page) => <DashboardLayout>{page}</DashboardLayout>;

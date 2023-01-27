@@ -197,7 +197,7 @@ export default function RentShow(props) {
       });
   };
 
-  console.log("patchForm -->", patchForm.values);
+  // console.log("patchForm -->", patchForm.values);
   //========================================
 
   return (

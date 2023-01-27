@@ -39,10 +39,13 @@ import { ADMIN_URL } from "../../constants/url";
 import MailIcon from "@mui/icons-material/Mail";
 import { useTheme } from "@mui/system";
 import { useDarkMode } from "../../context/darkMode";
+import DownloadIcon from "@mui/icons-material/Download";
+import axiosInstance from "../../api/axios";
 //============================================================================
+
 export default function RegisterUser() {
   const [open, setOpen] = useState(false);
-
+  const [idImage, setIdImage] = useState("");
   const theme = useTheme();
   const { darkMode } = useDarkMode();
   //============ RENTAL_STRUCTURE ================================
@@ -139,7 +142,12 @@ export default function RegisterUser() {
         sx={{
           backgroundColor: darkMode ? "#23272a" : "white",
           [theme.breakpoints.down("sm")]: {
-            width: "130%",
+            width: "100vw",
+
+            ml: -3,
+          },
+          [theme.breakpoints.up("sm")]: {
+            ml: -3,
           },
         }}
       >
@@ -159,17 +167,22 @@ export default function RegisterUser() {
             boxShadow: "0px 3px 3px 0px #b1cdb1",
             borderRadius: "6px",
             p: 5,
-            [theme.breakpoints.down("sm")]: {
-              width: "75%",
-              ml: 9,
-            },
+            [theme.breakpoints.down("sm")]: {},
           }}
         >
-          {/* //]============================= */}
+          {/*============================= */}
           <Grid container>
-            {/* //------------------------- */}
-
-            <Grid item xl={4} lg={4} md={4} sm={12} xs={12}>
+            <Grid
+              item
+              xl={4}
+              lg={4}
+              md={4}
+              sm={12}
+              xs={12}
+              sx={{
+                display: "flex",
+              }}
+            >
               <Box
                 sx={{ mb: 2 }}
                 item
@@ -190,6 +203,29 @@ export default function RegisterUser() {
                   }}
                 />{" "}
               </Box>
+              <DownloadIcon
+                sx={{
+                  color: darkMode ? "white" : "gray",
+                  cursor: "pointer",
+                }}
+                onClick={() => {
+                  axiosInstance
+                    .post(
+                      `/user/get-imageId?file=${
+                        query?.data?.data?.photo.split("uploads\\")[1]
+                      }`
+                    )
+                    .then((res) => {
+
+                      console.log(res)
+                      var blob = res.data;
+                      var a = document.createElement("a");
+                      a.href = URL.createObjectURL(new Blob(blob));
+                      a.download = fileURL;
+                      a.click();
+                    });
+                }}
+              />
             </Grid>
             {/* //------------------------- */}
             <Grid item xl={4} lg={4} md={4} sm={12} xs={12}>
@@ -435,8 +471,28 @@ export default function RegisterUser() {
               variant="h4"
               sx={
                 darkMode
-                  ? [theme.lightText, { m: 7 }]
-                  : [theme.darkText, { m: 7 }]
+                  ? [
+                      theme.lightText,
+                      {
+                        m: 7,
+                        [theme.breakpoints.down("sm")]: {
+                          fontSize: 24,
+                          width: "100%",
+                          ml: -1,
+                        },
+                      },
+                    ]
+                  : [
+                      theme.darkText,
+                      {
+                        m: 7,
+                        [theme.breakpoints.down("sm")]: {
+                          fontSize: 24,
+                          width: "100%",
+                          ml: -1,
+                        },
+                      },
+                    ]
               }
             >
               {" "}
@@ -463,6 +519,16 @@ export default function RegisterUser() {
                   Room Number
                 </FormLabel>
                 <TextField
+                  sx={{
+                    "& .MuiOutlinedInput-root": {
+                      "& fieldset": {
+                        borderColor: darkMode ? "white" : "gray",
+                      },
+                    },
+                    input: {
+                      color: darkMode ? "white" : "gray",
+                    },
+                  }}
                   error={
                     patchForm.touched.room && Boolean(patchForm.errors.room)
                   }
@@ -472,12 +538,6 @@ export default function RegisterUser() {
                   name="room"
                   value={patchForm?.values?.room}
                   onChange={patchForm.handleChange}
-                  sx={{
-                    width: "90%",
-                    "& label.Mui-focused": {
-                      color: "red",
-                    },
-                  }}
                   size="small"
                   variant="standard"
                   InputProps={{
@@ -519,7 +579,16 @@ export default function RegisterUser() {
                   type="number"
                   value={patchForm?.values?.meterReading}
                   onChange={patchForm.handleChange}
-                  sx={{ width: "90%" }}
+                  sx={{
+                    "& .MuiOutlinedInput-root": {
+                      "& fieldset": {
+                        borderColor: darkMode ? "white" : "gray",
+                      },
+                    },
+                    input: {
+                      color: darkMode ? "white" : "gray",
+                    },
+                  }}
                   size="small"
                   variant="standard"
                   InputProps={{
@@ -536,12 +605,13 @@ export default function RegisterUser() {
                 item
                 md={6}
                 xs={12}
-                sx={{ display: "flex", flexDirection: "column",
-                [theme.breakpoints.up("sm")]: {
-              
-                  mt:11
-                },
-              }}
+                sx={{
+                  display: "flex",
+                  flexDirection: "column",
+                  [theme.breakpoints.up("sm")]: {
+                    mt: 11,
+                  },
+                }}
               >
                 <FormLabel
                   sx={
@@ -568,9 +638,13 @@ export default function RegisterUser() {
                   value={patchForm?.values?.joiningDate.split("T")[0]}
                   onChange={patchForm.handleChange}
                   sx={{
-                    width: "90%",
-                    "& label.Mui-focused": {
-                      color: "red",
+                    "& .MuiOutlinedInput-root": {
+                      "& fieldset": {
+                        borderColor: darkMode ? "white" : "gray",
+                      },
+                    },
+                    input: {
+                      color: darkMode ? "white" : "gray",
                     },
                   }}
                   size="small"
@@ -625,15 +699,14 @@ export default function RegisterUser() {
                 <FormLabel
                   sx={
                     darkMode
-                      ? [theme.lightText, { mb: 2,mt:5 }]
-                      : [theme.darkText, { mb: 2,mt:5 }]
+                      ? [theme.lightText, { mb: 2, mt: 5 }]
+                      : [theme.darkText, { mb: 2, mt: 5 }]
                   }
                 >
                   Remark
                 </FormLabel>
 
                 <TextField
-                  multiline
                   error={
                     patchForm.touched.remark && Boolean(patchForm.errors.remark)
                   }
@@ -644,7 +717,16 @@ export default function RegisterUser() {
                   name="remark"
                   value={patchForm?.values?.remark}
                   onChange={patchForm.handleChange}
-                  sx={{ width: "90%" }}
+                  sx={{
+                    "& .MuiOutlinedInput-root": {
+                      "& fieldset": {
+                        borderColor: darkMode ? "white" : "gray",
+                      },
+                    },
+                    input: {
+                      color: darkMode ? "white" : "gray",
+                    },
+                  }}
                   size="small"
                   variant="standard"
                   InputProps={{
@@ -670,12 +752,15 @@ export default function RegisterUser() {
                   disabled={patch.isLoading}
                   loading={patch.isLoading}
                   type="submit"
-                  sx={[theme.primaryBtn,{
-                    [theme.breakpoints.up("sm")]: {
-                      width:"80%",
-                      mt:5
+                  sx={[
+                    theme.primaryBtn,
+                    {
+                      [theme.breakpoints.up("sm")]: {
+                        width: "80%",
+                        mt: 5,
+                      },
                     },
-                  }]}
+                  ]}
                 >
                   Approve
                 </LoadingButton>{" "}
@@ -695,25 +780,26 @@ export default function RegisterUser() {
                   disabled={patch.isLoading}
                   loading={patch.isLoading}
                   type="submit"
-                  sx={[theme.primaryBtn,{
-                    [theme.breakpoints.up("sm")]: {
-                      width:"80%",
-                      mt:5
-                    },
+                  sx={[
+                    theme.primaryBtn,
+                    {
+                      [theme.breakpoints.up("sm")]: {
+                        width: "80%",
+                        mt: 5,
+                      },
 
-                    [theme.breakpoints.down("sm")]: {
+                      [theme.breakpoints.down("sm")]: {
+                        mt: 3,
+                      },
 
-                      mt:3
+                      backgroundColor: "#ed4245",
+                      "&:hover": {
+                        color: "#ed4245",
+                        border: "2px solid #ed4245",
+                        backgroundColor: "white",
+                      },
                     },
-                  
-                    backgroundColor:"#ed4245",
-                    "&:hover": {
-                      color: "#ed4245",
-                      border: "2px solid #ed4245",
-                      backgroundColor: "white",
-                    },
-                    
-                  }]}
+                  ]}
                 >
                   Disapprove
                 </LoadingButton>{" "}

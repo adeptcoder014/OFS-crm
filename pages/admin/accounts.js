@@ -49,22 +49,10 @@ export default function Accounts() {
   const [accountTotal, setAccountTotal] = useState([]);
   //==========================
   const theme = useTheme();
+  const router = useRouter();
   const { darkMode } = useDarkMode();
-
-  const [windowDimensions, setWindowDimensions] = useState(
-    getWindowDimensions()
-  );
-
-  useEffect(() => {
-    function handleResize() {
-      setWindowDimensions(getWindowDimensions());
-    }
-    if (typeof window !== "undefined") {
-      window.addEventListener("resize", handleResize);
-      return () => window.removeEventListener("resize", handleResize);
-    }
-    //-----------------------------
-  }, []);
+  //-----------------------------
+  
 
   useEffect(() => {
     axiosInstance
@@ -112,10 +100,18 @@ export default function Accounts() {
       </Dialog>
 
       {/* =========================== */}
-      <Box sx={{ backgroundColor: darkMode ? "#23272a" : "white", [theme.breakpoints.down("sm")]: {
-                      
-                      ml:-3,        
-                    }, }}>
+      <Box
+        sx={{
+          backgroundColor: darkMode ? "#23272a" : "white",
+          [theme.breakpoints.down("sm")]: {
+            ml: -3,
+          },
+          [theme.breakpoints.up("sm")]: {
+            ml: -3,
+            p: 2,
+          },
+        }}
+      >
         <Typography
           variant="h5"
           sx={
@@ -125,7 +121,7 @@ export default function Accounts() {
                   {
                     [theme.breakpoints.down("sm")]: {
                       m: 2,
-                      ml: 9,        
+                      ml: 9,
                     },
                     [theme.breakpoints.up("sm")]: {
                       m: 2,
@@ -164,14 +160,18 @@ export default function Accounts() {
             m: "auto",
             borderRadius: 2,
             backgroundColor: darkMode ? "#2c2f33" : "white",
+            cursor: "pointer",
+          }}
+          onClick={() => {
+            router.push("/admin/credits");
           }}
         >
           <Box
             sx={{
               [theme.breakpoints.down("sm")]: {
                 p: 1,
-                width:240,
-                ml:2
+                width: 240,
+                ml: 2,
               },
               [theme.breakpoints.up("sm")]: {
                 p: 3,
@@ -205,9 +205,9 @@ export default function Accounts() {
             sx={{
               [theme.breakpoints.down("sm")]: {
                 p: 1,
-                width:240,
-                ml:2,
-                mt:2
+                width: 240,
+                ml: 2,
+                mt: 2,
               },
               [theme.breakpoints.up("sm")]: {
                 p: 3,
@@ -240,9 +240,9 @@ export default function Accounts() {
             sx={{
               [theme.breakpoints.down("sm")]: {
                 p: 1,
-                width:240,
-                ml:2,
-                mt:2
+                width: 240,
+                ml: 2,
+                mt: 2,
               },
               [theme.breakpoints.up("sm")]: {
                 p: 3,

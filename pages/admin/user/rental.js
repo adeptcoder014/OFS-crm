@@ -85,14 +85,14 @@ export default function UserRent() {
 
   return (
     <Container
-      // maxWidth="lg"
+      maxWidth="xl"
       sx={{
         backgroundColor: darkMode ? "#2c2f33" : "#ffffff",
         [theme.breakpoints.down("sm")]: {
           ml:5,
         },
         [theme.breakpoints.up("sm")]: {
-          // ml:-5,
+          ml:-2,
           // width:"450vw"
           p:5
         },

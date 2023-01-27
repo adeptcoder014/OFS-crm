@@ -20,12 +20,12 @@ import { ADMIN_URL } from "../constants/url";
 import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
 //================================================
-export default function NewRegisteredUsers(props) {
+export default function DoubleRegisteredUsers(props) {
   //================================================
   const [user, setUser] = useState([]);
 
   useEffect(() => {
-    axiosInstance.get("/user/new").then((res) => setUser(res.data.user));
+    axiosInstance.get("/user/double").then((res) => setUser(res.data.user));
   }, []);
 
   const router = useRouter();

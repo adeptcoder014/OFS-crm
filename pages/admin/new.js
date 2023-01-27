@@ -6,12 +6,12 @@ import Table from "../../components/table";
 import Loading from "../../components/loading";
 import { useRouter } from "next/router";
 import NewRegisteredUsers from "../../components/NewRegisteredUsers";
-import Users from "../../components/allUsers";
+import NewUsers from "../../components/newUsers";
 import { useDarkMode } from "../../context/darkMode";
 import axiosInstance from "../../api/axios";
 import { useQuery } from "@tanstack/react-query";
 //==========================================
-export default function AllUsers() {
+export default function AllNewUsers() {
   const theme = useTheme();
   const { darkMode } = useDarkMode();
   //================================
@@ -62,12 +62,12 @@ export default function AllUsers() {
                 ]
           }
         >
-          All Users are :
+          All New Users are :
         </Typography>
-        <Users />
+        <NewUsers />
       </Box>
     </>
   );
 }
 
-AllUsers.getLayout = (page) => <DashboardLayout>{page}</DashboardLayout>;
+AllNewUsers.getLayout = (page) => <DashboardLayout>{page}</DashboardLayout>;

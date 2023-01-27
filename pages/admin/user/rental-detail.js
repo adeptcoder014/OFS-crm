@@ -29,6 +29,7 @@ import RentShow from "../../../components/rentShowCard";
 import jwt_decode from "jwt-decode";
 import { useTokenQuery } from "../../../controller/token";
 import { useDarkMode } from "../../../context/darkMode";
+import { ADMIN_URL } from "../../../constants/url";
 //========================================
 export default function UserRentalDetails() {
   const theme = useTheme();
@@ -44,10 +45,20 @@ export default function UserRentalDetails() {
     queryFn: () => getUserById(router.query.id),
     enabled: !!router.query.id,
   });
+let room =0
+  if (!query.isLoading) {
+   room = query?.data?.data?.room
+  }
+  useEffect(() => {
+    
+      axios
+        .get(`${ADMIN_URL}/rooms?room=${room}`)
+        .then((x) => console.log(x));
+    
+  }, []);
 
   const { tokenQuery } = useTokenQuery();
   // const today = new Date()
-  // console.log("TOKEN ------>", today.split(" ")[2]);
 
   //==============
 
@@ -58,9 +69,11 @@ export default function UserRentalDetails() {
           sx={{
             backgroundColor: darkMode ? "#23272a" : "white",
             [theme.breakpoints.down("sm")]: {
-              ml: -2
+              ml: -2,
             },
-           
+            [theme.breakpoints.up("sm")]: {
+              ml: -2,
+            },
           }}
         >
           <Typography
@@ -74,7 +87,6 @@ export default function UserRentalDetails() {
                         m: 1,
                       },
                       [theme.breakpoints.up("sm")]: {
-
                         m: 1,
                       },
                     },
@@ -87,7 +99,6 @@ export default function UserRentalDetails() {
                         m: 1,
                       },
                       [theme.breakpoints.up("sm")]: {
-
                         m: 1,
                       },
                     },
@@ -97,60 +108,57 @@ export default function UserRentalDetails() {
           >
             Enter rentals details:{" "}
           </Typography>
-          
-            <Grid
-              container
-              sx={{
-                boxShadow: "0px 2px 3px 0px grey",
-                backgroundColor: darkMode ? "#2c2f33" : "white",
-                borderRadius: "8px",
-                p: 2,
-                borderRadius: 1,
-                display: "flex",
-                justifyContent: "space-2round",
-                // mt: 5,
-                display: "flex",
-                justifyContent: "space-around",
-              }}
-            >
-              <RentEntry user={query?.data?.data} />
-            </Grid>
-        
+
+          <Grid
+            container
+            sx={{
+              boxShadow: "0px 2px 3px 0px grey",
+              backgroundColor: darkMode ? "#2c2f33" : "white",
+              borderRadius: "8px",
+              p: 2,
+              borderRadius: 1,
+              display: "flex",
+              justifyContent: "space-2round",
+              // mt: 5,
+              display: "flex",
+              justifyContent: "space-around",
+            }}
+          >
+            <RentEntry user={query?.data?.data} />
+          </Grid>
+
           <Typography
-              sx={
-                darkMode
-                  ? [
-                      theme.lightText,
-                      {
-                        [theme.breakpoints.down("sm")]: {
-                          fontSize: 16,
-                          m: 1,
-                          mt:5
-                        },
-                        [theme.breakpoints.up("sm")]: {
-  
-                          m: 1,
-                          mt:5
-                        },
+            sx={
+              darkMode
+                ? [
+                    theme.lightText,
+                    {
+                      [theme.breakpoints.down("sm")]: {
+                        fontSize: 16,
+                        m: 1,
+                        mt: 5,
                       },
-                    ]
-                  : [
-                      theme.darkText,
-                      {
-                        [theme.breakpoints.down("sm")]: {
-                          fontSize: 16,
-                          m: 1,
-                          mt:5
-                        },
-                        [theme.breakpoints.up("sm")]: {
-  
-                          m: 1,
-                          mt:5
-                        },
+                      [theme.breakpoints.up("sm")]: {
+                        m: 1,
+                        mt: 5,
                       },
-                    ]
-              }
-            
+                    },
+                  ]
+                : [
+                    theme.darkText,
+                    {
+                      [theme.breakpoints.down("sm")]: {
+                        fontSize: 16,
+                        m: 1,
+                        mt: 5,
+                      },
+                      [theme.breakpoints.up("sm")]: {
+                        m: 1,
+                        mt: 5,
+                      },
+                    },
+                  ]
+            }
             variant="h5"
           >
             Rentals details:{" "}
@@ -167,11 +175,9 @@ export default function UserRentalDetails() {
                 color: darkMode ? "white" : "gray",
               },
               [theme.breakpoints.down("sm")]: {
-
                 ml: 1,
               },
               [theme.breakpoints.up("sm")]: {
-
                 ml: 1,
               },
             }}
@@ -188,7 +194,6 @@ export default function UserRentalDetails() {
               boxShadow: "inset 0px 1px 5px 0px grey",
 
               borderRadius: 1,
-             
             }}
           >
             {query?.data?.data?.dues?.rents?.map((x) => {

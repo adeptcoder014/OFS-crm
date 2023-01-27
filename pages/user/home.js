@@ -40,7 +40,6 @@ export default function Home() {
         router.push("/user/login");
       }
       if (token) {
-        // console.log(jwt_decode(token).id);
         axios
           .get(`${ADMIN_URL}/user/${jwt_decode(token).id}`)
           .then((res) => setUser(res.data));
@@ -52,40 +51,23 @@ export default function Home() {
     axios.get(`${ADMIN_URL}/notice`).then((res) => setNotices(res.data));
   }, []);
 
-  // const noticeQuery = useQuery({
-  //   queryKey: ["noticeQuery"],
-  //   queryFn: () => axios.get(`${ADMIN_URL}/notice`),
-  // });
+  // console.log(user.dues.rents)
 
-  // if (noticeQuery.isLoading) {
-  //   return <Loading />;
-  // }
-
-  // console.log(noticeQuery.)
+  let totalDue = 0;
+  user?.dues?.rents?.map((x) => {
+    return (totalDue += x.due.rentDue);
+  });
 
   //---------------------------------------------------
   const theme = useTheme();
   const { darkMode } = useDarkMode();
 
-  // const query = useQuery({
-  //   queryKey: ["userById", userId],
-  //   queryFn: () => getUserById(userId),
-  //   enabled: !!userId,
-  // });
-
-  // if (query.isLoading) {
-  //   return <Loading />;
-  // }
-  // const user = query.data.data;
-  // console.log("USER --->", user.dues.rents[0].due.rentDue);
   //================================================
   return (
     <Container
       maxWidth="md"
       sx={{
-        background: darkMode
-          ? "linear-gradient(#2c2f33, #2c2f33)"
-          : "linear-gradient(#99aab5, #99aab5)",
+        background: darkMode ? "linear-gradient(#2c2f33, #2c2f33)" : "white",
         [theme.breakpoints.down("sm")]: {
           ml: -9,
           mt: -2,
@@ -320,7 +302,7 @@ export default function Home() {
               }}
             >
               <Typography sx={{ fontWeight: 600, color: "gray" }}>
-                Rent <span style={{ fontSize: 11 }}>(for this month)</span>
+                Rent <span style={{ fontSize: 11 }}>(total)</span>
               </Typography>
             </Grid>
             <Grid
@@ -337,7 +319,7 @@ export default function Home() {
               }}
             >
               <Typography sx={{ fontWeight: 600, color: "#28282B" }}>
-                ₹ {user.dues.rents[0].due.rentDue}
+                ₹ {totalDue.toLocaleString("en-IN")}
               </Typography>
             </Grid>
 
@@ -434,7 +416,7 @@ export default function Home() {
               boxShadow: "0px 2px 3px 0px grey",
               background: darkMode
                 ? "linear-gradient(#2c2f33, #2c2f33)"
-                : "linear-gradient(#99aab5, #99aab5)",
+                : "white",
               p: 1,
               borderRadius: "8px",
             }}

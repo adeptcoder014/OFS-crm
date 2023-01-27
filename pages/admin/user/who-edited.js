@@ -56,7 +56,12 @@ export default function WhoEdited() {
       <Box
         sx={{
           backgroundColor: darkMode ? "#23272a" : "white",
-          height:"100vh"
+          height:"100vh",
+          [theme.breakpoints.up("sm")]: {
+            m:-3,
+            // width:"450vw"
+            p:5
+          },
         }}
       >
         <Typography

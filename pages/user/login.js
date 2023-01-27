@@ -236,8 +236,14 @@ export default function Pending() {
                         "Continue with the OFS User Panel",
                         "success"
                       );
+                    }).then(()=>{
+                      router.push("/user/home")
+
                     })
-                    .finally(() => router.push("/user/home"));
+                    .catch((err) => {
+                      console.log(err);
+                      return Swal.fire("Error !", err.response.data, "error");
+                    })
                 }}
                 sx={[
                   theme.primaryBtn,

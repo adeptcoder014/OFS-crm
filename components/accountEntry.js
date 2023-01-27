@@ -1,6 +1,6 @@
 import { Box, TextField, Typography } from "@mui/material";
 import { useTheme } from "@mui/system";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axiosInstance from "../api/axios";
 import AccountHeadsEntry from "./accountHeadsEntry";
 import ShowAccountsEntry from "./showAccountsEntry";
@@ -19,7 +19,12 @@ export default function AccountEntry() {
     queryKey: ["getAccountsHeads"],
     queryFn: () => axiosInstance.get("/account"),
   });
-  const [data, setData] = useState(query?.data?.data);
+
+  const [data, setData] = useState([]);
+  useEffect(() => {
+    axiosInstance.get("/account").then((res) => setData(res.data));
+  }, []);
+
 
   if (query.isLoading) {
     return <Loading />;
@@ -88,8 +93,8 @@ export default function AccountEntry() {
                     [theme.breakpoints.up("sm")]: {
                       fontSize: 14,
                       ml: 12,
-                      mr:6,
-                      alignSelf:"center"
+                      mr: 6,
+                      alignSelf: "center",
                     },
                   },
                 ]
@@ -111,21 +116,21 @@ export default function AccountEntry() {
           Search :
         </Typography>
         <TextField
-         sx={{
-          "& .MuiOutlinedInput-root": {
-            "& fieldset": {
-              borderColor: darkMode ? "white" : "gray",
+          sx={{
+            "& .MuiOutlinedInput-root": {
+              "& fieldset": {
+                borderColor: darkMode ? "white" : "gray",
+              },
             },
-          },
-          input: {
-            color: darkMode ? "white" : "gray",
-          },
-          [theme.breakpoints.down("sm")]: {
-           width:220,
-           m:'auto',
-           mt:1
-          },
-        }}
+            input: {
+              color: darkMode ? "white" : "gray",
+            },
+            [theme.breakpoints.down("sm")]: {
+              width: 220,
+              m: "auto",
+              mt: 1,
+            },
+          }}
           size="small"
           placeholder="search month ..."
           type="date"

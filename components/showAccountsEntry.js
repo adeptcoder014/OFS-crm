@@ -19,17 +19,7 @@ import Loading from "./loading";
 export default function ShowAccountsEntry(props) {
   const theme = useTheme();
   const { darkMode } = useDarkMode();
-  //=======================================
-  const query = useQuery({
-    queryKey: ["getAccountsHeads"],
-    queryFn: () => axiosInstance.get("/account"),
-  });
 
-  if (query.isLoading) {
-    return <Loading />;
-  }
-
-  console.log("====================>", props.data);
   //========================================
   return (
     <Grid
@@ -70,11 +60,11 @@ export default function ShowAccountsEntry(props) {
                   boxShadow: "0px 1px 2px 0px grey",
                   [theme.breakpoints.up("sm")]: {
                     ml: 2,
-                    p:2,
+                    p: 2,
                   },
                   [theme.breakpoints.down("sm")]: {
                     ml: 2,
-                    p:2,
+                    p: 2,
                   },
                 }}
               >
@@ -175,7 +165,6 @@ export default function ShowAccountsEntry(props) {
                                 [theme.breakpoints.down("sm")]: {
                                   fontSize: 16,
                                   m: 1,
-                                  
                                 },
                                 [theme.breakpoints.up("sm")]: {
                                   m: 1,
@@ -189,7 +178,6 @@ export default function ShowAccountsEntry(props) {
                                 [theme.breakpoints.down("sm")]: {
                                   fontSize: 16,
                                   m: 1,
-                                
                                 },
                                 [theme.breakpoints.up("sm")]: {
                                   m: 1,
@@ -205,8 +193,6 @@ export default function ShowAccountsEntry(props) {
                 </Box>
                 {/* =================== */}
               </Grid>
-
-            
             </>
           ))}
         </>

@@ -50,7 +50,6 @@ export default function Home(props) {
     axiosInstance.get("/dashboard").then((res) => setDashboard(res.data));
   }, []);
 
-
   //========================================================
   const [Token, setToken] = React.useState("");
   const [dashboard, setDashboard] = React.useState({});
@@ -137,7 +136,7 @@ export default function Home(props) {
           />
           <InfoCard
             title="New Booking"
-            url="/admin/rooms"
+            url="/admin/new"
             color="#53A0E8"
             total={dashboard.new}
             icon={
@@ -157,14 +156,14 @@ export default function Home(props) {
           />
           <InfoCard
             title="Double Bed"
-            url="/admin/all-users"
+            url="/admin/double"
             color="#6853E8"
             total={dashboard.double}
             icon={<BedIcon sx={{ fontSize: 76, ml: 4, color: "white" }} />}
           />
           <InfoCard
             title="Tripple bed"
-            url="/admin/rooms"
+            url="/admin/tripple"
             total={dashboard.tripple}
             color="#3BC98D"
             icon={<BedIcon sx={{ fontSize: 76, ml: 4, color: "white" }} />}

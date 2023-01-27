@@ -20,6 +20,8 @@ import axiosInstance from "../../api/axios";
 import SearchIcon from "@mui/icons-material/Search";
 import { useTheme } from "@mui/system";
 import { useDarkMode } from "../../context/darkMode";
+import axios from "axios";
+import { ADMIN_URL } from "../../constants/url";
 //===========================================================
 
 export default function Notices() {
@@ -35,18 +37,22 @@ export default function Notices() {
     userId = localStorage.getItem("userId");
   }
 
-  const noticeQuery = useQuery({
-    queryKey: ["noticeQuery"],
-    queryFn: () => axiosInstance.get("/notice"),
-  });
+  const [notices, setNotices] = useState([]);
+  useEffect(() => {
+    axios.get(`${ADMIN_URL}/notice`).then((res) => setNotices(res.data));
+  }, []);
+  // const noticeQuery = useQuery({
+  //   queryKey: ["noticeQuery"],
+  //   queryFn: () => axiosInstance.get("/notice"),
+  // });
 
-  if (noticeQuery.isLoading) {
-    return <Loading />;
-  }
+  // if (noticeQuery.isLoading) {
+  //   return <Loading />;
+  // }
 
-  // console.log(noticeQuery.data.data);
+  // console.log(noticeQuery);
 
-  const filter = noticeQuery?.data?.data?.filter((x) => {
+  const filter = notices?.filter((x) => {
     if (x.type.toLowerCase().includes(type.toLowerCase())) {
       return x;
     }
@@ -68,7 +74,7 @@ export default function Notices() {
         },
       }}
     >
-     <Typography
+      <Typography
         variant="h6"
         sx={darkMode ? [theme.lightText, { m: 2 }] : [theme.darkText, { m: 2 }]}
       >
@@ -105,7 +111,6 @@ export default function Notices() {
             input: {
               color: darkMode ? "white" : "gray",
             },
-            
           }}
         />
       </Box>
