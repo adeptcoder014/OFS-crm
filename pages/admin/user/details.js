@@ -43,7 +43,11 @@ export default function UserDetails() {
     return <Loading />;
   }
 
-  console.log(query?.data?.data?.dues.rents);
+  let totalDue = 0;
+  query?.data?.data?.dues.rents?.map((x) => {
+    return (totalDue += x.due.rentDue);
+  });
+  // console.log(query?.data?.data?.dues.rents);
   //=======================================
 
   return (
@@ -217,12 +221,17 @@ export default function UserDetails() {
       </Dialog>{" "}
       {/* =========================== */}
       <Container
-        maxWidth=""
+        maxWidth="xl"
         sx={{
           ml: 5,
           backgroundColor: darkMode ? "#23272a" : "white",
           [theme.breakpoints.up("sm")]: {
             ml: -2,
+            // width: "140vw",
+          },
+          [theme.breakpoints.down("sm")]: {
+            ml: -2,
+            width: "100vw",
             // width: "140vw",
           },
         }}
@@ -280,7 +289,7 @@ export default function UserDetails() {
               width: "70%",
             },
             [theme.breakpoints.down("sm")]: {
-              ml: 2,
+              ml: 1,
               // width:"70%"
             },
           }}
@@ -303,7 +312,7 @@ export default function UserDetails() {
                     borderRadius: "100%",
                     width: 100,
                     height: 100,
-                    marginRight:15
+                    marginRight: 15,
                   }}
                 />
               </>
@@ -311,15 +320,31 @@ export default function UserDetails() {
               <Avatar />
             )}
 
-            <Box sx={{ display: "flex", flexDirection: "column" ,mt:1}}>
+            <Box sx={{ display: "flex", flexDirection: "column", mt: 1 }}>
               <Typography sx={darkMode ? [theme.lightText] : [theme.darkText]}>
                 {query?.data?.data.name}
               </Typography>
               <Typography
                 sx={
                   darkMode
-                    ? [theme.lightText, { fontSize: 12 }]
-                    : [theme.darkText, { fontSize: 12 }]
+                    ? [
+                        theme.lightText,
+                        {
+                          [theme.breakpoints.down("sm")]: {
+                            fontSize: 11,
+                            wordBreak: "break-all",
+                          },
+                        },
+                      ]
+                    : [
+                        theme.darkText,
+                        {
+                          [theme.breakpoints.down("sm")]: {
+                            fontSize: 11,
+                            wordBreak: "break-all",
+                          },
+                        },
+                      ]
                 }
               >
                 {query?.data?.data.email}
@@ -345,7 +370,13 @@ export default function UserDetails() {
             xl={6}
             sx={{ display: "flex", justifyContent: "flex-end" }}
           >
-            <Box sx={{}}>
+            <Box
+              sx={{
+                [theme.breakpoints.down("sm")]: {
+                  mt: 1,
+                },
+              }}
+            >
               <Typography
                 sx={{
                   p: 1,
@@ -646,7 +677,7 @@ export default function UserDetails() {
           Due(s) Information
         </Typography>
         <Grid
-          maxWidth="sm"
+          maxWidth="lg"
           container
           sx={{
             ml: -5,
@@ -698,18 +729,19 @@ export default function UserDetails() {
             }}
           >
             <TextField
-              InputProps={{
-                inputProps: {
-                  style: {
-                    textAlign: "left",
-                    fontWeight: 600,
-                    color: "#28282B",
-                  },
-                },
-              }}
+              // InputProps={{
+              //   inputProps: {
+              //     style: {
+              //       textAlign: "left",
+              //       fontWeight: 600,
+              //       color: "#28282B",
+              //     },
+              //   },
+              // }}
               variant="outlined"
               size="small"
-              defaultValue={query?.data?.data?.dues?.rents?.at(-1)?.rent}
+              // defaultValue={query?.data?.data?.dues?.rents?.at(-1)?.rent}
+              defaultValue={totalDue}
               sx={{
                 "& .MuiOutlinedInput-root": {
                   "& fieldset": {
@@ -720,8 +752,8 @@ export default function UserDetails() {
                   color: darkMode ? "white" : "gray",
                 },
                 [theme.breakpoints.down("sm")]: {
-                  width: "80%",
-                  ml: 8,
+                  // width: "80%",
+                  // ml: 8,
                 },
               }}
             />{" "}
@@ -767,15 +799,15 @@ export default function UserDetails() {
             }}
           >
             <TextField
-              InputProps={{
-                inputProps: {
-                  style: {
-                    textAlign: "left",
-                    fontWeight: 600,
-                    color: "#28282B",
-                  },
-                },
-              }}
+              // InputProps={{
+              //   inputProps: {
+              //     style: {
+              //       textAlign: "left",
+              //       fontWeight: 600,
+              //       color: "#28282B",
+              //     },
+              //   },
+              // }}
               variant="outlined"
               size="small"
               defaultValue={
