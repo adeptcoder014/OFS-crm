@@ -43,9 +43,9 @@ export default function Registration() {
   //===================================================
   return (
     <Box
-      maxWidth="md"
+      maxWidth="lg"
       style={{
-        background: "linear-gradient(45deg, #ff7f56, #ffffffc9)",
+        backgroundColor: "gray",
         // border: "1px solid gray",
         margin: "auto",
         height: "99vh",
@@ -55,7 +55,7 @@ export default function Registration() {
       {/* ====================================== */}
       <Box
         sx={{
-          backgroundImage: `url(${bg.src})`,
+          backgroundImage: `url('/hostel.jpg')`,
           backgroundPosition: "bottom",
           backgroundRepeat: "no-repeat",
           backgroundSize: "cover",
@@ -66,27 +66,32 @@ export default function Registration() {
           alignItems: "space-between",
 
           // opacity: 0.5,
-          minWidth: "100%",
+          maxWidth: "100%",
           minHeight: "80%",
         }}
       >
-        <Box />
-        <Box>
-          <Typography
+       
+          
+      </Box>
+      <Typography
             variant="h2"
             sx={{
               // zIndex:-888,
-              color: "white",
+              color: "black",
               fontFamily: "poppins",
-              p: 5,
-              mt: 5,
-              width: "50%",
+              fontWeight:"bolder",
+              // p: 5,
+
+              // width: "70%",
+              mt:-10,
+              [theme.breakpoints.down("sm")]: {
+                fontSize: 24,
+                mt: 18,
+              },
             }}
           >
             Welcome To One Fine Stay Hostel
           </Typography>
-        </Box>
-      </Box>
       {/* ============== FORM ======================== */}
       <form onSubmit={addForm.handleSubmit}>
         <Box
@@ -119,7 +124,10 @@ export default function Registration() {
                 alignItems: "flex-start",
               }}
             >
-              <Typography variant="h4" sx={{ fontFamily: "poppins", mb: 5 }}>
+              <Typography
+                variant="h4"
+                sx={{ fontFamily: "poppins", mb: 5, color: "black" }}
+              >
                 New Registeration
               </Typography>
               {/* <Typography variant="h4" sx={{ fontFamily: "poppins" }}>
@@ -162,7 +170,7 @@ export default function Registration() {
               </Box>
             </Grid> */}
 
-            <Grid sx={{ display: "flex", p: 3 }} item md={6} xs={12}>
+            <Grid sx={{ display: "flex", p: 1 }} item md={6} xs={12}>
               <Box sx={{ display: "flex", flexDirection: "column" }}>
                 <label
                   style={{ display: "flex", flexDirection: "column" }}
@@ -197,13 +205,14 @@ export default function Registration() {
                 />{" "}
               </Box>
             </Grid>
-            <Grid sx={{ display: "flex", p: 3 }} item md={6} xs={6}>
+            <Grid sx={{ display: "flex", p: 0 }} item md={6} xs={6}>
               {image ? (
                 <img
                   src={image}
                   style={{
-                    width: "400px",
+                    width: "250px",
                     height: "250px",
+                    // marginRight:"55px"
                   }}
                 />
               ) : null}
