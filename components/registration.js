@@ -45,7 +45,7 @@ export default function Registration() {
     <Box
       maxWidth="lg"
       style={{
-        // backgroundColor: "gray",
+        backgroundColor: "white",
         // border: "1px solid gray",
         margin: "auto",
         height: "99vh",
