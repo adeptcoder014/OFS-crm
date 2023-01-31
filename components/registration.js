@@ -45,7 +45,7 @@ export default function Registration() {
     <Box
       maxWidth="lg"
       style={{
-        backgroundColor: "gray",
+        // backgroundColor: "gray",
         // border: "1px solid gray",
         margin: "auto",
         height: "99vh",
@@ -68,30 +68,33 @@ export default function Registration() {
           // opacity: 0.5,
           maxWidth: "100%",
           minHeight: "80%",
+          [theme.breakpoints.down("sm")]: {
+            display: "none",
+            
+          },
+        }}
+      ></Box>
+      <Typography
+        variant="h2"
+        sx={{
+          // zIndex:-888,
+          color: "black",
+          fontFamily: "poppins",
+          fontWeight: "bolder",
+          // p: 5,
+
+          // width: "70%",
+          mt: -10,
+          [theme.breakpoints.down("sm")]: {
+            fontSize: 24,
+            mt: 5,
+            p:2,
+            
+          },
         }}
       >
-       
-          
-      </Box>
-      <Typography
-            variant="h2"
-            sx={{
-              // zIndex:-888,
-              color: "black",
-              fontFamily: "poppins",
-              fontWeight:"bolder",
-              // p: 5,
-
-              // width: "70%",
-              mt:-10,
-              [theme.breakpoints.down("sm")]: {
-                fontSize: 24,
-                mt: 18,
-              },
-            }}
-          >
-            Welcome To One Fine Stay Hostel
-          </Typography>
+        Welcome To One Fine Stay Hostel
+      </Typography>
       {/* ============== FORM ======================== */}
       <form onSubmit={addForm.handleSubmit}>
         <Box
