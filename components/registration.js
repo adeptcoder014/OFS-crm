@@ -18,7 +18,7 @@ import PersonIcon from "@mui/icons-material/Person";
 import LocalPhoneIcon from "@mui/icons-material/LocalPhone";
 import HotelIcon from "@mui/icons-material/Hotel";
 import AddAPhotoIcon from "@mui/icons-material/AddAPhoto";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { getUsers } from "../api/user";
 import { useController } from "../controller/userRegistration";
@@ -27,6 +27,8 @@ import Loading from "./loading";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import { useRentController } from "../controller/rental";
 import { useTheme } from "@mui/system";
+import axiosInstance from "../api/axios";
+import { ADMIN_URL } from "../constants/url";
 //===================================================
 export default function Registration() {
   const theme = useTheme();
@@ -35,11 +37,17 @@ export default function Registration() {
   const [tripple, setTripple] = React.useState(false);
   const { query, add, addForm } = useController();
   const [image, setImage] = React.useState("");
+  const [rentQuery, setRentQuery] = useState([]);
 
-  const { rentQuery } = useRentController();
-  if (!rentQuery.isLoading) {
-    // console.log("--->>", rentQuery.data.data.data[0].doubble);
-  }
+  // const { rentQuery } = useRentController();
+
+  useEffect(() => {
+    axios.get(`${ADMIN_URL}/rent`).then((res) => setRentQuery(res.data.data));
+  }, []);
+  // if (rentQuery.isLoading) {
+  //   return <Loading />;
+  // }
+  console.log("--->>", rentQuery);
   //===================================================
   return (
     <Box
@@ -70,7 +78,6 @@ export default function Registration() {
           minHeight: "80%",
           [theme.breakpoints.down("sm")]: {
             display: "none",
-            
           },
         }}
       ></Box>
@@ -88,8 +95,7 @@ export default function Registration() {
           [theme.breakpoints.down("sm")]: {
             fontSize: 24,
             mt: 5,
-            p:2,
-            
+            p: 2,
           },
         }}
       >
@@ -393,7 +399,7 @@ export default function Registration() {
                       borderRadius: 5,
                     }}
                   >
-                    ₹ {rentQuery?.data?.data?.data[0].doubble}
+                    ₹ {rentQuery?.[0].doubble}
                   </span>
                 </Typography>
               ) : tripple ? (
@@ -410,7 +416,7 @@ export default function Registration() {
                       borderRadius: 5,
                     }}
                   >
-                    ₹ {rentQuery?.data?.data?.data[0].tripple}
+                    ₹ {rentQuery?.[0].tripple}
                   </span>
                 </Typography>
               ) : null}
