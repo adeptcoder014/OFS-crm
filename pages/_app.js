@@ -35,6 +35,7 @@ const App = (props) => {
         <Head>
           <title>OFS Admin Panel</title>
           <meta name="viewport" content="initial-scale=1, width=device-width" />
+          <link rel="manifest" href="manifest.webmanifest" />
         </Head>
         {/* <LocalizationProvider dateAdapter={AdapterDateFns}> */}
         <ThemeProvider theme={theme}>
