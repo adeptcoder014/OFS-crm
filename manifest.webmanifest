@@ -11,5 +11,5 @@
     ],
     "name": "OFS Admin Panel",
     "short_name": "OFS",
-    "start_url": "/pages/index.js"
+    "start_url": "/pages/app.js"
   }
