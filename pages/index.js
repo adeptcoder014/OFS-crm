@@ -21,7 +21,7 @@ export default function Home() {
   return (
     <>
       <Head>
-        <link rel="manifest" href="manifest.webmanifest" />
+        <link rel="manifest" href="manifest.json" />
       </Head>
       <Box
         sx={{
