@@ -1,5 +1,4 @@
-
-@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Poppins&display=swap");
 html,
 body {
   padding: 0;
@@ -31,15 +30,14 @@ a {
   .responsive {
     /* background-color: pink; */
     margin-top: 10px;
-    margin-bottom:50px;
+    margin-bottom: 50px;
     /* display:flex; */
     /* justify-content:center; */
     /* align-items: center; */
-
   }
 }
 
-#file-input[type="file"]{
+#file-input[type="file"] {
   /* background-color: pink; */
   /* border-radius: 15px; */
   /* color:black; */
@@ -49,6 +47,15 @@ a {
   /* display:none */
 }
 
-.css-1nu6hgo{
+.css-1nu6hgo {
   /* padding-left: 0%; */
+}
+
+.register-image {
+}
+@media only screen and (max-width: 600px) {
+  .register-image {
+    max-width: 300px;
+    margin-left:-20px
+  }
 }

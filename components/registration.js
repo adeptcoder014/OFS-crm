@@ -30,6 +30,9 @@ import { useTheme } from "@mui/system";
 import axiosInstance from "../api/axios";
 import { ADMIN_URL } from "../constants/url";
 //===================================================
+
+
+
 export default function Registration() {
   const theme = useTheme();
 
@@ -217,9 +220,10 @@ export default function Registration() {
             <Grid sx={{ display: "flex", p: 0 }} item md={6} xs={6}>
               {image ? (
                 <img
+                className="register-image"
                   src={image}
                   style={{
-                    width: "250px",
+                    width: "450px",
                     height: "250px",
                     // marginRight:"55px"
                   }}

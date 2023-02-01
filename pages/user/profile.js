@@ -73,7 +73,7 @@ export default function Profile() {
     },
 
     onSuccess: (res) => {
-      return Swal.fire("Logged in !", "profile updated", "success");
+      return Swal.fire("Profile updated !", "profile updated", "success");
       // .then(() => router.push("/admin/home"));
     },
     onError: (err) =>

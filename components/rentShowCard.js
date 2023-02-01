@@ -120,7 +120,7 @@ export default function RentShow(props) {
   const [cash, setCash] = useState(false);
   const [online, setOnline] = useState(false);
   const [admin, setAdmin] = useState({});
-  const [collectedBy, setCollectedBy] = useState("");
+  const [collectedBy, setCollectedBy] = useState("None");
   const [transactionId, setTransactionId] = useState("");
 
   const [open, setOpen] = React.useState(false);
@@ -303,7 +303,7 @@ export default function RentShow(props) {
                   <Typography
                     sx={darkMode ? [theme.lightText] : [theme.darkText]}
                   >
-                    Fuck off
+                    Paid
                   </Typography>
                 ) : (
                   <TextField
@@ -354,10 +354,20 @@ export default function RentShow(props) {
                   <Typography
                     sx={darkMode ? [theme.lightText] : [theme.darkText]}
                   >
-                    Fuck off
+                    Paid
                   </Typography>
                 ) : (
                   <TextField
+                    sx={{
+                      "& .MuiOutlinedInput-root": {
+                        "& fieldset": {
+                          borderColor: darkMode ? "white" : "gray",
+                        },
+                      },
+                      input: {
+                        color: darkMode ? "white" : "gray",
+                      },
+                    }}
                     id="due.ebillDue"
                     name="due.ebillDue"
                     size="small"
@@ -396,16 +406,17 @@ export default function RentShow(props) {
                 />
               </Box> */}
               {/* ============= MODE =========================== */}
-              <Box>
+              <Box sx={{}}>
                 {/* <form onSubmit={patchForm.handleSubmit}> */}
 
                 <Box
                   sx={{
                     display: "flex",
-                    // flexDirection: "column",
+                    flexDirection: "column",
                     p: 2,
                     boxShadow: " 0px -2px 6px 0px grey",
                     backgroundColor: darkMode ? "#2c2f33" : "white",
+
                     borderRadius: "8px",
                     borderRadius: "8px",
                     mb: 1,
@@ -417,6 +428,27 @@ export default function RentShow(props) {
                     <FormControlLabel
                       control={
                         <Checkbox
+                          checked={cash}
+                          // onChange={patchForm.handleChange}
+                          onChange={() => {
+                            setCash((prev) => !prev);
+                            setOnline(false);
+
+                          }}
+                        />
+                      }
+                      label="Cash"
+                    />{" "}
+                  </Typography>
+                  <Typography
+                    sx={darkMode ? [theme.lightText] : [theme.darkText]}
+                  >
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                        checked={online}
+
+                          onChange={patchForm.handleChange}
                           onClick={() => {
                             setOnline((prev) => !prev);
                             setCash(false);
@@ -426,25 +458,34 @@ export default function RentShow(props) {
                       label="Online"
                     />
                   </Typography>{" "}
+                  <TextField
+                    sx={{
+                      "& .MuiOutlinedInput-root": {
+                        "& fieldset": {
+                          borderColor: darkMode ? "white" : "gray",
+                        },
+                      },
+                      input: {
+                        color: darkMode ? "white" : "gray",
+                      },
+                    }}
+                    size="small"
+                    placeholder={`Collected by : ${admin.name}`}
+                    onChange={(e) => {
+                      setCollectedBy(e.target.value);
+                    }}
+                  />
                   <Typography
-                    sx={darkMode ? [theme.lightText] : [theme.darkText]}
-                  >
-                    <FormControlLabel
-                      control={
-                        <Checkbox
-                          onClick={() => {
-                            setCash((prev) => !prev);
-                            setOnline(false);
-                          }}
-                        />
-                      }
-                      label="Cash"
-                    />{" "}
-                  </Typography>
+                    sx={
+                      darkMode
+                        ? [theme.lightText, { fontSize: 11, alignSelf: "end" }]
+                        : [theme.darkText, { fontSize: 11, alignSelf: "end" }]
+                    }
+                  ></Typography>
                 </Box>
 
                 {/* -------------------------------------*/}
-                {cash && (
+                {/* {cash && (
                   <Box
                     sx={{
                       display: "flex",
@@ -466,7 +507,7 @@ export default function RentShow(props) {
                       onChange={patchForm.handleChange}
                     />
                   </Box>
-                )}
+                )} */}
 
                 {online && (
                   <Box
@@ -500,13 +541,18 @@ export default function RentShow(props) {
                     .patch(`${ADMIN_URL}/user/rent/${props.rentId}`, {
                       data: patchForm.values,
                       userId: props.userId,
+                      mode: {
+                        cash: cash,
+                        online: online,
+                        collectedBy: collectedBy,
+                      },
                     })
                     .then((res) => {
                       setOpen(false);
                       Swal.fire("Done !", res, "success");
                     });
                 }}
-               sx={[theme.primaryBtn,{mt:3,width:"70%",ml:6}]}
+                sx={[theme.primaryBtn, { mt: 3, width: "70%", ml: 6 }]}
               >
                 Update Rent
               </Button>

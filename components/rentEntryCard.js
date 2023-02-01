@@ -28,6 +28,7 @@ import { getAdminById } from "../api/admin";
 import jwt_decode from "jwt-decode";
 import { useTheme } from "@mui/system";
 import { useDarkMode } from "../context/darkMode";
+import { getUserById } from "../api/user";
 //==================================================
 const style = {
   position: "absolute",
@@ -60,13 +61,16 @@ export default function RentEntry(props) {
   const theme = useTheme();
   const { darkMode } = useDarkMode();
   //===========================
+  const [dues, setDues] = useState({});
+
   useEffect(() => {
     getAdminById(jwt_decode(token)._id).then((res) => setAdmin(res.data.data));
-    getRent().then((res) => setRentCycle(res.data.data[0].rentCycle));
+    getUserById(router.query.id).then((res) => {
+      setDues(res.data.dues.rents.slice(-1).pop());
+    });
   }, []);
-  const [rentCycle, setRentCycle] = useState();
-
-  // console.log("duration -->",duration.split("-")[1])
+  const [cycle, setCycle] = useState();
+  // console.log("||-->", cycle);
   //===========================
   return (
     <>
@@ -201,6 +205,8 @@ export default function RentEntry(props) {
           Rent Cycle :
         </Typography>
         <TextField
+          placeholder={dues.rentCycle}
+          name="cycle"
           size="small"
           sx={{
             "& .MuiOutlinedInput-root": {
@@ -213,8 +219,9 @@ export default function RentEntry(props) {
             },
           }}
           type="number"
-          value={rentCycle}
-          onChange={(e) => setRentCycle(e.target.value)}
+          // defaultValue={dues?.rentCycle}
+          // defaultValue={cycle}
+          onChange={(e) => setCycle(e.target.value)}
         />
       </Grid>
       {/* ==================== RENT ==================================== */}
@@ -259,6 +266,8 @@ export default function RentEntry(props) {
           Ebill :
         </Typography>
         <TextField
+          // placeholder={dues.eBills.reading}
+          placeholder={`previous reading :${dues?.eBills?.reading}`}
           size="small"
           sx={{
             "& .MuiOutlinedInput-root": {
@@ -322,7 +331,7 @@ export default function RentEntry(props) {
                 rent: Number(rent),
                 year: duration?.split("-")[0],
                 month: duration?.split("-")[1],
-                rentCycle: rentCycle,
+                rentCycle: cycle ? cycle : dues?.rentCycle,
                 reading: Number(reading),
                 initialReading: props.user.meterReading,
                 collectedBy: collectedBy ? collectedBy : admin.name,
@@ -344,7 +353,7 @@ export default function RentEntry(props) {
               },
               [theme.breakpoints.up("sm")]: {
                 width: 540,
-                ml:25
+                ml: 25,
               },
             },
           ]}

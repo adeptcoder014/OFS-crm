@@ -49,13 +49,13 @@ let room =0
   if (!query.isLoading) {
    room = query?.data?.data?.room
   }
-  useEffect(() => {
+  // useEffect(() => {
     
-      axios
-        .get(`${ADMIN_URL}/rooms?room=${room}`)
-        .then((x) => console.log(x));
+  //     axios
+  //       .get(`${ADMIN_URL}/rooms?room=${room}`)
+  //       .then((x) => console.log(x));
     
-  }, []);
+  // }, []);
 
   const { tokenQuery } = useTokenQuery();
   // const today = new Date()

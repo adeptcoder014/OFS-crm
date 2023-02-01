@@ -45,10 +45,7 @@ export default function Credits() {
   }, []);
 
   const filter = admin?.editedRents?.filter((x) => {
-    if (
-        dayjs(x.time).format("DD MM YYYY").split(" ")[1]
-        .includes(search)
-    ) {
+    if (dayjs(x.time).format("DD MM YYYY").split(" ")[1].includes(search)) {
       return x;
     }
   });
@@ -117,16 +114,16 @@ export default function Credits() {
             }}
           />
         </Box>
+        
         {/* {data?.map((x) => x?.dues?.rents?.map((w) => <h1>{w.due.rentDue}</h1>))} */}
         {filter?.map((x) => {
           return (
             <TotalCredits
-            key={x}
+              key={x}
               time={x.time}
               rentCollected={x.rentDue}
               ebillCollected={x.ebillDue}
               mode={x.mode}
-
             />
           );
         })}

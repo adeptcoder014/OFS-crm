@@ -41,6 +41,7 @@ import { useTheme } from "@mui/system";
 import { useDarkMode } from "../../context/darkMode";
 import DownloadIcon from "@mui/icons-material/Download";
 import axiosInstance from "../../api/axios";
+import SecurityIcon from "@mui/icons-material/Security";
 //============================================================================
 
 export default function RegisterUser() {
@@ -48,13 +49,7 @@ export default function RegisterUser() {
   const [idImage, setIdImage] = useState("");
   const theme = useTheme();
   const { darkMode } = useDarkMode();
-  //============ RENTAL_STRUCTURE ================================
-  const giveRemainingRent = (days) => {
-    const remainingDays = 30 - days;
-    const remainingRent =
-      remainingDays * rentQuery?.data?.data?.data[0].rentPerDay; // Gives --> Remaining Days + Remaining Rent(for the first month)
-    return { remainingDays, remainingRent };
-  };
+
   //============================================
   const { rentQuery } = useRentController();
   const router = useRouter();
@@ -68,19 +63,16 @@ export default function RegisterUser() {
     enabled: !!router.query.id,
   });
 
-  const dueRent = giveRemainingRent(
-    query?.data?.data?.registeredDate.split("T")[0].split("-")[2]
-  );
 
-  // console.log("<<<<<<<<", dueRent.remainingRent);
+
 
   const patchForm = useFormik({
     initialValues: {
       room: 0,
       meterReading: 0,
-      discount: 0,
+      // discount: 0,
       security: 0,
-      remark: "",
+      // remark: "",
       joiningDate: "",
       // dues: {
       //   rents: [
@@ -88,7 +80,7 @@ export default function RegisterUser() {
       //   ]
       // },
 
-      dues: "",
+      // dues: "",
     },
     validationSchema: approvalValidation,
     onSubmit: (values) => {
@@ -112,6 +104,9 @@ export default function RegisterUser() {
   if (query.isLoading) {
     return <Loading />;
   }
+
+console.log("Error --",patchForm.errors)
+
   if (rentQuery.isLoading) {
     return <Loading />;
   }
@@ -216,8 +211,7 @@ export default function RegisterUser() {
                       }`
                     )
                     .then((res) => {
-
-                      console.log(res)
+                      console.log(res);
                       var blob = res.data;
                       var a = document.createElement("a");
                       a.href = URL.createObjectURL(new Blob(blob));
@@ -519,6 +513,7 @@ export default function RegisterUser() {
                   Room Number
                 </FormLabel>
                 <TextField
+                placeholder="room number..."
                   sx={{
                     "& .MuiOutlinedInput-root": {
                       "& fieldset": {
@@ -536,7 +531,7 @@ export default function RegisterUser() {
                   id="room"
                   type="number"
                   name="room"
-                  value={patchForm?.values?.room}
+                  // value={patchForm?.values?.room}
                   onChange={patchForm.handleChange}
                   size="small"
                   variant="standard"
@@ -566,6 +561,7 @@ export default function RegisterUser() {
                   Electricity Meter Reading{" "}
                 </FormLabel>
                 <TextField
+                  placeholder="0"
                   error={
                     patchForm.touched.meterReading &&
                     Boolean(patchForm.errors.meterReading)
@@ -577,9 +573,14 @@ export default function RegisterUser() {
                   id="meterReading"
                   name="meterReading"
                   type="number"
-                  value={patchForm?.values?.meterReading}
+                  // value={patchForm?.values?.meterReading}
                   onChange={patchForm.handleChange}
                   sx={{
+                    [theme.breakpoints.up('sm')]:{
+
+                      width: 500,
+                      ml: 5,
+                    },
                     "& .MuiOutlinedInput-root": {
                       "& fieldset": {
                         borderColor: darkMode ? "white" : "gray",
@@ -703,21 +704,63 @@ export default function RegisterUser() {
                       : [theme.darkText, { mb: 2, mt: 5 }]
                   }
                 >
-                  Remark
+                  Security
                 </FormLabel>
-
                 <TextField
+                  error={
+                    patchForm.touched.discount &&
+                    Boolean(patchForm.errors.security)
+                  }
+                  helperText={
+                    patchForm.touched.security && patchForm.errors.security
+                  }
+                  id="security"
+                  name="security"
+                  type="number"
+                  defaultValue={
+                    query?.data?.data?.roomPreference === "double"
+                      ? rentQuery?.data?.data?.data[0].doubble
+                      : rentQuery?.data?.data?.data[0].tripple
+                  }
+                  onChange={patchForm.handleChange}
+                  sx={{
+                    [theme.breakpoints.up('sm')]:{
+
+                      width: 500,
+                      ml: 5,
+                    },
+                    "& .MuiOutlinedInput-root": {
+                      "& fieldset": {
+                        borderColor: darkMode ? "white" : "gray",
+                      },
+                    },
+                    input: {
+                      color: darkMode ? "white" : "gray",
+                    },
+                  }}                  size="small"
+                  variant="standard"
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <GppMaybeIcon />
+                      </InputAdornment>
+                    ),
+                  }}
+                />
+                {/* <TextField
                   error={
                     patchForm.touched.remark && Boolean(patchForm.errors.remark)
                   }
                   helperText={
                     patchForm.touched.remark && patchForm.errors.remark
                   }
-                  id="remark"
-                  name="remark"
-                  value={patchForm?.values?.remark}
+                  id="security"
+                  name="security"
+                  value={query?.roomPreference}
                   onChange={patchForm.handleChange}
                   sx={{
+                    width: 500,
+                    ml: 5,
                     "& .MuiOutlinedInput-root": {
                       "& fieldset": {
                         borderColor: darkMode ? "white" : "gray",
@@ -732,11 +775,11 @@ export default function RegisterUser() {
                   InputProps={{
                     startAdornment: (
                       <InputAdornment position="start">
-                        <CommentIcon />
+                        <SecurityIcon />
                       </InputAdornment>
                     ),
                   }}
-                />
+                /> */}
               </Grid>
               <Grid
                 sx={{ display: "flex" }}

@@ -89,7 +89,7 @@ export default function UserRent() {
       sx={{
         backgroundColor: darkMode ? "#2c2f33" : "#ffffff",
         [theme.breakpoints.down("sm")]: {
-          ml:5,
+          ml:-2,
         },
         [theme.breakpoints.up("sm")]: {
           ml:-2,
