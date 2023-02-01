@@ -1,0 +1,15 @@
+{
+    "background_color": "purple",
+    "description": "OFS Admin Panel",
+    "display": "fullscreen",
+    "icons": [
+      {
+        "src": "public/logo.png",
+        "sizes": "192x192",
+        "type": "image/png"
+      }
+    ],
+    "name": "OFS Admin Panel",
+    "short_name": "OFS",
+    "start_url": "/pages/index.js"
+  }

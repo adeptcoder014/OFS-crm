@@ -1,4 +1,5 @@
 import { Box } from "@mui/material";
+import Head from "next/head";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 //====================================
@@ -10,15 +11,18 @@ export default function Home() {
       const token = localStorage.getItem("Token");
       if (!token) {
         router.push("/admin/login");
-      }else{
-        router.push("/admin/home")
+      } else {
+        router.push("/admin/home");
       }
     }
-  }, [  ]);
+  }, []);
 
   //================================
   return (
     <>
+      <Head>
+        <link rel="manifest" href="manifest.webmanifest" />
+      </Head>
       <Box
         sx={{
           height: "100vh",
@@ -68,7 +72,7 @@ export default function Home() {
               borderRadius: 1,
               cursor: "pointer",
               height: 50,
-              mt:2
+              mt: 2,
             }}
             onClick={() => router.push("/admin/login")}
           >
