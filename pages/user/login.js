@@ -56,7 +56,7 @@ export default function Pending() {
         maxWidth="xl"
         sx={{
           backgroundColor: "#99aab5",
-          // height: "80vh",
+          height: "80vh",
           paddingBottom: 19,
           boxSizing: "content-box",
         }}
@@ -236,14 +236,14 @@ export default function Pending() {
                         "Continue with the OFS User Panel",
                         "success"
                       );
-                    }).then(()=>{
-                      router.push("/user/home")
-
+                    })
+                    .then(() => {
+                      router.push("/user/home");
                     })
                     .catch((err) => {
                       console.log(err);
                       return Swal.fire("Error !", err.response.data, "error");
-                    })
+                    });
                 }}
                 sx={[
                   theme.primaryBtn,
@@ -310,13 +310,15 @@ export default function Pending() {
             <Typography
               variant="h4"
               // sx={{ mt: 5, color: "black", fontWeight: "bolder" }}
-              sx={[theme.lightText, { mt: 1 }]}
+              sx={[theme.lightText, { mt: 1,textAlign:"center" }]}
             >
               One Fine Stay
             </Typography>
-            <Typography sx={[theme.lightText, { mt: 1, fontSize: 14 }]}>
-              Neil se kaho ki yaah pe content aayega , if he want he can use
-              chatGPT to create the content, humhe thodi na aata hai yeh sab
+            <Typography sx={[theme.lightText, { mt: 1, fontSize: 14 ,textAlign:"center"}]}>
+              Welcome to One Fine Stay, the premier destination for unique and
+              exceptional experience with an unwavering commitment to quality,
+              comfort and style, your stay with us will be nothing short of
+              remarkable
             </Typography>
             <Box sx={{ display: "flex", gap: 2, width: "100%" }}>
               <Box
@@ -333,7 +335,7 @@ export default function Pending() {
                   },
                 ]}
               >
-                WiFi
+                STUDY
               </Box>{" "}
               <Box
                 sx={[
@@ -341,7 +343,7 @@ export default function Pending() {
                   { p: 1, mt: 5, textAlign: "center", fontWeight: "bolder" },
                 ]}
               >
-                Free Food
+                PROGRESS
               </Box>
               <Box
                 sx={[
@@ -349,7 +351,7 @@ export default function Pending() {
                   { p: 1, mt: 5, textAlign: "center", fontWeight: "bolder" },
                 ]}
               >
-                Smoking Room
+                RELAX
               </Box>
               <Box
                 sx={[
@@ -357,7 +359,7 @@ export default function Pending() {
                   { p: 1, mt: 5, textAlign: "center", fontWeight: "bolder" },
                 ]}
               >
-                Weed
+                REPEAT
               </Box>
             </Box>
           </Grid>{" "}

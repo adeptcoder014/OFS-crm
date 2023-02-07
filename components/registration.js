@@ -196,9 +196,10 @@ export default function Registration() {
                       fontSize: 75,
                       mb: 1,
                       borderRadius: "50%",
+                      color:"black"
                     }}
                   />
-                  Upload Photo
+                  Upload ID Proof
                 </label>
                 <TextField
                   id="file-input"
@@ -436,6 +437,12 @@ export default function Registration() {
               {
                 [theme.breakpoints.up("sm")]: {
                   width: "70%",
+                  m: "auto",
+                  mt: 3,
+                  fontSize: 18,
+                },
+                [theme.breakpoints.down("sm")]: {
+                  width: "100%",
                   m: "auto",
                   mt: 3,
                   fontSize: 18,

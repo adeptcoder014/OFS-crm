@@ -69,16 +69,20 @@ export default function Profile() {
         formData.append("profilePhoto", profilePhoto);
       }
 
-      return axiosInstance.post(`${ADMIN_URL}/user/profile/${user.id}`, formData);
+      return axiosInstance.post(
+        `${ADMIN_URL}/user/profile/${user.id}`,
+        formData
+      );
     },
 
     onSuccess: (res) => {
       return Swal.fire("Profile updated !", "profile updated", "success");
       // .then(() => router.push("/admin/home"));
     },
-    onError: (err) =>
-      // console.log("ERROr ---",err),
-      Swal.fire("Error !", err.response.data, "error"),
+    onError: (err) => {
+      console.log("ERROr ---", err);
+      Swal.fire("Error !", err.response.data, "error");
+    },
   });
 
   const [profilePhoto, setProfilePhoto] = useState("");
@@ -109,16 +113,15 @@ export default function Profile() {
         ) : (
           // <Avatar sx={{ width: 100, height: 100, m: 2 }} />
           <img
-          src={`${ADMIN_URL}/${user.profilePhoto}`}
-
-          style={{
-            width: 200,
-            height: 200,
-            padding: 15,
-            borderRadius: "100%",
-            marginBottom: -45,
-          }}
-        />
+            src={`${ADMIN_URL}/${user.profilePhoto}`}
+            style={{
+              width: 200,
+              height: 200,
+              padding: 15,
+              borderRadius: "100%",
+              marginBottom: -45,
+            }}
+          />
         )}
       </Box>
 

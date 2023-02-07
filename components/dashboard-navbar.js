@@ -111,7 +111,7 @@ export default function DashboardNavbar(props) {
     >
       <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
       <MenuItem onClick={handleMenuClose}>My account</MenuItem>
-      <MenuItem onClick={() => router.push("/profile")}>My Lauda</MenuItem>
+      {/* <MenuItem onClick={() => router.push("/profile")}>My Lauda</MenuItem> */}
     </Menu>
   );
   //=========================================================
