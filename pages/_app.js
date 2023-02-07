@@ -33,7 +33,7 @@ const App = (props) => {
       <QueryClientProvider client={queryClient}>
         {/* <CacheProvider> */}
         <Head>
-          <title>OFS Admin Panel</title>
+          <title>OFS</title>
           <meta name="viewport" content="initial-scale=1, width=device-width" />
           <link rel="manifest" href="manifest.json" />
         </Head>
