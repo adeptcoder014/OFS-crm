@@ -108,7 +108,6 @@ export default function RegisterUser() {
     return <Loading />;
   }
 
-
   if (rentQuery.isLoading) {
     return <Loading />;
   }
@@ -119,19 +118,18 @@ export default function RegisterUser() {
   const downloadImage = (imageUrl) => {
     axios.post(`${ADMIN_URL}/user/image`, { imageUrl }).then((res) => {
       const contentType = res.headers["content-type"];
-      console.log("Error --", contentType);
-
-      const blob = new Blob([res.data], { type: contentType });
+      // console.log("---->", res.data.imageData.data);
+      const blob = new Blob([new Uint8Array(res.data.imageData.data)], {
+        type: "image/png",
+      });
       const link = document.createElement("a");
-      link.href = window.URL.createObjectURL(blob);
-      console.log("Error --", link);
+      link.href = URL.createObjectURL(blob);
 
-      link.download = "image.jpeg";
+      link.download = "image.png";
       link.click();
     });
   };
-  
-
+  // console.log("===>", query?.data?.data?.photo.split("uploads/")[1]);
   //=====================================================
   return (
     <>
@@ -221,7 +219,7 @@ export default function RegisterUser() {
                   color: darkMode ? "white" : "gray",
                   cursor: "pointer",
                 }}
-                onClick={() => downloadImage("A_sample_of_Aadhaar_card.jpg")}
+                onClick={() => downloadImage(query?.data?.data?.photo.split("uploads/")[1])}
               />
             </Grid>
             {/* //------------------------- */}
