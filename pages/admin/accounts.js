@@ -52,7 +52,6 @@ export default function Accounts() {
   const router = useRouter();
   const { darkMode } = useDarkMode();
   //-----------------------------
-  
 
   useEffect(() => {
     axiosInstance
@@ -61,7 +60,7 @@ export default function Accounts() {
 
     // console.log(accountTotal);
   }, []);
-
+  let ebill = accountTotal?.totalRent + accountTotal?.ebill;
   //===============================
   return (
     <>
@@ -191,7 +190,8 @@ export default function Accounts() {
                 variant="h4"
                 sx={{ fontWeight: "bolder", alignSelf: "center" }}
               >
-                ₹ {accountTotal?.totalRent?.toLocaleString("en-IN")}
+                {/* {accountTotal?.totalRent?.toLocaleString("en-IN")}₹{" "} */}
+                ₹{ebill.toLocaleString("en-IN")}
               </Typography>
               <GroupRemoveIcon sx={{ fontSize: 55 }} />
             </Box>

@@ -29,6 +29,7 @@ import jwt_decode from "jwt-decode";
 import { useTheme } from "@mui/system";
 import { useDarkMode } from "../context/darkMode";
 import { getUserById } from "../api/user";
+import axiosInstance from "../api/axios";
 //==================================================
 const style = {
   position: "absolute",
@@ -324,9 +325,9 @@ export default function RentEntry(props) {
       {/* ==================== UPDATE ==================================== */}
 
       <Grid item xs={12} sm={12} md={12} lg={12} xl={6} sx={{}}>
-        <Button
+        <Button 
           onClick={() => {
-            axios
+            axiosInstance
               .post(`${ADMIN_URL}/user/rent/${router.query.id}`, {
                 rent: Number(rent),
                 year: duration?.split("-")[0],

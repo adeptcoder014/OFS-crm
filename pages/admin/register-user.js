@@ -34,7 +34,7 @@ import { Query, useMutation } from "@tanstack/react-query";
 import Swal from "sweetalert2";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { useRentController } from "../../controller/rental";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ADMIN_URL } from "../../constants/url";
 import MailIcon from "@mui/icons-material/Mail";
 import { useTheme } from "@mui/system";
@@ -42,9 +42,15 @@ import { useDarkMode } from "../../context/darkMode";
 import DownloadIcon from "@mui/icons-material/Download";
 import axiosInstance from "../../api/axios";
 import SecurityIcon from "@mui/icons-material/Security";
+import axios from "axios";
 //============================================================================
 
 export default function RegisterUser() {
+  const [rentData, setRentData] = useState({});
+  useEffect(() => {
+    axios.get(`${ADMIN_URL}/rent`).then((res) => setRentData(res.data.data[0]));
+  }, []);
+
   const [open, setOpen] = useState(false);
   const [idImage, setIdImage] = useState("");
   const theme = useTheme();
@@ -62,9 +68,6 @@ export default function RegisterUser() {
       patchForm.setValues(res.data),
     enabled: !!router.query.id,
   });
-
-
-
 
   const patchForm = useFormik({
     initialValues: {
@@ -105,7 +108,6 @@ export default function RegisterUser() {
     return <Loading />;
   }
 
-console.log("Error --",patchForm.errors)
 
   if (rentQuery.isLoading) {
     return <Loading />;
@@ -114,6 +116,22 @@ console.log("Error --",patchForm.errors)
   const handleClose = () => {
     setOpen(false);
   };
+  const downloadImage = (imageUrl) => {
+    axios.post(`${ADMIN_URL}/user/image`, { imageUrl }).then((res) => {
+      const contentType = res.headers["content-type"];
+      console.log("Error --", contentType);
+
+      const blob = new Blob([res.data], { type: contentType });
+      const link = document.createElement("a");
+      link.href = window.URL.createObjectURL(blob);
+      console.log("Error --", link);
+
+      link.download = "image.jpeg";
+      link.click();
+    });
+  };
+  
+
   //=====================================================
   return (
     <>
@@ -203,22 +221,7 @@ console.log("Error --",patchForm.errors)
                   color: darkMode ? "white" : "gray",
                   cursor: "pointer",
                 }}
-                onClick={() => {
-                  axiosInstance
-                    .post(
-                      `/user/get-imageId?file=${
-                        query?.data?.data?.photo.split("uploads\\")[1]
-                      }`
-                    )
-                    .then((res) => {
-                      console.log(res);
-                      var blob = res.data;
-                      var a = document.createElement("a");
-                      a.href = URL.createObjectURL(new Blob(blob));
-                      a.download = fileURL;
-                      a.click();
-                    });
-                }}
+                onClick={() => downloadImage("A_sample_of_Aadhaar_card.jpg")}
               />
             </Grid>
             {/* //------------------------- */}
@@ -513,7 +516,7 @@ console.log("Error --",patchForm.errors)
                   Room Number
                 </FormLabel>
                 <TextField
-                placeholder="room number..."
+                  placeholder="room number..."
                   sx={{
                     "& .MuiOutlinedInput-root": {
                       "& fieldset": {
@@ -576,8 +579,7 @@ console.log("Error --",patchForm.errors)
                   // value={patchForm?.values?.meterReading}
                   onChange={patchForm.handleChange}
                   sx={{
-                    [theme.breakpoints.up('sm')]:{
-
+                    [theme.breakpoints.up("sm")]: {
                       width: 500,
                       ml: 5,
                     },
@@ -652,6 +654,111 @@ console.log("Error --",patchForm.errors)
                   variant="standard"
                 />
               </Grid>
+
+              <Grid
+                item
+                md={6}
+                xs={12}
+                sx={{
+                  display: "flex",
+                  flexDirection: "column",
+                  [theme.breakpoints.up("sm")]: {
+                    mt: 11,
+                  },
+                }}
+              >
+                <FormLabel
+                  sx={
+                    darkMode
+                      ? [theme.lightText, { mb: 2 }]
+                      : [theme.darkText, { mb: 2 }]
+                  }
+                >
+                  Rent Cycle
+                </FormLabel>
+
+                <TextField
+                  error={
+                    patchForm.touched.enteredRentCyle &&
+                    Boolean(patchForm.errors.enteredRentCyle)
+                  }
+                  helperText={
+                    patchForm.touched.enteredRentCyle &&
+                    patchForm.errors.enteredRentCyle
+                  }
+                  id="enteredRentCyle"
+                  name="enteredRentCyle"
+                  defaultValue={
+                    patchForm?.values?.roomPreference === "double"
+                      ? rentData.doubble
+                      : rentData.tripple
+                  }
+                  onChange={patchForm.handleChange}
+                  sx={{
+                    "& .MuiOutlinedInput-root": {
+                      "& fieldset": {
+                        borderColor: darkMode ? "white" : "gray",
+                      },
+                    },
+                    input: {
+                      color: darkMode ? "white" : "gray",
+                    },
+                  }}
+                  size="small"
+                  variant="standard"
+                />
+              </Grid>
+
+              <Grid
+                item
+                md={6}
+                xs={12}
+                sx={{
+                  display: "flex",
+                  flexDirection: "column",
+                  [theme.breakpoints.up("sm")]: {
+                    mt: 11,
+                  },
+                }}
+              >
+                <FormLabel
+                  sx={
+                    darkMode
+                      ? [theme.lightText, { mb: 2 }]
+                      : [theme.darkText, { mb: 2 }]
+                  }
+                >
+                  Room pereference{" "}
+                </FormLabel>
+
+                <TextField
+                  error={
+                    patchForm.touched.roomPreference &&
+                    Boolean(patchForm.errors.roomPreference)
+                  }
+                  helperText={
+                    patchForm.touched.roomPreference &&
+                    patchForm.errors.roomPreference
+                  }
+                  id="roomPreference"
+                  name="roomPreference"
+                  value={patchForm?.values?.roomPreference}
+                  onChange={patchForm.handleChange}
+                  sx={{
+                    "& .MuiOutlinedInput-root": {
+                      "& fieldset": {
+                        borderColor: darkMode ? "white" : "gray",
+                      },
+                    },
+                    input: {
+                      color: darkMode ? "white" : "gray",
+                    },
+                  }}
+                  size="small"
+                  variant="standard"
+                />
+              </Grid>
+
               {/* <Grid
                 className="responsive"
                 item
@@ -724,8 +831,7 @@ console.log("Error --",patchForm.errors)
                   }
                   onChange={patchForm.handleChange}
                   sx={{
-                    [theme.breakpoints.up('sm')]:{
-
+                    [theme.breakpoints.up("sm")]: {
                       width: 500,
                       ml: 5,
                     },
@@ -737,7 +843,8 @@ console.log("Error --",patchForm.errors)
                     input: {
                       color: darkMode ? "white" : "gray",
                     },
-                  }}                  size="small"
+                  }}
+                  size="small"
                   variant="standard"
                   InputProps={{
                     startAdornment: (

@@ -121,7 +121,7 @@ export default function Credits() {
             <TotalCredits
               key={x}
               time={x.time}
-              rentCollected={x.rentDue}
+              rentCollected={x.rent}
               ebillCollected={x.ebillDue}
               mode={x.mode}
             />

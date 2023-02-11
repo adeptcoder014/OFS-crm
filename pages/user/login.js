@@ -56,7 +56,7 @@ export default function Pending() {
         maxWidth="xl"
         sx={{
           backgroundColor: "#99aab5",
-          height: "80vh",
+          // height: "80vh",
           paddingBottom: 19,
           boxSizing: "content-box",
         }}

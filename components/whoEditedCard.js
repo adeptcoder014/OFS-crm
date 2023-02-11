@@ -91,13 +91,13 @@ export default function WhoEditedCard(props) {
             <Typography sx={darkMode ? [theme.lightText] : [theme.darkText]}>
               {" "}
               {/* {props.rent ? props.rent : "₹ x,xxx"} */}
-              {props.rent - props.rentDue}
+              {props.rent}
             </Typography>
           </Grid>
 
           {/* ====================== DUE_RENT ============================ */}
 
-          <Grid item xs={12} sm={2} md={2} lg={2} xl={2} sx={{}}>
+          {/* <Grid item xs={12} sm={2} md={2} lg={2} xl={2} sx={{}}>
             <Typography
               sx={
                 darkMode
@@ -111,7 +111,7 @@ export default function WhoEditedCard(props) {
               {" "}
               {props.rentDue}
             </Typography>
-          </Grid>
+          </Grid> */}
           {/* ====================== DUE_EBILL ============================ */}
 
           <Grid item xs={12} sm={2} md={2} lg={2} xl={2} sx={{}}>

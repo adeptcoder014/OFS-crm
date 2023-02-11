@@ -33,6 +33,7 @@ import { getAdminById } from "../../../api/admin";
 import { useTokenQuery } from "../../../controller/token";
 import { useTheme } from "@mui/system";
 import { useDarkMode } from "../../../context/darkMode";
+import TotalCredits from "../../../components/totalCredits";
 //========================================
 export default function WhoEdited() {
   //====================================
@@ -56,63 +57,61 @@ export default function WhoEdited() {
       <Box
         sx={{
           backgroundColor: darkMode ? "#23272a" : "white",
-          height:"100vh",
+          height: "100vh",
           [theme.breakpoints.up("sm")]: {
-            m:-3,
+            m: -3,
             // width:"450vw"
-            p:5
+            p: 5,
           },
         }}
       >
         <Typography
           variant="h4"
-        sx={
-          darkMode
-          ? [
-              theme.lightText,
-              {
-                [theme.breakpoints.down("sm")]: {
-                  fontSize: 16,
-                  m: 1,
-                  mt:5,
-                  ml:8
-                },
-                [theme.breakpoints.up("sm")]: {
-
-                  m: 8
-                },
-              },
-            ]
-          : [
-              theme.darkText,
-              {
-                [theme.breakpoints.down("sm")]: {
-                  fontSize: 16,
-                  m: 1,
-                  mt:5
-                },
-                [theme.breakpoints.up("sm")]: {
-
-                  m: 8,
-                 
-                },
-              },
-            ]
-        }
+          sx={
+            darkMode
+              ? [
+                  theme.lightText,
+                  {
+                    [theme.breakpoints.down("sm")]: {
+                      fontSize: 16,
+                      m: 1,
+                      mt: 5,
+                      ml: 8,
+                    },
+                    [theme.breakpoints.up("sm")]: {
+                      m: 8,
+                    },
+                  },
+                ]
+              : [
+                  theme.darkText,
+                  {
+                    [theme.breakpoints.down("sm")]: {
+                      fontSize: 16,
+                      m: 1,
+                      mt: 5,
+                    },
+                    [theme.breakpoints.up("sm")]: {
+                      m: 8,
+                    },
+                  },
+                ]
+          }
         >
           Who edited :
         </Typography>
         <Grid
           container
           sx={{
-            backgroundColor: darkMode ? "#23272a" : "white",            p: 2,
+            backgroundColor: darkMode ? "#23272a" : "white",
+            p: 2,
             mt: 5,
             boxShadow: "inset 0px 1px 5px 0px grey",
 
             borderRadius: 1,
             display: "flex",
             flexDirection: "columns",
-            
+
             // justifyContent: "space-around",
           }}
         >
