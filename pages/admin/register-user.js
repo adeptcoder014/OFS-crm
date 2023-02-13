@@ -115,21 +115,51 @@ export default function RegisterUser() {
   const handleClose = () => {
     setOpen(false);
   };
-  const downloadImage = (imageUrl) => {
-    axios.post(`${ADMIN_URL}/user/image`, { imageUrl }).then((res) => {
-      const contentType = res.headers["content-type"];
-      // console.log("---->", res.data.imageData.data);
-      const blob = new Blob([new Uint8Array(res.data.imageData.data)], {
-        type: "image/png",
-      });
-      const link = document.createElement("a");
-      link.href = URL.createObjectURL(blob);
+  // const downloadImage = (imageUrl) => {
+  //   axios.post(`${ADMIN_URL}/user/image`, { imageUrl }).then((res) => {
+  //     const contentType = res.headers["content-type"];
+  //     // console.log("---->", res.data.imageData.data);
+  //     const blob = new Blob([new Uint8Array(res.data.imageData.data)], {
+  //       type: "image/png",
+  //     });
+  //     const link = document.createElement("a");
+  //     link.href = URL.createObjectURL(blob);
 
-      link.download = "image.png";
-      link.click();
-    });
-  };
-  // console.log("===>", query?.data?.data?.photo.split("uploads/")[1]);
+  //     link.download = "image.png";
+  //     link.click();
+  //   });
+  // };
+  // const downloadImage = () => {
+  //   axios({
+  //     method: "get",
+  //     url: query?.data?.data?.photo,
+  //     responseType: "arraybuffer",
+  //   })
+  //     .then((response) => {
+  //       console.log("-----------|||||.......",response)
+  //       const url = window.URL.createObjectURL(new Blob([response.data]));
+  //       const link = document.createElement("a");
+  //       link.href = url;
+  //       // link.setAttribute("download", "A_sample_of_Aadhaar_card.jpg");
+  //       document.body.appendChild(link);
+  //       link.click();
+  //     })
+  //     .catch((error) => {
+  //       console.error(error);
+  //     });
+  // };
+
+  function downloadImage() {
+    const link = query?.data?.data?.photo;
+    const downloadButton = document.createElement("a");
+    downloadButton.href = link;
+    downloadButton.download = "Aadhaar Card";
+    downloadButton.style.display = "none";
+    document.body.appendChild(downloadButton);
+    downloadButton.click();
+    document.body.removeChild(downloadButton);
+  }
+
   //=====================================================
   return (
     <>
@@ -204,7 +234,7 @@ export default function RegisterUser() {
                 onClick={() => setOpen(true)}
               >
                 <img
-                  src={`${ADMIN_URL}/${query?.data?.data?.photo}`}
+                  src={query?.data?.data?.photo}
                   style={{
                     border: "1px dashed gray",
                     width: 280,
@@ -219,8 +249,8 @@ export default function RegisterUser() {
                   color: darkMode ? "white" : "gray",
                   cursor: "pointer",
                 }}
-                onClick={() => downloadImage(query?.data?.data?.photo.split("uploads/")[1])}
-              />
+                onClick={downloadImage}
+              />{" "}
             </Grid>
             {/* //------------------------- */}
             <Grid item xl={4} lg={4} md={4} sm={12} xs={12}>

@@ -60,7 +60,10 @@ export default function Accounts() {
 
     // console.log(accountTotal);
   }, []);
-  let ebill = accountTotal?.totalRent + accountTotal?.ebill;
+  let Credits = accountTotal?.totalRent + accountTotal?.ebill;
+  let Revenue =
+    accountTotal?.totalRent + accountTotal?.ebill - accountTotal?.totalDebit;
+
   //===============================
   return (
     <>
@@ -191,7 +194,7 @@ export default function Accounts() {
                 sx={{ fontWeight: "bolder", alignSelf: "center" }}
               >
                 {/* {accountTotal?.totalRent?.toLocaleString("en-IN")}₹{" "} */}
-                ₹{ebill.toLocaleString("en-IN")}
+                ₹{Credits.toLocaleString("en-IN")}
               </Typography>
               <GroupRemoveIcon sx={{ fontSize: 55 }} />
             </Box>
@@ -260,10 +263,7 @@ export default function Accounts() {
               }}
             >
               <Typography variant="h4" sx={{ fontWeight: "bolder" }}>
-                ₹{" "}
-                {(
-                  accountTotal?.totalRent - accountTotal?.totalDebit
-                ).toLocaleString("en-IN")}
+                ₹ {Revenue.toLocaleString("en-IN")}
               </Typography>
             </Box>
 
