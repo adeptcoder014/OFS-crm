@@ -87,7 +87,7 @@ export default function Banner(props) {
             registered memebrs here.
           </Typography>
         </Grid>
-        <Grid
+        <Grid 
           item
           xl={6}
           lg={6}

@@ -185,7 +185,7 @@ export default function Registration() {
             <Grid sx={{ display: "flex", p: 1 }} item md={6} xs={12}>
               <Box sx={{ display: "flex", flexDirection: "column" }}>
                 <label
-                  style={{ display: "flex", flexDirection: "column" }}
+                  style={{ display: "flex", flexDirection: "column" ,color:"black"}}
                   for="file-input"
                 >
                   {" "}
